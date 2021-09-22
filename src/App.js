@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-function App() {
+import Layout from './components/Layout/Layout';
+import Shop from './pages/Shop/Shop';
+
+import Product from './pages/Product/Product';
+import AddProduct from './pages/AddProduct/AddProduct';
+import AddSizeChartSystem from './pages/AddSizeChartSystem/AddSizeChartSystem';
+import AddBrand from './pages/AddBrand/AddBrand';
+import EditBrand from './pages/EditBrand/EditBrand';
+import SizeSystemList from './pages/SizeSystemList/SizeSystemList';
+import EditSizeChartSystem from './pages/EditSizeChartSystem/EditSizeChartSystem';
+import BrandList from './pages/BrandList/BrandList';
+
+import './App.scss';
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <Route path="/carousel" >
+    //   <Slider autoPlay={false}/>
+    // </Route>
+    <Layout>
+      <Switch>
+        <Route path="/product" component={Product} />
+        <Route path="/shop" component={Shop} />
+        <Route path="/addproduct" component={AddProduct}/>
+        <Route path="/addsizesystem" component={EditSizeChartSystem} />
+        <Route path="/editsizesystem/:id" component={EditSizeChartSystem} />
+        <Route path="/sizesystems" component={SizeSystemList} />
+        <Route path="/addbrand"component={EditBrand} />
+        <Route path="/editbrand/:id"component={EditBrand} />
+        <Route path="/brands" component={BrandList}/>
+        <Route component={Shop}/>
+        {/* <Route component={AddProduct}/> */}
+      </Switch >
+    </Layout>
   );
 }
 

@@ -1,0 +1,47 @@
+@import "../../../../abstracts/index";
+
+
+.image-container {
+      min-height: 18rem;
+      max-width: 18rem;
+      padding: 1rem;
+      border: 1px solid $inputIconColor;
+      border-radius: 0.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+}
+
+.image {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 18rem;
+      max-height: 19.5rem;
+      object-fit: contain;
+}
+
+.icon-container {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+}
+
+.delete-icon {
+      color: $inputIconColor;
+      font-size: 4rem;
+      display: block;
+      text-shadow: 4px 4px 5px $inputIconShadowColor;
+
+      &:hover {
+            font-size: 4.2rem;
+      }
+
+      &--disabled {
+            &:hover {
+                  font-size: 4rem;
+                  cursor: not-allowed;
+            }
+      }
+}

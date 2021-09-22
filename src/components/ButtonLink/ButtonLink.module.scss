@@ -1,0 +1,12 @@
+@import '../../abstracts/index';
+
+.button-link {
+      display: block;
+      box-sizing: border-box;
+      max-width: 16rem;
+      padding: 0.8rem 2rem;
+      margin: 0 auto;
+      text-decoration: none;
+      background-color: $main-pink;
+      border-radius: 4rem;
+}

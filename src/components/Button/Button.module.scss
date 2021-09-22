@@ -1,0 +1,101 @@
+.button {
+      display: block;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      &--icon {
+            min-width: 4.7rem;
+
+            padding: 0.2rem;
+            margin-left: 1rem;
+            align-self: center;
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #f1f2f3;
+            border-radius: 0.5rem;
+      }
+
+      &--standard {
+            min-width: 4.7rem;
+
+            padding: 1rem 2rem;
+            margin: 1rem 0;
+            align-self: center;
+            font-size: 1.7rem;
+            font-weight: 400;
+            color: #f1f2f3;
+            border-radius: 0.5rem;
+      }
+
+      &--large {
+            min-width: 12rem;
+            max-width: 20rem;
+            padding: 0.8rem 4rem;
+
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #f1f2f3;
+            border-radius: 3rem;
+
+            outline: none;
+      }
+
+      &--green {
+            background-color: #659c83;
+            border: 1px solid #659c83;
+            &:hover,
+            &:active {
+                  background-color: darken(#659c83 , 10%);
+            }
+      }
+
+      &--red {
+            background-color: #fa8171;
+            border: 1px solid #fa8171;
+            &:hover,
+            &:active {
+                  background-color: darken(#fa8171, 10%);
+            }
+      }
+
+      &--blue {
+            background: darkslateblue;
+            border: 2px solid darkslateblue;
+            &:hover,
+            &:active {
+                  border: 2px solid darkslateblue;
+            }
+      }
+
+      &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+      }
+}
+
+
+// .button {
+//       min-width: 4.7rem;
+
+//       padding: 0.2rem;
+//       margin-left: 1rem;
+//       align-self: center;
+//       font-size: 1.7rem;
+//       font-weight: 600;
+//       color: white;
+//       border-radius: 0.5rem;
+
+//       display: block;
+//       box-sizing: border-box;
+//       cursor: pointer;
+
+//       &--green {
+//             background-color: #659c83;
+//             border: 1px solid #659c83;
+//       }
+
+//       &--red {
+//             background-color: #fa8171;
+//             border: 1px solid #fa8171;
+//       }
+// }
