@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
+import Backdrop from '../../UI/Backdrop/Backdrop';
 
 import styles from './MainNavigation.module.scss';
 
@@ -23,7 +24,11 @@ const MainNavigation = () => {
             }
       }, []);
 
-      const mobileNavOpenHandler = () => {
+      const closeMobileNav = () => {
+            setMobileNavOpen(false);
+      }
+
+      const mobileNavHandler = () => {
             setMobileNavOpen(mobileNavOpen => !mobileNavOpen);
       }
 
@@ -38,11 +43,12 @@ const MainNavigation = () => {
                   <div className={styles['navigation__container']}>
                         <Logo />
                         <div className={styles['navigation__items']}>
-                              <NavigationItems isAuth={false} role={1} isMobileNavOpen={mobileNavOpen} onMobileNavClick={mobileNavOpenHandler}/>
+                              <Backdrop show={mobileNavOpen} onBackdropClick={closeMobileNav} />
+                              <NavigationItems isAuth={false} role={1} isMobileNavOpen={mobileNavOpen} closeMobileNav={closeMobileNav} />
                               <NavLink to="/cart" className={styles['cart-icon']}>
                                     <i className="bx bx-shopping-bag"></i>
                               </NavLink>
-                              <div className={styles['hamburger-icon']} onClick={mobileNavOpenHandler}>
+                              <div className={styles['hamburger-icon']} onClick={mobileNavHandler}>
                                     <i className="bx bx-menu"></i>
                               </div>
                         </div>
