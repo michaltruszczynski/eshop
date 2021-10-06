@@ -46,7 +46,7 @@ const EditBrandForm = () => {
             if (editing) return;
 
             const getBrandDetails = async () => {
-                  setAsyncCallStatus(asyncOperation.LOADING)
+                  setAsyncCallStatus(asyncOperation.LOADING);
                   try {
                         const response = await getBrand(id);
                         console.log(response)

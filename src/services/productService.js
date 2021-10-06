@@ -6,6 +6,10 @@ export const addNewProduct = (data) => {
       return axios.post(`${API_URL}/admin/product`, data)
 }
 
+export const getProduct = (id) => {
+      return axios.get(`${API_URL}/admin/products/${id}`);
+}
+
 export const addNewSizeSystem = (data) => {
       return axios.post(`${API_URL}/admin/sizesystem`, data)
 }

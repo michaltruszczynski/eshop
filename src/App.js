@@ -24,8 +24,8 @@ const App = () => {
       <Switch>
         <Route path="/product" component={Product} />
         <Route path="/shop" component={Shop} />
-        <Route path="/addproduct" component={AddProduct}/>
-        <Route path="/editproduct" component={EditProduct}/>
+        <Route path="/addproduct" component={EditProduct}/>
+        <Route path="/editproduct/:id" component={EditProduct}/>
         <Route path="/addsizesystem" component={EditSizeChartSystem} />
         <Route path="/editsizesystem/:id" component={EditSizeChartSystem} />
         <Route path="/sizesystems" component={SizeSystemList} />

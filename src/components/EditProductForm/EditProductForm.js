@@ -18,7 +18,7 @@ import { productImageInputConfig } from './ImageFilePicker/productImageInputConf
 
 import styles from './EditProductForm.module.scss';
 
-import { addNewProduct } from '../../services/productService';
+import { addNewProduct, getProduct } from '../../services/productService';
 
 const filePickerConfiguration = {
       fileType: ['image/jpeg', 'image/png', 'image/jpg', 'text/plain'],
@@ -52,7 +52,37 @@ const EditProductForm = () => {
             if (!id) return setAsyncCallStatus(asyncOperation.SUCCESS);
             if (editing) return;
 
+            const getProductDetails = async () => {
+                  setAsyncCallStatus(asyncOperation.LOADING);
+                  try {
+                        const response = await getProduct(id);
+                        console.log(response);
+                        const { _id, productCategory, productName, productType, productBrand, description, sizeChart, images } = response.data;
+                        console.log(productBrand)
+                        inputBrandChangeHandler('productBrand')(productBrand);
+                        inputsDescriptionDataChangeHandler('productCategory')(productCategory);
+                        inputsDescriptionDataChangeHandler('productName')(productName);
+                        inputsDescriptionDataChangeHandler('productType')(productType);
+                        inputsDescriptionDataChangeHandler('description')(description);
+                        inputSizeSystemChangeHandler('sizeSystem')('custom')
+                        inputSizeChartDataChangeHandler('sizeChart')(sizeChart);
+                        if (images) {
+                              const productImage = images.map(image => ({
+                                    url: image.imageUrl,
+                                    name: image.originalFileName,
+                                    fileName: image.fileName
+                              }));
+                              inputImageDataChangeHandler('productImage')(productImage);
+                        }
+                        setProductId(_id);
+                        setAsyncCallStatus(asyncOperation.SUCCESS);
+                  } catch (error) {
+                        console.log(error.response);
+                        setAsyncCallStatus(asyncOperation.ERROR);
+                  }
+            }
 
+            getProductDetails();
 
       }, [id, editing])
 
