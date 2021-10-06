@@ -8,6 +8,7 @@ import Product from './pages/Product/Product';
 import AddProduct from './pages/AddProduct/AddProduct';
 import AddSizeChartSystem from './pages/AddSizeChartSystem/AddSizeChartSystem';
 import AddBrand from './pages/AddBrand/AddBrand';
+import EditProduct from './pages/EditProduct/EditProduct';
 import EditBrand from './pages/EditBrand/EditBrand';
 import SizeSystemList from './pages/SizeSystemList/SizeSystemList';
 import EditSizeChartSystem from './pages/EditSizeChartSystem/EditSizeChartSystem';
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/product" component={Product} />
         <Route path="/shop" component={Shop} />
         <Route path="/addproduct" component={AddProduct}/>
+        <Route path="/editproduct" component={EditProduct}/>
         <Route path="/addsizesystem" component={EditSizeChartSystem} />
         <Route path="/editsizesystem/:id" component={EditSizeChartSystem} />
         <Route path="/sizesystems" component={SizeSystemList} />

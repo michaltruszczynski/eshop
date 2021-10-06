@@ -19,6 +19,10 @@
             color: $inputFontColor;
             background-color: $inputBackground;
 
+            &:disabled {
+                  cursor: not-allowed;
+            }
+
             &--error {
                   box-shadow: 0 0 4px 0 #d50000;
                   color: $inputErrorFontColor;

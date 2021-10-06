@@ -1,9 +1,10 @@
 import React from 'react';
+
 import InputError from '../InpurtError/InputError';
 
 import styles from './DynamicDropDown.module.scss';
 
-const DynamicDropDown = ({ label, elementConfig, value, options, changeInput, touched, isValid, errors }) => {
+const DynamicDropDown = ({ label, elementConfig, value, options, changeInput, touched, isValid, fetchStatus = 'idle', disabled, errors }) => {
 
       const inputChangeHandler = (event) => {
             const { value } = event.target;
@@ -16,6 +17,52 @@ const DynamicDropDown = ({ label, elementConfig, value, options, changeInput, to
                   classesArray.push(styles[`field__${htmlElementType}--error`])
             }
             return classesArray.join(' ');
+      }
+
+      const renderOptions = () => {
+            if (fetchStatus === 'success' && options.length !== 0) {
+                  return (
+                        <>
+                              <option key={"empty"} value={""}>
+                                    {elementConfig.placeholder}
+                              </option>
+                              {options.map(option => (
+                                    <option key={option.key} value={option.value}>
+                                          {option.displayValue}
+                                    </option>
+                              ))}
+                        </>
+                  )
+            }
+
+            if ((fetchStatus === 'idle' && options.length !== 0) || (fetchStatus === 'success' && options.length === 0)) {
+                  return (
+                        <option key={'empty'} value={""}>
+                              No options available.
+                        </option>
+                  )
+            }
+
+            if (fetchStatus === 'loading') {
+                  return (
+                        <option key={'loading'} value={""}>
+                              Loading options...
+                        </option>
+                  )
+            }
+
+            if (fetchStatus === 'error') {
+                  return (
+                        <option key={'error'} value={""}>
+                              Fetching options failed.
+                        </option>
+                  )
+            }
+      }
+
+      const checkIsInputDisabled = () => {
+            if (fetchStatus === 'loading' || disabled) return true;
+            return false;
       }
 
       return (
@@ -32,20 +79,9 @@ const DynamicDropDown = ({ label, elementConfig, value, options, changeInput, to
                         id={elementConfig.id}
                         onChange={inputChangeHandler}
                         className={inputFieldClasses('select')}
+                        disabled={checkIsInputDisabled()}
                   >
-                        <option key={"empty"} value={""}>
-                              {elementConfig.placeholder}
-                        </option>
-                        {options.length ? (options.map(option => (
-                              <option key={option.value} value={option.value}>
-                                    {option.displayValue}
-                              </option>
-                        ))) : (
-                              <option key={'loading'} value={'loading'}>
-                                    {'Loading....'}
-                              </option>
-                        )
-                        }
+                        {renderOptions()}
                   </select>
                   <InputError touched={touched} isValid={isValid} errors={errors} />
             </div>
