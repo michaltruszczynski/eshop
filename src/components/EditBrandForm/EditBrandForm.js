@@ -141,7 +141,7 @@ const EditBrandForm = () => {
                         console.log('check', data[0], data[1].value)
                         newData.append(data[0], data[1].value);
                   });
-                  console.log('dupa')
+
                   Object.entries(inputsDataImages).forEach(data => {
                         data[1].value.forEach(image => {
                               console.log(data[0], image.file);
@@ -151,14 +151,14 @@ const EditBrandForm = () => {
                               newData.append(data[0], image.file);
                         })
                   });
-                  console.log(newData)
+
                   return newData;
             }
 
             // appendInputsData(inputBrandNameData);
             // appendInputsDataImages(inputBrandLogoData);
 
-            const newData  = getFormData(inputBrandNameData, inputBrandLogoData);
+            const newData = getFormData(inputBrandNameData, inputBrandLogoData);
             // const newData = getFormData(inputBrandNameData);
             console.log(newData)
             setAsyncCallStatus(asyncOperation.LOADING);

@@ -1,10 +1,12 @@
 import React from 'react';
+import { useParams } from 'react-router-dom'
 
 import EditSizeChartForm from '../../components/EditSizeChartForm/EditSizeChartForm';
 
 import styles from './EditSizeChartSystem.module.scss';
 
 const EditSizeChartSystem = () => {
+      const { id } = useParams();
 
       return (
             <section className={styles['section']}>
@@ -13,7 +15,7 @@ const EditSizeChartSystem = () => {
                               <h1 className={styles['title__text']}>Add Size Chart System</h1>
                         </div>
                         <div>
-                              <EditSizeChartForm />
+                              <EditSizeChartForm key={id} />
                         </div>
                   </div>
             </section>

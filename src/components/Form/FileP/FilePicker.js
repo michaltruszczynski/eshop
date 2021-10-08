@@ -26,7 +26,7 @@ const FilePicker = ({
       const [invalidFilesList, setInvalidFilesList] = useState([]);
 
       const { value: filesSelected, touched, isValid, errors } = imageData;
-
+      console.log(touched, isValid)
       const fileValidators = [
             { check: fileSize(maxFileSize), message: 'File can not be larger than 1MB.' },
             { check: fileType(fileTypeArray), message: 'Accepted file types: jpg, jpeg, png.' },
@@ -110,6 +110,7 @@ const FilePicker = ({
                         <SelectButton
                               disabled={disabled || maxFilesNumberReached()}
                               formIsValid={isValid}
+                              touched={touched}
                               onSelectFile={selectFileHandler} />
                   </PreviewContainer>
                   <div className={styles['field__error']}>

@@ -7,7 +7,7 @@ import CustomSizeChart from '../../Form/CustomSizeChart/CustomSizeChart';
 import { sizeChartSystemInputConfig } from './sizeChartSystemInputConfig';
 
 
-const SizeChart = ({ inputSizeSystemData, inputSizeSystemChangeHandler, inputSizeChartData, inputSizeChartDataChangeHandler }) => {
+const SizeChart = ({ inputSizeSystemData, inputSizeSystemChangeHandler, inputSizeChartData, inputSizeChartDataChangeHandler, disabled }) => {
       const { sizeChart } = inputSizeChartData;
       const { sizeSystem } = inputSizeSystemData;
 
@@ -31,6 +31,7 @@ const SizeChart = ({ inputSizeSystemData, inputSizeSystemChangeHandler, inputSiz
                         isValid={inputSizeSystemData[formElement.elementConfig.name].isValid}
                         errors={inputSizeSystemData[formElement.elementConfig.name].errors}
                         changeInput={handleSizeSystemInputChange}
+                        disabled={disabled}
                   />
             ));
       }
@@ -38,8 +39,8 @@ const SizeChart = ({ inputSizeSystemData, inputSizeSystemChangeHandler, inputSiz
       return (
             <>
                   {renderSizeChartSystemInput()}
-                  {sizeSystem.value === 'predefined' ? <DefinedSizeChart changeSizeChart={inputSizeChartDataChangeHandler('sizeChart')} changeSizeSystem={inputSizeSystemChangeHandler('sizeSystem')} sizeChart={sizeChart} /> : null}
-                  {sizeSystem.value === 'custom' ? <CustomSizeChart changeSizeChart={inputSizeChartDataChangeHandler('sizeChart')} sizeChart={sizeChart} /> : null}
+                  {sizeSystem.value === 'predefined' ? <DefinedSizeChart changeSizeChart={inputSizeChartDataChangeHandler('sizeChart')} changeSizeSystem={inputSizeSystemChangeHandler('sizeSystem')} sizeChart={sizeChart} disabled={disabled} /> : null}
+                  {sizeSystem.value === 'custom' ? <CustomSizeChart changeSizeChart={inputSizeChartDataChangeHandler('sizeChart')} sizeChart={sizeChart} disabled={disabled} /> : null}
             </>
       )
 }

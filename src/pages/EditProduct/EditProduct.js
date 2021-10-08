@@ -1,10 +1,12 @@
 import React from 'react';
+import { useParams } from 'react-router-dom'
 
 import EditProductForm from '../../components/EditProductForm/EditProductForm';
 
 import styles from './EditProduct.module.scss';
 
 const EditProduct = () => {
+      const { id } = useParams()
 
       return (
             <section className={styles['section']}>
@@ -13,7 +15,7 @@ const EditProduct = () => {
                               <h1 className={styles['title__text']}>Add Product</h1>
                         </div>
                         <div>
-                              <EditProductForm />
+                              <EditProductForm key={id} />
                         </div>
                   </div>
             </section>

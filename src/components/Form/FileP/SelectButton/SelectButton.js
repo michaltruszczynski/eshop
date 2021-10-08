@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './SelectButton.module.scss';
 
-const SelectButton = ({ disabled, onSelectFile, formIsValid }) => {
+const SelectButton = ({ disabled, onSelectFile, formIsValid, touched}) => {
 
       const selectFileHandler = (event) => {
             event.preventDefault();
@@ -11,7 +11,7 @@ const SelectButton = ({ disabled, onSelectFile, formIsValid }) => {
 
       const getButtonClasses = () => {
             let buttonClasses = [styles['button']];
-            if (!formIsValid) {
+            if (!formIsValid && touched) {
                   buttonClasses.push(styles['button--error'])
             }
 

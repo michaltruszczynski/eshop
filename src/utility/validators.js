@@ -63,7 +63,6 @@ export const passwordMatchDirect = (password, confirmPassword) => {
 }
 
 export const arrayLength = (config = { min: 5, max: 6 }) => value => {
-      console.log('dupa', value.length)
       if (!Array.isArray(value)) return false;
       return value.length <= config.max && value.length >= config.min
 }

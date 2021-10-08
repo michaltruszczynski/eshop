@@ -30,9 +30,7 @@ const NavigationItem = ({ link, exact, children, subMenu, closeMobileNav }) => {
       }
 
       const renderLinkComonent = () => {
-            console.log(Boolean(link))
             if (link) {
-                  console.log('NavLInk')
                   return (
                         <NavLink
                               to={link}

@@ -7,7 +7,7 @@ import BackgroundContent from '../BackgroundContent/BackgroundContent';
 import styles from './Table.module.scss';
 
 const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = false, emptyTableDataMessage = 'No data to display' }) => {
-
+      console.log(tableData)
       const { url, path } = useRouteMatch();
       console.log('path: ', path, 'url: ', url);
 
@@ -36,7 +36,7 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
       const renderTableBody = () => {
             if (!tableData.length) {
                   return (
-                        <tr><td>No size systems defined.</td></tr>
+                        <tr><td>{emptyTableDataMessage}</td></tr>
                   );
             }
 

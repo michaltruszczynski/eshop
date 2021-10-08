@@ -79,6 +79,7 @@ const InputField = ({ label, elementType, elementConfig, value, changeInput, tou
                               onChange={inputChangeHandler}
                               // className={styles['field__select']}
                               className={inputFieldClasses('select')}
+                              disabled={disabled}
                         >
                               <option key={"empty"} value={"empty"}>
                                     {elementConfig.placeholder}
@@ -104,6 +105,7 @@ const InputField = ({ label, elementType, elementConfig, value, changeInput, tou
                                           onChange={inputChangeHandler}
                                           className={styles['field__radio']}
                                           checked={radio.system === value}
+                                          disabled={disabled}
                                     />
                                     <span>{radio.displayValue}</span>
                               </label>

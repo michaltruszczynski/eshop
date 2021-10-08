@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import ProductBrandInput from './ProductBrandInput/ProductBrandInput';
 import ProductDescriptionInputs from './ProductDescriptionInputs/ProductDescriptionInputs';
 import SizeChart from './SizeChartInputs/SizeChart';
-import FilePicker from '../Form/FilePicker/FilePicker';
+import FilePicker from '../Form/FileP/FilePicker';
 import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 import Button from '../Button/Button';
 
@@ -18,7 +18,7 @@ import { productImageInputConfig } from './ImageFilePicker/productImageInputConf
 
 import styles from './EditProductForm.module.scss';
 
-import { addNewProduct, getProduct } from '../../services/productService';
+import { addNewProduct, getProduct, putProduct } from '../../services/productService';
 
 const filePickerConfiguration = {
       fileType: ['image/jpeg', 'image/png', 'image/jpg', 'text/plain'],
@@ -47,7 +47,7 @@ const EditProductForm = () => {
       const [editing, setEditing] = useState(false);
       const { id } = useParams();
       const history = useHistory();
-
+      console.log('Edit product ID', id)
       useEffect(() => {
             if (!id) return setAsyncCallStatus(asyncOperation.SUCCESS);
             if (editing) return;
@@ -73,18 +73,25 @@ const EditProductForm = () => {
                                     fileName: image.fileName
                               }));
                               inputImageDataChangeHandler('productImage')(productImage);
+                        } else {
+                              inputImageDataChangeHandler('productImage')([]);
                         }
                         setProductId(_id);
                         setAsyncCallStatus(asyncOperation.SUCCESS);
                   } catch (error) {
                         console.log(error.response);
+                        console.log(error.request);
                         setAsyncCallStatus(asyncOperation.ERROR);
                   }
             }
 
             getProductDetails();
 
-      }, [id, editing])
+      }, [id, editing]);
+
+      useEffect(() => {
+
+      }, [id])
 
       const submitHandler = async (event) => {
             event.preventDefault();
@@ -119,15 +126,63 @@ const EditProductForm = () => {
             appendInputsDataImages(inputImageData);
 
             try {
-                  const respond = await addNewProduct(newData);
-                  console.log(respond)
+                  const response = await addNewProduct(newData);
+                  console.log(response);
+                  setAsyncCallStatus(asyncOperation.SUCCESS);
+                  backToProductList();
             } catch (error) {
-                  console.log(error)
+                  console.log(error.response);
+                  console.log(error.request);
+                  setAsyncCallStatus(asyncOperation.ERROR);
             }
 
       }
 
-      const updateHandler = () => {
+      const updateHandler = async (event) => {
+            event.preventDefault();
+
+            const newData = new FormData();
+            const appendInputsData = inputsData => {
+                  Object.entries(inputsData).forEach(data => {
+                        newData.append(data[0], data[1].value)
+                  });
+            }
+
+            const appendInputsDataJSON = inputsDataJSON => {
+                  Object.entries(inputsDataJSON).forEach(data => {
+                        newData.append(data[0], JSON.stringify(data[1].value))
+                  });
+            }
+
+            const appendInputsDataImages = inputsDataImages => {
+                  console.log(inputsDataImages)
+                  Object.entries(inputsDataImages).forEach(data => {
+                        data[1].value.forEach(image => {
+                              console.log(data[0], image.file);
+                              if (!image.file) {
+                                    newData.append('fileName', image.fileName);
+                              }
+                              newData.append(data[0], image.file);
+                        })
+                  });
+            }
+
+            appendInputsData(inputBrandData);
+            appendInputsData(inputsDescriptionData);
+            appendInputsData(inputSizeSystemData);
+            appendInputsDataJSON(inputSizeChartData);
+            appendInputsDataImages(inputImageData);
+
+            try {
+                  const response = await putProduct(productId, newData);
+                  console.log(response);
+                  setAsyncCallStatus(asyncOperation.SUCCESS);
+                  backToProductList();
+            } catch (error) {
+                  console.log(error.response);
+                  console.log(error.request);
+                  setAsyncCallStatus(asyncOperation.ERROR);
+            }
 
       }
 

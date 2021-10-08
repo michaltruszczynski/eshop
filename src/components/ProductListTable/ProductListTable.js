@@ -5,8 +5,8 @@ import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 
 import useFetch from '../../hooks/useFetch';
 
-const SizeSystemTable = () => {
-      const [state] = useFetch('/admin/sizesystems');
+const ProductListTable = () => {
+      const [state] = useFetch('/admin/products');
       const { status } = state;
 
       // const {sizeSystems: list} = sizeSystemList
@@ -14,33 +14,36 @@ const SizeSystemTable = () => {
 
       // tableData = [ {_id: 12345, colVal_1, colVal_2, colVal_3, ...}, {...}]
 
-      const sizeSystemsTableColumnsHeadings = ['#', 'Name'];
+      const productsTableColumnsHeadings = ['#', 'Name', 'Type',  'Brand', 'Category'];
 
       const sizeSystemTableOptions = {
             type: 'link',
             linkName: 'View',
-            url: 'editsizesystem/'
+            url: 'editproduct/'
       }
 
-      const getSizeSystemTableData = () => {
-            if (!state.data?.sizeSystems) return [];
+      const getProductsTableData = () => {
+            if (!state.data?.products) return [];
 
-            return state.data.sizeSystems.map(sizeSystem => {
+            return state.data.products.map(product => {
                   return {
-                        _id: sizeSystem._id,
-                        sizeSystemName: sizeSystem.sizeSystemName
+                        _id: product._id,
+                        productName: product.productName,
+                        productType: product.productType,
+                        productBrand: product.productBrand,
+                        productCategory: product.productCategory
                   }
-            })
+            });
       }
 
-      const emptySizeSystemTableMessage = 'No size systems have been defined yet. '
+      const emptySizeSystemTableMessage = 'No products have been defined yet. '
 
       return (
             <AsyncOpBgComponent status={status}>
                   <Table
-                        tableData={getSizeSystemTableData()}
+                        tableData={getProductsTableData()}
                         state={state}
-                        columnsHeading={sizeSystemsTableColumnsHeadings}
+                        columnsHeading={productsTableColumnsHeadings}
                         optionsColumn={sizeSystemTableOptions}
                         breakOn="medium"
                         emptyTableDataMessage={emptySizeSystemTableMessage} />
@@ -48,4 +51,4 @@ const SizeSystemTable = () => {
       )
 }
 
-export default SizeSystemTable
+export default ProductListTable

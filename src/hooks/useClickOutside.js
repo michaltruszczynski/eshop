@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 const useClickOutside = (ref, handler) => {
       useEffect(() => {
             const checkIfClickedOutside = event => {
-                  console.log('dupa')
+
                   if (ref.current && !ref.current.contains(event.target)) {
                         handler();
                   }
