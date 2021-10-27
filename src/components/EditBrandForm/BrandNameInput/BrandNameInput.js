@@ -17,7 +17,7 @@ const BrandNameInput = ({inputBrandNameData, inputBrandNameDataChangeHandler, di
                         touched={inputBrandNameData[formElement.elementConfig.name].touched}
                         isValid={inputBrandNameData[formElement.elementConfig.name].isValid}
                         errors={inputBrandNameData[formElement.elementConfig.name].errors}
-                        changeInput={inputBrandNameDataChangeHandler(formElement.elementConfig.name)}
+                        onInputChange={inputBrandNameDataChangeHandler(formElement.elementConfig.name)}
                         disabled={disabled}
                   />
             ));

@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import Shop from './pages/Shop/Shop';
 
-import Product from './pages/Product/Product';
+import ProductPage from './pages/ProductPage/ProductPage';
 import ProductsList from './pages/ProductsList/ProductsList';
 import EditProduct from './pages/EditProduct/EditProduct';
 import EditBrand from './pages/EditBrand/EditBrand';
@@ -20,7 +20,7 @@ const App = () => {
     // </Route>
     <Layout>
       <Switch>
-        <Route path="/product" component={Product} />
+        <Route path="/product/:id" component={ProductPage} />
         <Route path="/shop" component={Shop} />
         <Route path="/addproduct" component={EditProduct}/>
         <Route path="/editproduct/:id" component={EditProduct}/>

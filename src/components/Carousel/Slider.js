@@ -13,7 +13,7 @@ import styles from './Slider.module.scss';
 
 // const img = ['orbit_view', 'orbit_top', 'orbit_bottom', 'orbit_side', 'orbit_front']
 
-const Slider = ({ autoPlay, controls, imagesArray, imagesContext, imagesMaxNumber }) => {
+const Slider = ({ autoPlay, controls, imagesArray, imagesMaxNumber }) => {
 
       const refEl = useRef();
       const { width: containerWidth } = useElementSize(refEl);
@@ -171,7 +171,8 @@ const Slider = ({ autoPlay, controls, imagesArray, imagesContext, imagesMaxNumbe
                         transition={transition}
                         width={containerWidth * slidesArray.length}>
                         {slidesArray.map((slide, index) => {
-                              return <Slide key={index + 1} content={imagesContext(`./${slide}.png`)} width={containerWidth / slidesVisibleNumber} />
+                              // return <Slide key={index + 1} content={imagesContext(`./${slide}.png`)} width={containerWidth / slidesVisibleNumber} />
+                              return <Slide key={index + 1} content={slide} width={containerWidth / slidesVisibleNumber} />
                         })}
                   </SliderContent>
                   {controlArrows}

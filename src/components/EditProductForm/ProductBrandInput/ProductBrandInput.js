@@ -38,7 +38,7 @@ const ProductBrandInput = ({ inputBrandData, inputBrandChangeHandler, disabled }
                         errors={inputBrandData[formElement.elementConfig.name].errors}
                         fetchStatus={status}
                         disabled={disabled}
-                        changeInput={inputBrandChangeHandler(formElement.elementConfig.name)}
+                        onInputChange={inputBrandChangeHandler(formElement.elementConfig.name)}
                   />
             ));
       }

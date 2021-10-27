@@ -63,7 +63,7 @@ const DefinedSizeChartMenu = ({ sizeChart, changeSizeChart, changeSizeSystem, di
                         errors={definedSizeChartId[formElement.elementConfig.name].errors}
                         fetchStatus={status}
                         disabled={disabled}
-                        changeInput={handleDefinedSizeChartChange}
+                        onInputChange={handleDefinedSizeChartChange}
                   />
             ));
       }

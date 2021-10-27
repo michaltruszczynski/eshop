@@ -1,4 +1,8 @@
 export {
-      setMessage,
-      clearMessage
-  } from './message';
+    setMessage,
+    clearMessage
+} from './message';
+
+export {
+    addToCart
+} from './user';

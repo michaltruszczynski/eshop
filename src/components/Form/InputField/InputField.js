@@ -4,11 +4,11 @@ import InputError from '../InpurtError/InputError';
 
 import styles from './InputField.module.scss';
 
-const InputField = ({ label, elementType, elementConfig, value, changeInput, touched, isValid, disabled = false, errors }) => {
+const InputField = ({ label, elementType, elementConfig, value, onInputChange, touched, isValid, disabled = false, errors }) => {
 
       const inputChangeHandler = (event) => {
             const { value } = event.target;
-            changeInput(value);
+            onInputChange(value);
       }
 
       // useEffect(() => {
@@ -84,7 +84,7 @@ const InputField = ({ label, elementType, elementConfig, value, changeInput, tou
                               <option key={"empty"} value={"empty"}>
                                     {elementConfig.placeholder}
                               </option>
-                              { elementConfig.options.length ? (elementConfig.options.map(option => (
+                              {elementConfig.options.length ? (elementConfig.options.map(option => (
                                     <option key={option.value} value={option.value}>
                                           {option.displayValue}
                                     </option>

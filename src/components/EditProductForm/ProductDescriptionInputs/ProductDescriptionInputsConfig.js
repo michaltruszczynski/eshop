@@ -31,8 +31,8 @@ export const productDescriptionInputsConfig = {
                   defaultValue: '',
                   placeholder: 'Enter product name.',
                   validators: [
-                        { check: length(), message: 'Product name must be 5 - 10 characters long.' }
-                        // { check: length({min: 5, max: 40}), message: 'Product name must be 5 - 40 characters long.' }
+                        // { check: length(), message: 'Product name must be 5 - 40 characters long.' }
+                        { check: length({min: 5, max: 40}), message: 'Product name must be 5 - 40 characters long.' }
                   ],
                   addClassName: []
             }
@@ -47,8 +47,8 @@ export const productDescriptionInputsConfig = {
                   defaultValue: '',
                   placeholder: 'Enter product type.',
                   validators: [
-                        { check: length(), message: 'Product type must be 5 - 10 characters long.' }
-                        // { check: length({min: 5, max: 40}), message: 'Product type must be 5 - 40 characters long.' }
+                        // { check: length(), message: 'Product type must be 5 - 10 characters long.' }
+                        { check: length({min: 5, max: 50}), message: 'Product type must be 5 - 50 characters long.' }
                   ],
                   addClassName: []
             }
@@ -62,8 +62,8 @@ export const productDescriptionInputsConfig = {
                   defaultValue: '',
                   placeholder: 'Enter product description.',
                   validators: [
-                        { check: length(), message: 'Product description must be 5 - 10 characters long.' }
-                        // { check: length({min: 100, max: 360}), message: 'Product description must be 200 - 400 characters long.' }
+                        // { check: length(), message: 'Product description must be 5 - 10 characters long.' }
+                        { check: length({min: 100, max: 800}), message: 'Product description must be 100 - 800 characters long.' }
                   ],
                   addClassName: []
             }

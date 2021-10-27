@@ -121,7 +121,7 @@ Table.propTypes = {
       tableData: PropTypes.arrayOf(PropTypes.object).isRequired,
       columnsHeading: PropTypes.arrayOf(PropTypes.string).isRequired,
       breakOn: PropTypes.oneOf(['small', 'medium', 'large']),
-      optionsColumn: PropTypes.oneOf([false, PropTypes.object])
+      optionsColumn: PropTypes.oneOfType([PropTypes.oneOf([false]), PropTypes.object])
 }
 
 export default Table;

@@ -8,7 +8,13 @@ import productImage from '../../images/Products/Kites/OrbitBigAirFreeride/orbit_
 
 import styles from './Product.module.scss'
 
-const Product = ({ name, price, rating }) => {
+const defaultProduct = {
+      name: 'Latawiec Orbit',
+      price: 5000,
+      id: 1
+}
+
+const Product = ({ productName = defaultProduct.name, price = defaultProduct.price, id = defaultProduct.id }) => {
       return (
             <div className={styles['product']}>
                   <div className={styles['product__header']}>
@@ -21,7 +27,7 @@ const Product = ({ name, price, rating }) => {
                   </div>
                   <div className={styles['product__footer']}>
                         <Link to="/" className={styles['product__link']}>
-                              <p className={styles['product__name']}>Latawiec Orbit</p>
+                              <p className={styles['product__name']}>{productName}</p>
                         </Link>
                         <div className={styles['rating']}>
                               <i className="bx bxs-star"></i>

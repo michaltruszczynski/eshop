@@ -10,10 +10,7 @@ const Slide = ({ content, width }) => {
 
       return (
             <div className={styles['slide']} style={{width: `${width}px`}}>
-                  {/* <div className={styles['slide__container']} style={slideImage}>
-
-                  </div> */}
-                  <img className={styles['product__image']} src={content.default} />
+                  <img className={styles['slide__image']} src={content} alt="" />
             </div>
 
       )

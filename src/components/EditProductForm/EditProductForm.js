@@ -24,8 +24,8 @@ const filePickerConfiguration = {
       fileType: ['image/jpeg', 'image/png', 'image/jpg', 'text/plain'],
       maxFileSize: 1000,
       allowDuplicate: false,
-      minFileNumber: 1,
-      maxFileNumber: 5
+      minFileNumber: 3,
+      maxFileNumber: 6
 }
 
 const asyncOperation = {
@@ -58,13 +58,13 @@ const EditProductForm = () => {
                         const response = await getProduct(id);
                         console.log(response);
                         const { _id, productCategory, productName, productType, productBrand, description, sizeChart, images } = response.data;
-                        console.log(productBrand)
+                        console.log(productBrand);
                         inputBrandChangeHandler('productBrand')(productBrand);
                         inputsDescriptionDataChangeHandler('productCategory')(productCategory);
                         inputsDescriptionDataChangeHandler('productName')(productName);
                         inputsDescriptionDataChangeHandler('productType')(productType);
                         inputsDescriptionDataChangeHandler('description')(description);
-                        inputSizeSystemChangeHandler('sizeSystem')('custom')
+                        inputSizeSystemChangeHandler('sizeSystem')('custom');
                         inputSizeChartDataChangeHandler('sizeChart')(sizeChart);
                         if (images) {
                               const productImage = images.map(image => ({
@@ -117,6 +117,7 @@ const EditProductForm = () => {
                               newData.append(data[0], image.file);
                         })
                   });
+                  newData.append('fileName', 'empty')
             }
 
             appendInputsData(inputBrandData);
@@ -135,7 +136,6 @@ const EditProductForm = () => {
                   console.log(error.request);
                   setAsyncCallStatus(asyncOperation.ERROR);
             }
-
       }
 
       const updateHandler = async (event) => {
@@ -175,7 +175,7 @@ const EditProductForm = () => {
 
             try {
                   const response = await putProduct(productId, newData);
-                  console.log(response);
+                  console.log(response.data);
                   setAsyncCallStatus(asyncOperation.SUCCESS);
                   backToProductList();
             } catch (error) {

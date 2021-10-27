@@ -30,7 +30,7 @@ const SizeChart = ({ inputSizeSystemData, inputSizeSystemChangeHandler, inputSiz
                         touched={inputSizeSystemData[formElement.elementConfig.name].touched}
                         isValid={inputSizeSystemData[formElement.elementConfig.name].isValid}
                         errors={inputSizeSystemData[formElement.elementConfig.name].errors}
-                        changeInput={handleSizeSystemInputChange}
+                        onInputChange={handleSizeSystemInputChange}
                         disabled={disabled}
                   />
             ));

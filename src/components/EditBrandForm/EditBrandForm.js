@@ -212,21 +212,21 @@ const EditBrandForm = () => {
                                                 onClick={updateHandler}
                                                 buttonType="success"
                                                 buttonStyle="standard"
-                                                disabled={isFormDataValid} type="submit">
+                                                disabled={isFormDataValid} type="button">
                                                 Update
                                           </Button>
                                           <Button
                                                 onClick={submitHandler}
                                                 buttonType="success"
                                                 buttonStyle="standard"
-                                                disabled={isFormDataValid} type="submit">
+                                                disabled={isFormDataValid} type="button">
                                                 Save as new
                                           </Button>
                                           <Button
                                                 onClick={changeEditModeHandler}
                                                 buttonType="success"
                                                 buttonStyle="standard"
-                                                type="submit">
+                                                type="button">
                                                 Cancel
                                           </Button>
                                     </>
@@ -237,14 +237,14 @@ const EditBrandForm = () => {
                                                 onClick={changeEditModeHandler}
                                                 buttonType="success"
                                                 buttonStyle="standard"
-                                                type="submit">
+                                                type="button">
                                                 Edit
                                           </Button>
                                           <Button
                                                 onClick={backToSizeSystemList}
                                                 buttonType="success"
                                                 buttonStyle="standard"
-                                                type="submit">
+                                                type="button">
                                                 Back to list
                                           </Button>
                                     </>

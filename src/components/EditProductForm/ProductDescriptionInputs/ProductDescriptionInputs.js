@@ -17,7 +17,7 @@ const ProductDescriptionInputs = ({ inputsDescriptionData, inputsDescriptionData
                         touched={inputsDescriptionData[formElement.elementConfig.name].touched}
                         isValid={inputsDescriptionData[formElement.elementConfig.name].isValid}
                         errors={inputsDescriptionData[formElement.elementConfig.name].errors}
-                        changeInput={inputsDescriptionDataChangeHandler(formElement.elementConfig.name)}
+                        onInputChange={inputsDescriptionDataChangeHandler(formElement.elementConfig.name)}
                         disabled={disabled}
                   />
             ));
