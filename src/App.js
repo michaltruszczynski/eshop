@@ -11,6 +11,7 @@ import EditBrand from './pages/EditBrand/EditBrand';
 import SizeSystemList from './pages/SizeSystemList/SizeSystemList';
 import EditSizeChartSystem from './pages/EditSizeChartSystem/EditSizeChartSystem';
 import BrandList from './pages/BrandList/BrandList';
+import Products from './pages/Products/Products';
 
 import './App.scss';
 const App = () => {
@@ -23,8 +24,9 @@ const App = () => {
         <Route path="/product/:id" component={ProductPage} />
         <Route path="/shop" component={Shop} />
         <Route path="/addproduct" component={EditProduct}/>
-        <Route path="/editproduct/:id" component={EditProduct}/>
-        <Route path="/products" component={ProductsList}/>
+        <Route path="/admin/editproduct/:id" component={EditProduct}/>
+        <Route path="/admin/products" component={ProductsList}/>
+        <Route path="/products" component={Products} />
         <Route path="/addsizesystem" component={EditSizeChartSystem} />
         <Route path="/editsizesystem/:id" component={EditSizeChartSystem} />
         <Route path="/sizesystems" component={SizeSystemList} />

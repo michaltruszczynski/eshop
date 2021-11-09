@@ -4,7 +4,7 @@ import styles from './Price.module.scss';
 
 const Price = ({ sale, price, type }) => {
       const priceToDisplay = (price) => {
-            return new Intl.NumberFormat('pl-PL', {style: 'currency', currency: 'PLN'}).format(price)
+            return new Intl.NumberFormat('ru-RU', {style: 'currency', currency: 'PLN'}).format(price)
       }
 
       let productPrice = (

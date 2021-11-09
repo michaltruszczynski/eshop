@@ -31,27 +31,18 @@
       }
 
       .product-list {
-            width: 100%;
+            width: fit-content;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 3rem;
       }
 }
 
-@media only screen and (max-width: $mediaXLDevices) {
+@media only screen and (max-width: $mediaLDevices) {
       .section {
             .product-list {
-                  grid-template-columns: repeat(2, minmax(35rem, 1fr));
-                  justify-content: space-evenly;
-                  justify-items: center;
-            }
-      }
-}
-
-@media only screen and (max-width: $mediaMDevices) {
-      .section {
-            .product-list {
-                  grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
+                  grid-template-columns: repeat(2, 1fr);
             }
       }
 }
