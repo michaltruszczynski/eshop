@@ -19,7 +19,7 @@ const ProductDetails = ({ product }) => {
       const [quantity, setQuantity] = useState(1);
       const dispatch = useDispatch();
 
-      const { _id: productId, productName, productType, productBrand, sizeChart, description } = product;
+      const { _id: productId, productCategory, productName, productType, productBrand, productPrice, sizeChart, description, images } = product;
 
       const quantityIncrementHandler = () => {
             setQuantity(quantity => quantity + 1);
@@ -40,7 +40,16 @@ const ProductDetails = ({ product }) => {
       }
 
       const addToCartHandler = () => {
-            dispatch(addToCart(productId, inputSizeData.selectedProductSize.value, quantity));
+            const productData = {
+                  productId,
+                  productName,
+                  productType,
+                  productBrand,
+                  productPrice,
+                  productCategory,
+                  images
+            }
+            dispatch(addToCart(productId, inputSizeData.selectedProductSize.value, quantity, productData));
             setQuantity(1);
       }
 
@@ -50,7 +59,7 @@ const ProductDetails = ({ product }) => {
                   <h1 className={styles['product__name']}>{productName}</h1>
                   <h2 className={styles['product__type']}>{productBrand}</h2>
                   <h2 className={styles['product__type']}>{productType}</h2>
-                  <div className={styles['product__price']}>{displayPriceFormat(4000)} zł</div>
+                  <div className={styles['product__price']}>{displayPriceFormat(productPrice)} zł</div>
                   <form className={styles['order']}>
                         <SelectSize
                               sizeChart={sizeChart}

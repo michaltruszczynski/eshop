@@ -10,6 +10,9 @@
             font-weight: 400;
             background-color: $inputBackground;
             text-align: center;
+            &:hover {
+                  cursor: pointer;
+            }
       }
 
       &__quantity {

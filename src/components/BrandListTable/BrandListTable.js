@@ -18,7 +18,7 @@ const BrandListTable = () => {
       const brandTableOptions = {
             type: 'link',
             linkName: 'View',
-            url: 'editbrand/'
+            url: '/admin/editbrand/'
       }
 
       const getBrandTableData = () => {

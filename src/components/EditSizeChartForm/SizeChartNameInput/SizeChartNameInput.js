@@ -17,7 +17,7 @@ const SizeChartNameInput = ({inputSizeChartNameData, inputSizeChartNameDataChang
                         touched={inputSizeChartNameData[formElement.elementConfig.name].touched}
                         isValid={inputSizeChartNameData[formElement.elementConfig.name].isValid}
                         errors={inputSizeChartNameData[formElement.elementConfig.name].errors}
-                        changeInput={inputSizeChartNameDataChangeHandler(formElement.elementConfig.name)}
+                        onInputChange={inputSizeChartNameDataChangeHandler(formElement.elementConfig.name)}
                         disabled={disabled}
                   />
             ));

@@ -12,6 +12,7 @@ import SizeSystemList from './pages/SizeSystemList/SizeSystemList';
 import EditSizeChartSystem from './pages/EditSizeChartSystem/EditSizeChartSystem';
 import BrandList from './pages/BrandList/BrandList';
 import Products from './pages/Products/Products';
+import Cart from './pages/Cart/Cart';
 
 import './App.scss';
 const App = () => {
@@ -21,19 +22,20 @@ const App = () => {
     // </Route>
     <Layout>
       <Switch>
+        <Route path="/shop" component={Products} />
         <Route path="/product/:id" component={ProductPage} />
-        <Route path="/shop" component={Shop} />
-        <Route path="/addproduct" component={EditProduct}/>
-        <Route path="/admin/editproduct/:id" component={EditProduct}/>
-        <Route path="/admin/products" component={ProductsList}/>
-        <Route path="/products" component={Products} />
-        <Route path="/addsizesystem" component={EditSizeChartSystem} />
-        <Route path="/editsizesystem/:id" component={EditSizeChartSystem} />
-        <Route path="/sizesystems" component={SizeSystemList} />
-        <Route path="/addbrand"component={EditBrand} />
-        <Route path="/editbrand/:id"component={EditBrand} />
-        <Route path="/brands" component={BrandList}/>
-        <Route component={Shop}/>
+        <Route path="/cart" component={Cart} />
+        <Route path="/admin/addproduct" component={EditProduct}/>
+        <Route path="/admin/editproduct/:id" component={EditProduct} />
+        <Route path="/admin/products" component={ProductsList} />
+        <Route path="/admin/addsizesystem" component={EditSizeChartSystem} />
+        <Route path="/admin/editsizesystem/:id" component={EditSizeChartSystem} />
+        <Route path="/admin/sizesystems" component={SizeSystemList} />
+        <Route path="/admin/addbrand" component={EditBrand} />
+        <Route path="/admin/editbrand/:id" component={EditBrand} />
+        <Route path="/admin/brands" component={BrandList} />
+        {/* <Route path="/products" component={Products} /> */}
+        <Route component={Shop} />
       </Switch >
     </Layout>
   );

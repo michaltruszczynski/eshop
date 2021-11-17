@@ -16,7 +16,7 @@ const defaultProduct = {
       id: 1
 }
 
-const Product = ({ productImage = defaultProduct.image, productName = defaultProduct.name, price = defaultProduct.price, sale = 0, id = defaultProduct.id, productBrand = defaultProduct.brand }) => {
+const Product = ({ productImage = defaultProduct.image, productName = defaultProduct.name, productPrice = defaultProduct.price, sale = 0, id = defaultProduct.id, productBrand = defaultProduct.brand }) => {
       return (
             <div className={styles['product']}>
                   <div className={styles['product__header']}>
@@ -28,10 +28,12 @@ const Product = ({ productImage = defaultProduct.image, productName = defaultPro
                         </ul>
                   </div>
                   <div className={styles['product__footer']}>
-                        <Link to="/" className={styles['product__link']}>
-                              <p className={styles['product__name']}>{productName}</p>
-                              <p className={styles['product__brand']}>{productBrand}</p>
-                        </Link>
+                        {/* <Link to="/" className={styles['product__link']}> */}
+                              <div>
+                                    <p className={styles['product__name']}>{productName}</p>
+                                    <p className={styles['product__brand']}>{productBrand}</p>
+                              </div>
+                        {/* </Link> */}
                         <div className={styles['rating']}>
                               <i className="bx bxs-star"></i>
                               <i className="bx bxs-star"></i>
@@ -41,7 +43,7 @@ const Product = ({ productImage = defaultProduct.image, productName = defaultPro
                         </div>
                         {/* <p className={styles['product__price']}>100,00 zł</p> */}
                         {/* <p className={styles['product__price']}>Explore</p> */}
-                        <Price sale={sale} price={price} />
+                        <Price sale={sale} price={productPrice} />
                         <ButtonLink link={`/product/${id}`}>Explore</ButtonLink>
                   </div>
             </div>

@@ -180,7 +180,7 @@ const EditBrandForm = () => {
       }
 
       const backToSizeSystemList = () => {
-            history.push('/brands');
+            history.push('/admin/brands');
       }
 
       return (

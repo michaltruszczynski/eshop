@@ -19,7 +19,7 @@ const SizeSystemTable = () => {
       const sizeSystemTableOptions = {
             type: 'link',
             linkName: 'View',
-            url: 'editsizesystem/'
+            url: '/admin/editsizesystem/'
       }
 
       const getSizeSystemTableData = () => {

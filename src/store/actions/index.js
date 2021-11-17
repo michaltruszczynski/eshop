@@ -4,5 +4,7 @@ export {
 } from './message';
 
 export {
-    addToCart
+    addToCart,
+    removeFormCart,
+    deleteFromCart
 } from './user';

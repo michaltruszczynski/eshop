@@ -22,7 +22,7 @@ import { addNewProduct, getProduct, putProduct } from '../../services/productSer
 
 const filePickerConfiguration = {
       fileType: ['image/jpeg', 'image/png', 'image/jpg', 'text/plain'],
-      maxFileSize: 1000,
+      maxFileSize: 2000,
       allowDuplicate: false,
       minFileNumber: 3,
       maxFileNumber: 6
@@ -193,7 +193,7 @@ const EditProductForm = () => {
       }
 
       const backToProductList = () => {
-            history.push('/products');
+            history.push('/admin/products');
       }
 
       return (

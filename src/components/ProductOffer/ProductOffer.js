@@ -28,8 +28,8 @@ const ProductOffer = () => {
                                     id={product._id}
                                     productImage={product.image}
                                     productName={product.productName}
-                                    price={product.price}
-                                    brand={product.productBrand}
+                                    productPrice={product.productPrice}
+                                    productBrand={product.productBrand}
                               />
                         })}
                   </div>

@@ -5,22 +5,23 @@ import styles from './NavigationItems.module.scss';
 
 const navItems = [
       { id: 'home', text: 'Home', icon: false, link: '/', auth: [false, true], role: [1, 2, 3] },
+      { id: 'shop', text: 'Shop', icon: false, link: '/shop', auth: [false, true], role: [1, 2, 3] },
       {
             id: 'products', text: 'Products', icon: false, link: '', auth: [false, true], role: [1, 2, 3], subMenu: [
-                  { id: 'productsList', text: 'Products List', link: '/products', auth: [false, true], role: [1, 2, 3] },
-                  { id: 'addProduct', text: 'Add Product', link: '/addproduct', auth: [false, true], role: [1, 2, 3] }
+                  { id: 'productsList', text: 'Products List', link: '/admin/products', auth: [false, true], role: [1, 2, 3] },
+                  { id: 'addProduct', text: 'Add Product', link: '/admin/addproduct', auth: [false, true], role: [1, 2, 3] }
             ]
       },
       {
             id: 'brands', text: 'Brands', icon: false, link: '', auth: [false, true], role: [1, 2, 3], subMenu: [
-                  { id: 'brandsList', text: 'Brands List', link: '/brands', auth: [false, true], role: [1, 2, 3] },
-                  { id: 'addBrand', text: 'Add Brand', link: '/addbrand', auth: [false, true], role: [1, 2, 3] }
+                  { id: 'brandsList', text: 'Brands List', link: '/admin/brands', auth: [false, true], role: [1, 2, 3] },
+                  { id: 'addBrand', text: 'Add Brand', link: '/admin/addbrand', auth: [false, true], role: [1, 2, 3] }
             ]
       },
       {
             id: 'SizeSystems', text: 'Size Systems', icon: false, link: '', auth: [false, true], role: [1, 2, 3], subMenu: [
-                  { id: 'sizeSystemsList', text: 'Size Systems List', link: '/sizesystems', auth: [false, true], role: [1, 2, 3] },
-                  { id: 'addSizeSystem', text: 'Add Size System', link: '/addsizesystem', auth: [false, true], role: [1, 2, 3] }
+                  { id: 'sizeSystemsList', text: 'Size Systems List', link: '/admin/sizesystems', auth: [false, true], role: [1, 2, 3] },
+                  { id: 'addSizeSystem', text: 'Add Size System', link: '/admin/addsizesystem', auth: [false, true], role: [1, 2, 3] }
             ]
       }
 ]

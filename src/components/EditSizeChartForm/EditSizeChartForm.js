@@ -103,7 +103,7 @@ const EditSizeChartForm = () => {
       }
 
       const backToSizeSystemList = () => {
-            history.push('/sizesystems');
+            history.push('/admin/sizesystems');
       }
 
       const isFormDataValid = !(inputSizeChartNameDataIsValid && inputSizeChartDataIsValid);

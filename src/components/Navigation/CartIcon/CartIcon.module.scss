@@ -1,0 +1,22 @@
+@import '../../../abstracts/index';
+
+.icon-container {
+      position: relative;
+}
+
+.item-number {
+      position: absolute;
+      right: -10px;
+      top: 0px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-align: center;
+      background-color: $main-pink;
+      color: $main-white;
+      height: 2.3rem;
+      width: 2.3rem;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+}

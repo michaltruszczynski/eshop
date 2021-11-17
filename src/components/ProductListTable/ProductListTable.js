@@ -19,7 +19,7 @@ const ProductListTable = () => {
       const sizeSystemTableOptions = {
             type: 'link',
             linkName: 'View',
-            url: 'editproduct/'
+            url: '/admin/editproduct/'
       }
 
       const getProductsTableData = () => {

@@ -4,8 +4,10 @@ import { NavLink } from 'react-router-dom';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import Backdrop from '../../UI/Backdrop/Backdrop';
+import CartIcon from '../CartIcon/CartIcon';
 
 import styles from './MainNavigation.module.scss';
+
 
 const MainNavigation = () => {
       const [navFixed, setNavFixed] = useState(false);
@@ -46,7 +48,8 @@ const MainNavigation = () => {
                               <Backdrop show={mobileNavOpen} onBackdropClick={closeMobileNav} />
                               <NavigationItems isAuth={false} role={1} isMobileNavOpen={mobileNavOpen} closeMobileNav={closeMobileNav} />
                               <NavLink to="/cart" className={styles['cart-icon']}>
-                                    <i className="bx bx-shopping-bag"></i>
+                                    {/* <i className="bx bx-shopping-bag"></i> */}
+                                    <CartIcon/>
                               </NavLink>
                               <div className={styles['hamburger-icon']} onClick={mobileNavHandler}>
                                     <i className="bx bx-menu"></i>
