@@ -7,7 +7,6 @@ import useClickOutside from '../../../../hooks/useClickOutside';
 import styles from './NavigationItem.module.scss';
 
 const NavigationItem = ({ link, exact, children, subMenu, closeMobileNav }) => {
-
       const [subMenuIsOpen, setSubMenuIsOpen] = useState(false);
       const linkContainerRef = useRef();
 
@@ -18,7 +17,8 @@ const NavigationItem = ({ link, exact, children, subMenu, closeMobileNav }) => {
       useClickOutside(linkContainerRef, closeSubMenu);
 
       const navLinkClickHandler = () => {
-            setSubMenuIsOpen(state => !state);
+           if (subMenu.length) setSubMenuIsOpen(state => !state);
+           if (link) closeMobileNav()
       }
 
       const getNavItemClasses = () => {
@@ -29,15 +29,15 @@ const NavigationItem = ({ link, exact, children, subMenu, closeMobileNav }) => {
             return navItemClasses.join(' ')
       }
 
-      const renderLinkComonent = () => {
+      const renderLinkComponent = () => {
             if (link) {
                   return (
                         <NavLink
                               to={link}
                               exact={exact}
                               className={styles['nav__link']}
-                              onClick={subMenu.length ? navLinkClickHandler : undefined}
-                              >
+                              onClick={navLinkClickHandler}
+                        >
                               {children}
                         </NavLink>
                   )
@@ -45,7 +45,8 @@ const NavigationItem = ({ link, exact, children, subMenu, closeMobileNav }) => {
             return (
                   <div
                         className={styles['button__link']}
-                        onClick={subMenu.length ? navLinkClickHandler : undefined}>
+                        onClick={navLinkClickHandler}
+                        >
                         {children}
                   </div>
             )
@@ -54,7 +55,7 @@ const NavigationItem = ({ link, exact, children, subMenu, closeMobileNav }) => {
 
       return (
             <li className={getNavItemClasses()} ref={linkContainerRef}>
-                  {renderLinkComonent()}
+                  {renderLinkComponent()}
                   {subMenu.length ? <SubNavigationItem subMenu={subMenu} isOpen={subMenuIsOpen} onSubNavItemClick={closeSubMenu} closeMobileNav={closeMobileNav} /> : null}
             </li>
       )

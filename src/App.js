@@ -13,8 +13,10 @@ import EditSizeChartSystem from './pages/EditSizeChartSystem/EditSizeChartSystem
 import BrandList from './pages/BrandList/BrandList';
 import Products from './pages/Products/Products';
 import Cart from './pages/Cart/Cart';
+import Signup from './pages/Signup/Signup';
 
 import './App.scss';
+
 const App = () => {
   return (
     // <Route path="/carousel" >
@@ -25,6 +27,7 @@ const App = () => {
         <Route path="/shop" component={Products} />
         <Route path="/product/:id" component={ProductPage} />
         <Route path="/cart" component={Cart} />
+        <Route path="/signup" component={Signup} />
         <Route path="/admin/addproduct" component={EditProduct}/>
         <Route path="/admin/editproduct/:id" component={EditProduct} />
         <Route path="/admin/products" component={ProductsList} />

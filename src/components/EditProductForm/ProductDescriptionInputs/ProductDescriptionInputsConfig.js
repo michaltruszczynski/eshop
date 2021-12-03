@@ -16,7 +16,7 @@ export const productDescriptionInputsConfig = {
                         { value: 'Wetsiuts', displayValue: 'Wetsiuts' }
                   ],
                   validators: [
-                        { check: required('empty'), message: 'Please choose product category.' },
+                        { check: required(), message: 'Please choose product category.' },
                   ],
                   addClassName: []
             },

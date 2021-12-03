@@ -23,7 +23,7 @@ const Product = ({ productImage = defaultProduct.image, productName = defaultPro
                         <img className={styles['product__image']} src={productImage} alt="" />
                         <ul className={styles['icons']}>
                               <span className={styles['icon__container']}><i className="bx bx-heart"></i></span>
-                              {/* <span className={styles['icon__container']}><i className="bx bx-shopping-bag"></i></span> */}
+                              <span className={styles['icon__container']}><i className="bx bx-shopping-bag"></i></span>
                               <span className={styles['icon__container']}><i className="bx bx-search"></i></span>
                         </ul>
                   </div>

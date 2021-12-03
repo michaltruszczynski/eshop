@@ -5,8 +5,7 @@ import InputError from '../InpurtError/InputError';
 import styles from './DynamicDropDown.module.scss';
 
 const DynamicDropDown = ({ label, elementConfig, value, options, onInputChange, touched, isValid, fetchStatus = 'idle', disabled, errors }) => {
-
-      const inputChangeHandler = (event) => {
+       const inputChangeHandler = (event) => {
             const { value } = event.target;
             onInputChange(value);
       }

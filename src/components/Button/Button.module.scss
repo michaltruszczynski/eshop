@@ -1,3 +1,5 @@
+@import '../../abstracts/index';
+
 .button {
       display: block;
       box-sizing: border-box;
@@ -11,7 +13,7 @@
             align-self: center;
             font-size: 1.7rem;
             font-weight: 600;
-            color: #f1f2f3;
+            color: $buttonFontWhite;
             border-radius: 0.5rem;
       }
 
@@ -23,7 +25,7 @@
             align-self: center;
             font-size: 1.7rem;
             font-weight: 400;
-            color: #f1f2f3;
+            color: $buttonFontWhite;
             border-radius: 0.5rem;
       }
 
@@ -34,37 +36,42 @@
 
             font-size: 1.6rem;
             font-weight: 400;
-            color: #f1f2f3;
+            color: $buttonFontWhite;
             border-radius: 3rem;
 
             outline: none;
       }
 
       &--green {
-            background-color: #659c83;
+            background-color: $buttonBackGrGreen;
             border: 1px solid #659c83;
             &:hover,
             &:active {
-                  background-color: darken(#659c83 , 10%);
+                  background-color: darken($buttonBackGrGreen , 10%);
             }
       }
 
       &--red {
-            background-color: #fa8171;
-            border: 1px solid #fa8171;
+            background-color: $buttonBackGrRed;
+            border: 1px solid $buttonBorderRed;
             &:hover,
             &:active {
-                  background-color: darken(#fa8171, 10%);
+                  background-color: darken($buttonBackGrRed, 10%);
             }
       }
 
       &--blue {
-            background: darkslateblue;
-            border: 2px solid darkslateblue;
+            background: $buttonBackGrBlue;
+            border: 2px solid $buttonBorderBlue;
             &:hover,
             &:active {
-                  border: 2px solid darkslateblue;
+                  border: 2px solid $buttonBackGrHoverBlue;
             }
+      }
+
+      &--active {
+            color: $buttonActiveFont;
+            font-weight: 600;
       }
 
       &:disabled {
@@ -72,30 +79,3 @@
             cursor: not-allowed;
       }
 }
-
-
-// .button {
-//       min-width: 4.7rem;
-
-//       padding: 0.2rem;
-//       margin-left: 1rem;
-//       align-self: center;
-//       font-size: 1.7rem;
-//       font-weight: 600;
-//       color: white;
-//       border-radius: 0.5rem;
-
-//       display: block;
-//       box-sizing: border-box;
-//       cursor: pointer;
-
-//       &--green {
-//             background-color: #659c83;
-//             border: 1px solid #659c83;
-//       }
-
-//       &--red {
-//             background-color: #fa8171;
-//             border: 1px solid #fa8171;
-//       }
-// }

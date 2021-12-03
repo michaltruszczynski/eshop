@@ -81,7 +81,7 @@ const InputField = ({ label, elementType, elementConfig, value, onInputChange, t
                               className={inputFieldClasses('select')}
                               disabled={disabled}
                         >
-                              <option key={"empty"} value={"empty"}>
+                              <option key={"empty"} value={""}>
                                     {elementConfig.placeholder}
                               </option>
                               {elementConfig.options.length ? (elementConfig.options.map(option => (

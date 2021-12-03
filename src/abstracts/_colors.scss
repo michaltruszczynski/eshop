@@ -36,5 +36,20 @@ $inputErrorBorderColor: #d50000;
 $inputErrorFontColor: #d50000;
 $inputErrorPlaceholderFontColor: #e47373;
 
-// Images List:
-// images/header.jpg
+//Buttons
+$buttonFontWhite: #f1f2f3;
+
+$buttonBackGrGreen: #659c83;
+$buttonBorderGreen: #659c83;
+$buttonBackGrHoverGreen: darken($buttonBackGrGreen , 10%);
+
+$buttonBackGrRed: #fa8171;
+$buttonBorderRed: #fa8171;
+$buttonBackGrHoverRed: darken($buttonBackGrRed, 10%);
+
+
+$buttonBackGrBlue: darkslateblue;
+$buttonBorderBlue: darkslateblue;
+$buttonBackGrHoverBlue: darken($buttonBackGrBlue, 10%);
+
+$buttonActiveFont: #fa8171;

@@ -8,7 +8,7 @@ const buttonStyles = {
       icon: 'primary',
 }
 
-const Button = ({ children, buttonType, buttonStyle, onClick, marginClass, disabled, type }) => {
+const Button = ({ children, buttonType, buttonStyle, onClick, marginClass, disabled, type, active }) => {
 
       let buttonClassName = [styles['button']]
 
@@ -44,6 +44,10 @@ const Button = ({ children, buttonType, buttonStyle, onClick, marginClass, disab
             buttonClassName.push(marginClass);
       }
 
+      if (active) {
+            buttonClassName.push(styles['button--active'])
+      }
+
       return (
             <button
                   type={type}
@@ -60,6 +64,7 @@ Button.defaultProps = {
       buttonStyle: 'standard',
       type: "button",
       disabled: false,
+      active: false
 }
 
 export default Button;

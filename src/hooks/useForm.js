@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 
 import { validateInput } from '../utility/validators';
 
@@ -26,7 +26,7 @@ const useForm = fromData => {
 
       const [formIsValid, setFormIsValid] = useState(false);
 
-      useEffect(() => {
+      useLayoutEffect(() => {
             const checkIsFormValid = () => {
                   const inputKeys = Object.keys(formInput);
                   const formIsValid = inputKeys.reduce((valid, key) => {
@@ -53,6 +53,7 @@ const useForm = fromData => {
                               errors: errorMessages
                         }
                   };
+
                   return newFormInput;
             })
       }

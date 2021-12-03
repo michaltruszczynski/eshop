@@ -1,4 +1,4 @@
-import {useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ const reducer = (state, action) => {
                   return {
                         ...state,
                         status: "loading",
-                        data: null,
+                        // data: null,
                         error: false
                   }
             case "success":
@@ -41,16 +41,18 @@ const useFetch = (url) => {
 
       useEffect(() => {
             const fetchData = async () => {
-                  dispatch({type: 'loading'})
+                  dispatch({ type: 'loading' })
                   try {
                         const response = await axios.get(`${URL_API}${url}`);
-                        dispatch({type: 'success', data: response.data});
+                        dispatch({ type: 'success', data: response.data });
                   } catch (error) {
-                        dispatch({type: 'error', error: error });
+                        dispatch({ type: 'error', error: error });
                   }
             };
+            if (url) {
+                  fetchData();
+            }
 
-            fetchData();
       }, [url]);
 
       return [state]

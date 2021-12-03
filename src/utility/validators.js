@@ -100,7 +100,7 @@ export const duplicated = (array, elementKey, allowDuplicate = false) => value =
 // let validators = [{check: required, errorMessage: 'Input is required.'}]
 
 export const validateInput = (validators, value) => {
-      if (!validators || !validators.length) return { isValid: false, errorMessages: [] };
+      if (!validators || !validators.length) return { isValid: true, errorMessages: [] };
       let isValid = true;
       const errorMessages = [];
       validators.forEach(validator => {
