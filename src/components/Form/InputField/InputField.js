@@ -4,7 +4,16 @@ import InputError from '../InpurtError/InputError';
 
 import styles from './InputField.module.scss';
 
-const InputField = ({ label, elementType, elementConfig, value, onInputChange, touched, isValid, disabled = false, errors }) => {
+const InputField = ({ label,
+      elementType,
+      elementConfig,
+      value,
+      onInputChange,
+      onFocusChange = () => {},
+      touched,
+      isValid,
+      disabled = false,
+      errors }) => {
 
       const inputChangeHandler = (event) => {
             const { value } = event.target;
@@ -36,6 +45,8 @@ const InputField = ({ label, elementType, elementConfig, value, onInputChange, t
                               id={elementConfig.id}
                               placeholder={elementConfig.placeholder}
                               onChange={inputChangeHandler}
+                              onFocus={onFocusChange}
+                              onBlur={onFocusChange}
                               className={inputFieldClasses('input')}
                               disabled={disabled}
                         />
@@ -133,7 +144,7 @@ const InputField = ({ label, elementType, elementConfig, value, onInputChange, t
                   <div className={styles['field']}>
                         <p className={styles['field__name']}>{label}:</p>
                         {inputElement}
-                        <InputError touched={touched} isValid={isValid} errors={errors} />
+                        {errors ? <InputError touched={touched} isValid={isValid} errors={errors} /> : null}
                   </div>
             );
       }
@@ -147,7 +158,7 @@ const InputField = ({ label, elementType, elementConfig, value, onInputChange, t
                         {label}:
                   </label>)}
                   {inputElement}
-                  <InputError touched={touched} isValid={isValid} errors={errors} />
+                  {errors ? <InputError touched={touched} isValid={isValid} errors={errors} />: null}
             </div>
       );
 }

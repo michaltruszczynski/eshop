@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 
-import SignupInputs from './SignupInputs/SignupInputs';
+import EmailInput from './EmailInput/EmailInput';
 import PasswordInput from './PasswordInput/PasswordInput';
-import ConfirmPasswordInput from './ConfirmPasswordInput/ConfirmPasswordInput';
 import Button from '../Button/Button';
 import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 
 import useForm from '../../hooks/useForm';
-import { signupUser } from '../../services/authService';
+import { signinUser } from '../../services/authService';
 
-import { signupInputConfig } from './SignupInputs/signupInputsConfig';
+import { emailInputConfig } from './EmailInput/emailInputConfig';
 import { passwordInputConfig } from './PasswordInput/passwordInputConfig';
 
-import styles from './SignupForm.module.scss';
+import styles from './SigninForm.module.scss';
 
 const asyncOperation = {
       IDLE: 'idle',
@@ -21,32 +20,24 @@ const asyncOperation = {
       ERROR: 'error'
 }
 
-const SignupForm = () => {
+const SigninForm = () => {
 
-      const [inputSignupData, inputSignupDataIsValid, inputSignupDataChangeHandler] = useForm(signupInputConfig)
-      const [passwordData, passwordIsValid, passwordChangeHandler, passwordFocusChangeHandler] = useForm(passwordInputConfig)
-      const [confirmPasswordData, confirmPasswordChangeHandler] = useState({
-            value: '',
-            touched: false,
-            isValid: false,
-            errors: []
-      });
+      const [emailData, emailIsValid, emailDataChangeHandler] = useForm(emailInputConfig)
+      const [passwordData, passwordIsValid, passwordChangeHandler ] = useForm(passwordInputConfig)
 
       const [asyncCallStatus, setAsyncCallStatus] = useState(asyncOperation.SUCCESS);
 
-      const { isValid: confirmPasswordIsValid } = confirmPasswordData;
 
       const submitHandler = async (event) => {
             event.preventDefault();
-            const newUser = {
-                  name: inputSignupData.name.value,
-                  email: inputSignupData.email.value,
+            const user = {
+                  email: emailData.email.value,
                   password: passwordData.password.value
             }
-            console.log(newUser)
+            console.log(user)
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
-                  const response = await signupUser(newUser);
+                  const response = await signinUser(user);
                   console.log(response);
                   setAsyncCallStatus(asyncOperation.SUCCESS);
             } catch (error) {
@@ -56,24 +47,18 @@ const SignupForm = () => {
             }
       }
 
-      const isFormDataValid = confirmPasswordIsValid && passwordIsValid && inputSignupDataIsValid;
+      const isFormDataValid = passwordIsValid && emailIsValid;
 
       return (
             <AsyncOpBgComponent status={asyncCallStatus}>
                   <form className={styles['form']}>
-                        <SignupInputs
-                              inputSignupData={inputSignupData}
-                              inputSignupDataChangeHandler={inputSignupDataChangeHandler}
+                        <EmailInput
+                              emailData={emailData}
+                              emailDataChangeHandler={emailDataChangeHandler}
                         />
                         <PasswordInput
                               passwordData={passwordData}
                               passwordChangeHandler={passwordChangeHandler}
-                              passwordFocusChangeHandler={passwordFocusChangeHandler}
-                        />
-                        <ConfirmPasswordInput
-                              confirmPasswordData={confirmPasswordData}
-                              confirmPasswordChangeHandler={confirmPasswordChangeHandler}
-                              passwordData={passwordData}
                         />
                         <Button
                               onClick={submitHandler}
@@ -89,4 +74,4 @@ const SignupForm = () => {
       )
 }
 
-export default SignupForm;
+export default SigninForm;

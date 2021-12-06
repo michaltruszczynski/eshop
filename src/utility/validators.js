@@ -23,7 +23,7 @@ export const length = (config = { min: 5, max: 10 }) => value => {
 export const containNumber = value => {
       if (!value.trim()) return false;
       const regex = new RegExp(/\d/);
-      return regex.text(value);
+      return regex.test(value);
 }
 
 export const containSpecialChar = value => {

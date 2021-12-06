@@ -14,6 +14,7 @@ import BrandList from './pages/BrandList/BrandList';
 import Products from './pages/Products/Products';
 import Cart from './pages/Cart/Cart';
 import Signup from './pages/Signup/Signup';
+import Signin from './pages/Signin/Signin';
 
 import './App.scss';
 
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/product/:id" component={ProductPage} />
         <Route path="/cart" component={Cart} />
         <Route path="/signup" component={Signup} />
+        <Route path="/signin" component={Signin} />
         <Route path="/admin/addproduct" component={EditProduct}/>
         <Route path="/admin/editproduct/:id" component={EditProduct} />
         <Route path="/admin/products" component={ProductsList} />

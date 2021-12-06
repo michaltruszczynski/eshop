@@ -3,7 +3,7 @@ import React from 'react';
 import BackgroundContent from '../BackgroundContent/BackgroundContent';
 import Logo from '../Logo/Logo';
 
-const AsyncOpBgComponent = ({status, children}) => {
+const AsyncOpBgComponent = ({ status, children }) => {
 
       switch (status) {
             case 'idle':
@@ -14,16 +14,16 @@ const AsyncOpBgComponent = ({status, children}) => {
                   )
             case 'success':
                   return children;
-            case 'error':
-                  return (
-                        <BackgroundContent>
-                              Something went wrong.
-                        </BackgroundContent>
-                  );
             case 'loading':
                   return (
                         <BackgroundContent>
                               Loading...
+                        </BackgroundContent>
+                  );
+            case 'error':
+                  return (
+                        <BackgroundContent>
+                              Something went wrong.
                         </BackgroundContent>
                   );
             default:

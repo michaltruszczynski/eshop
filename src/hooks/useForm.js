@@ -13,10 +13,9 @@ const useForm = fromData => {
                   return formInput[key] = {
                         value: fromData[key].elementConfig.defaultValue,
                         touched: false,
+                        isFocus: false,
                         isValid: isValid,
-                        // isValid: false,
                         errors: errorMessages,
-                        // errors: [],
                         validators: fromData[key].elementConfig.validators
                   }
             });
@@ -58,7 +57,21 @@ const useForm = fromData => {
             })
       }
 
-      return [formInput, formIsValid, inputChangeHandler]
+      const focusChangeHandler = key => () => {
+            setFormInput(formInput => {
+                  const { isFocus} = formInput[key];
+                  const newFromInput = {
+                        ...formInput,
+                        [key]: {
+                              ...formInput[key],
+                              isFocus: !isFocus
+                        }
+                  }
+                  return newFromInput
+            })
+      }
+
+      return [formInput, formIsValid, inputChangeHandler, focusChangeHandler]
 
 }
 
