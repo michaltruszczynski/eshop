@@ -14,7 +14,7 @@ const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }) => {
 
       const paginationButtonsRange = usePagination(totalCount, pageSize, sibilingCount, currentPage);
       const windowSize = useWindowSize();
-      
+
       const isMobile = windowSize.width < 576;
 
       const totalPageCount = Math.ceil(totalCount / pageSize);
@@ -51,7 +51,7 @@ const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }) => {
 
       return (
             <div className={styles['pagination-controls']}>
-                  { !isMobile ? (<ul className={styles['button-list']}>
+                  {!isMobile ? (<ul className={styles['button-list']}>
                         <li className={styles['button-item']}>
                               <Button onClick={goToPreviousPage} disabled={isFirstPage}>Prev</Button>
                         </li>
@@ -78,10 +78,10 @@ const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }) => {
                         <li className={styles['button-item']}>
                               <Button onClick={goToNextPage} disabled={isLastPage}>Next</Button>
                         </li>
-                  </ul>) : 
-                  (<div className={styles['button-list']}>
-                        <Button onClick={goToPreviousPage} disabled={isFirstPage}>Prev</Button><span className={styles['page-counter']}>Page {currentPage} of {totalPageCount} </span><Button onClick={goToNextPage} disabled={isLastPage}>Next</Button>
-                  </div>)}
+                  </ul>) :
+                        (<div className={styles['button-list']}>
+                              <Button onClick={goToPreviousPage} disabled={isFirstPage}>Prev</Button><span className={styles['page-counter']}>Page {currentPage} of {totalPageCount} </span><Button onClick={goToNextPage} disabled={isLastPage}>Next</Button>
+                        </div>)}
             </div>
       )
 }

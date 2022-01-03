@@ -1,9 +1,14 @@
 import React from 'react';
 
+import ErrorInformation from './ErrorInformation/ErrorInformation';
 import BackgroundContent from '../BackgroundContent/BackgroundContent';
 import Logo from '../Logo/Logo';
 
-const AsyncOpBgComponent = ({ status, children }) => {
+const AsyncOpBgComponent = ({ status, error, children }) => {
+
+      console.log(error)
+      console.log(status)
+      // const { status: errorStatusCode } = error;
 
       switch (status) {
             case 'idle':
@@ -21,11 +26,15 @@ const AsyncOpBgComponent = ({ status, children }) => {
                         </BackgroundContent>
                   );
             case 'error':
-                  return (
-                        <BackgroundContent>
-                              Something went wrong.
-                        </BackgroundContent>
-                  );
+                  // if (errorStatusCode === 401) {
+                  //       return children;
+                  // }
+                  return <ErrorInformation error={error} />
+                  // return (
+                  //       <BackgroundContent>
+                  //             Something went wrong.
+                  //       </BackgroundContent>
+                  // );
             default:
                   return (
                         <BackgroundContent>
@@ -33,7 +42,6 @@ const AsyncOpBgComponent = ({ status, children }) => {
                         </BackgroundContent>
                   )
       }
-
 }
 
 export default AsyncOpBgComponent;

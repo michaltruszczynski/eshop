@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom'
 
 import SignupInputs from './SignupInputs/SignupInputs';
 import PasswordInput from './PasswordInput/PasswordInput';
@@ -7,22 +9,17 @@ import Button from '../Button/Button';
 import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 
 import useForm from '../../hooks/useForm';
-import { signupUser } from '../../services/authService';
 
 import { signupInputConfig } from './SignupInputs/signupInputsConfig';
 import { passwordInputConfig } from './PasswordInput/passwordInputConfig';
 
+import { authSignup, authSignupStatusReset } from '../../store/actions';
+
 import styles from './SignupForm.module.scss';
 
-const asyncOperation = {
-      IDLE: 'idle',
-      SUCCESS: 'success',
-      LOADING: 'loading',
-      ERROR: 'error'
-}
-
 const SignupForm = () => {
-
+      const dispatch = useDispatch();
+      const history = useHistory();
       const [inputSignupData, inputSignupDataIsValid, inputSignupDataChangeHandler] = useForm(signupInputConfig)
       const [passwordData, passwordIsValid, passwordChangeHandler, passwordFocusChangeHandler] = useForm(passwordInputConfig)
       const [confirmPasswordData, confirmPasswordChangeHandler] = useState({
@@ -32,9 +29,18 @@ const SignupForm = () => {
             errors: []
       });
 
-      const [asyncCallStatus, setAsyncCallStatus] = useState(asyncOperation.SUCCESS);
+      const authState = useSelector(state => state.auth);
+      const { error, loading, authSignupSuccess, authRedirectPath } = authState;
 
-      const { isValid: confirmPasswordIsValid } = confirmPasswordData;
+      useEffect(() => {
+            if (authSignupSuccess && authRedirectPath) {
+                  history.push(authRedirectPath)
+            }
+
+            return () => {
+                  dispatch(authSignupStatusReset())
+            }
+      }, [authSignupSuccess, authRedirectPath, history, dispatch]);
 
       const submitHandler = async (event) => {
             event.preventDefault();
@@ -44,22 +50,22 @@ const SignupForm = () => {
                   password: passwordData.password.value
             }
             console.log(newUser)
-            setAsyncCallStatus(asyncOperation.LOADING);
-            try {
-                  const response = await signupUser(newUser);
-                  console.log(response);
-                  setAsyncCallStatus(asyncOperation.SUCCESS);
-            } catch (error) {
-                  console.log(error.response)
-                  console.log(error.request)
-                  setAsyncCallStatus(asyncCallStatus.ERROR)
-            }
+
+            dispatch(authSignup(newUser));
       }
 
+      const { isValid: confirmPasswordIsValid } = confirmPasswordData;
       const isFormDataValid = confirmPasswordIsValid && passwordIsValid && inputSignupDataIsValid;
+      
+      const getAsyncOperationStatus = (error, loading) => {
+            if (!error && !loading) { return 'success' }
+            if (error) { return 'error' }
+            if (loading) { return 'loading' }
+            return 'idle';
+      }
 
       return (
-            <AsyncOpBgComponent status={asyncCallStatus}>
+            <AsyncOpBgComponent status={getAsyncOperationStatus(error, loading)}>
                   <form className={styles['form']}>
                         <SignupInputs
                               inputSignupData={inputSignupData}

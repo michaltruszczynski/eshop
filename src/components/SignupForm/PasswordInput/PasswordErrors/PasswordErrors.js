@@ -3,9 +3,6 @@ import React from 'react';
 import styles from './PasswordErrors.module.scss';
 
 const PasswordErrors = ({ validators, touched, value }) => {
-      // let validatorRulesMsg;
-      console.log(validators)
-
       const validationRulesMsg = validators.map(validationRule => {
             const isValid = validationRule.check(value);
             let validationItemClass = [styles['validation__item']]
@@ -14,7 +11,7 @@ const PasswordErrors = ({ validators, touched, value }) => {
             }
             return (
                   <li className={validationItemClass.join(' ')} key={validationRule.message}>
-                        {isValid ? <i class={`bx bxs-check-circle ${styles['validation__icon']}`}></i> : <i className={`bx bxs-error-circle ${styles['validation__icon']}`}></i>}
+                        {isValid ? <i className={`bx bxs-check-circle ${styles['validation__icon']}`}></i> : <i className={`bx bxs-error-circle ${styles['validation__icon']}`}></i>}
                         <span className={styles['validation__message']}>{validationRule.message}</span>
                   </li>
             )

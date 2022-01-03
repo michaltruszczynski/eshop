@@ -7,10 +7,7 @@ import ToggleContent from '../../ToggleContent/ToggleContent'
 import { passwordInputConfig } from './passwordInputConfig';
 
 const PasswordInput = ({ passwordData, passwordChangeHandler, passwordFocusChangeHandler, disabled }) => {
-
-      // console.log(passwordData)
       const { value, touched, validators, isFocus, isValid } = passwordData.password;
-      console.log(isFocus);
 
       let errorMessage = [];
       if (!isValid) {

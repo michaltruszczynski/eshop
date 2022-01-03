@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { authCheck } from './store/actions/'
 
 import Layout from './components/Layout/Layout';
 import Shop from './pages/Shop/Shop';
@@ -19,6 +22,14 @@ import Signin from './pages/Signin/Signin';
 import './App.scss';
 
 const App = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(authCheck())
+  }, []);
+
+
   return (
     // <Route path="/carousel" >
     //   <Slider autoPlay={false}/>
@@ -30,7 +41,7 @@ const App = () => {
         <Route path="/cart" component={Cart} />
         <Route path="/signup" component={Signup} />
         <Route path="/signin" component={Signin} />
-        <Route path="/admin/addproduct" component={EditProduct}/>
+        <Route path="/admin/addproduct" component={EditProduct} />
         <Route path="/admin/editproduct/:id" component={EditProduct} />
         <Route path="/admin/products" component={ProductsList} />
         <Route path="/admin/addsizesystem" component={EditSizeChartSystem} />

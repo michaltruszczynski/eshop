@@ -8,15 +8,15 @@ export const required = defineEmpty => value => {
 export const length = (config = { min: 5, max: 10 }) => value => {
       if (!value.trim()) return false;
       let isValid = true;
-      console.log(config, value)
+      // console.log(config, value)
       if (config.min) {
-            console.log('inCheck', value.trim().length)
+            // console.log('inCheck', value.trim().length)
             isValid = isValid && value.trim().length >= config.min;
       }
       if (config.max) {
             isValid = isValid && value.trim().length <= config.max;
       }
-      console.log('inCheck', isValid)
+      // console.log('inCheck', isValid)
       return isValid;
 }
 

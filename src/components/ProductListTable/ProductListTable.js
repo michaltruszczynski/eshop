@@ -10,7 +10,7 @@ const ProductListTable = () => {
       const { status } = state;
 
       // const {sizeSystems: list} = sizeSystemList
-      console.log(state);
+      // console.log(state);
 
       // tableData = [ {_id: 12345, colVal_1, colVal_2, colVal_3, ...}, {...}]
 

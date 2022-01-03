@@ -54,7 +54,7 @@ const ProductOffer = ({
                   searchProductUrlAPI.append('pageLimit', productsPerPage);
             }
 
-            setProductUrl(`/admin/products?${searchProductUrlAPI.toString()}`);
+            setProductUrl(`/shop/products?${searchProductUrlAPI.toString()}`);
 
       }, [productsCategory, productsBrand, productsSort, productsCategoryIsValid, productsBrandIsValid, productsSortIsValid, currentPage, productsPerPage]);
 

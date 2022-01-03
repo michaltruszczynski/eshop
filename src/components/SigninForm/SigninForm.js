@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom'
 
 import EmailInput from './EmailInput/EmailInput';
 import PasswordInput from './PasswordInput/PasswordInput';
@@ -6,27 +8,41 @@ import Button from '../Button/Button';
 import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 
 import useForm from '../../hooks/useForm';
-import { signinUser } from '../../services/authService';
 
 import { emailInputConfig } from './EmailInput/emailInputConfig';
 import { passwordInputConfig } from './PasswordInput/passwordInputConfig';
 
+import { authSignin, authSigninStatusReset } from '../../store/actions';
+
+import { authService } from '../../services/authService'
+
 import styles from './SigninForm.module.scss';
 
-const asyncOperation = {
-      IDLE: 'idle',
-      SUCCESS: 'success',
-      LOADING: 'loading',
-      ERROR: 'error'
-}
-
 const SigninForm = () => {
+      const dispatch = useDispatch();
+      const history = useHistory();
+      const [emailData, emailIsValid, emailDataChangeHandler] = useForm(emailInputConfig);
+      const [passwordData, passwordIsValid, passwordChangeHandler] = useForm(passwordInputConfig);
 
-      const [emailData, emailIsValid, emailDataChangeHandler] = useForm(emailInputConfig)
-      const [passwordData, passwordIsValid, passwordChangeHandler ] = useForm(passwordInputConfig)
+      const authState = useSelector(state => state.auth);
+      const { error, loading, authSigninSuccess, authRedirectPath } = authState;
+      console.log(error, loading);
 
-      const [asyncCallStatus, setAsyncCallStatus] = useState(asyncOperation.SUCCESS);
+      useEffect(() => {
+            if (authSigninSuccess && authRedirectPath) {
+                  history.push(authRedirectPath);
+            }
 
+            // authService.signinUser()
+
+            return () => {
+                  dispatch(authSigninStatusReset());
+            }
+      }, [authSigninSuccess, authRedirectPath, history, dispatch]);
+
+      useEffect(() => {
+            dispatch(authSigninStatusReset())
+      }, []);
 
       const submitHandler = async (event) => {
             event.preventDefault();
@@ -34,23 +50,23 @@ const SigninForm = () => {
                   email: emailData.email.value,
                   password: passwordData.password.value
             }
-            console.log(user)
-            setAsyncCallStatus(asyncOperation.LOADING);
-            try {
-                  const response = await signinUser(user);
-                  console.log(response);
-                  setAsyncCallStatus(asyncOperation.SUCCESS);
-            } catch (error) {
-                  console.log(error.response)
-                  console.log(error.request)
-                  setAsyncCallStatus(asyncCallStatus.ERROR)
-            }
+
+            emailDataChangeHandler('email')('', false);
+            passwordChangeHandler('password')('', false);
+            dispatch(authSignin(user));
       }
 
       const isFormDataValid = passwordIsValid && emailIsValid;
 
+      const getAsyncOperationStatus = (error, loading) => {
+            if (!error && !loading) { return 'success' }
+            if (error) { return 'error' }
+            if (loading) { return 'loading' }
+            return 'idle';
+      }
+
       return (
-            <AsyncOpBgComponent status={asyncCallStatus}>
+            <AsyncOpBgComponent status={getAsyncOperationStatus(error, loading)} error={error}>
                   <form className={styles['form']}>
                         <EmailInput
                               emailData={emailData}

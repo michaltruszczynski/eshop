@@ -8,3 +8,11 @@ export {
     removeFormCart,
     deleteFromCart
 } from './user';
+
+export {
+    authSignup,
+    authSignupStatusReset,
+    authSignin,
+    authSigninStatusReset,
+    authCheck
+} from './auth';
