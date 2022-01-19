@@ -5,7 +5,7 @@ import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 
 import useFetch from '../../hooks/useFetch';
 
-const ProductListTable = () => {
+const UserListTable = () => {
       const [state] = useFetch('/admin/products');
       const { status, error } = state;
 

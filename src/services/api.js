@@ -11,7 +11,8 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
       (config) => {
             const token = TokenService.getAccessToken();
-            if (token) {
+            const refreshToken = TokenService.getRefreshToken();
+            if (token && refreshToken) {
                   config.headers["x-access-token"] = token;
             }
             return config;
@@ -32,14 +33,16 @@ axiosInstance.interceptors.response.use(
                         originalConfig.retry = true;
                         try {
                               const response = await authService.newToken();
-                              // console.log(response);
                               return axiosInstance(originalConfig);
                         } catch (err) {
                               return Promise.reject(err);
                         }
                   }
-            }
 
+                  if (error.response.status === 403) {
+                        return Promise.reject(error);
+                  }
+            }
             return Promise.reject(error);
       }
 );

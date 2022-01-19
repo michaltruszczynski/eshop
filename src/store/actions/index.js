@@ -13,6 +13,7 @@ export {
     authSignup,
     authSignupStatusReset,
     authSignin,
+    authSigninSuccess,
     authSigninStatusReset,
     authCheck
 } from './auth';

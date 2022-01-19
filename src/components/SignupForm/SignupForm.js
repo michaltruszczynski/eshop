@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import SignupInputs from './SignupInputs/SignupInputs';
 import PasswordInput from './PasswordInput/PasswordInput';
@@ -13,13 +13,25 @@ import useForm from '../../hooks/useForm';
 import { signupInputConfig } from './SignupInputs/signupInputsConfig';
 import { passwordInputConfig } from './PasswordInput/passwordInputConfig';
 
-import { authSignup, authSignupStatusReset } from '../../store/actions';
+import { setMessage } from '../../store/actions';
+
+import { authService } from '../../services/authService';
+import { Message, ErrorMessage } from '../../utility/helpers';
 
 import styles from './SignupForm.module.scss';
 
+const asyncOperation = {
+      IDLE: 'idle',
+      SUCCESS: 'success',
+      LOADING: 'loading',
+      ERROR: 'error'
+}
+
 const SignupForm = () => {
+      const [loading, setLoading] = useState(asyncOperation.SUCCESS);
+      const [error, setError] = useState(null);
+      const [signupSuccess, setSignupSuccess] = useState(false);
       const dispatch = useDispatch();
-      const history = useHistory();
       const [inputSignupData, inputSignupDataIsValid, inputSignupDataChangeHandler] = useForm(signupInputConfig)
       const [passwordData, passwordIsValid, passwordChangeHandler, passwordFocusChangeHandler] = useForm(passwordInputConfig)
       const [confirmPasswordData, confirmPasswordChangeHandler] = useState({
@@ -29,43 +41,103 @@ const SignupForm = () => {
             errors: []
       });
 
-      const authState = useSelector(state => state.auth);
-      const { error, loading, authSignupSuccess, authRedirectPath } = authState;
+      const resetInputFields = () => {
+            inputSignupDataChangeHandler('name')('', false);
+            inputSignupDataChangeHandler('email')('', false);
+            passwordChangeHandler('password')('', false);
+            confirmPasswordChangeHandler({
+                  value: '',
+                  touched: false,
+                  isValid: false,
+                  errors: []
+            });
+      }
 
-      useEffect(() => {
-            if (authSignupSuccess && authRedirectPath) {
-                  history.push(authRedirectPath)
-            }
+      const showSuccessSignupMessage = () => {
+            const signupMessage = new Message('You have been successfully registered.');
+            signupMessage.addMessageDetails('Please signin.');
+            const { message, messageDetailsArray } = signupMessage.getMessageData();
+            dispatch(setMessage(message, messageDetailsArray));
 
-            return () => {
-                  dispatch(authSignupStatusReset())
+      }
+
+      const signupErrorHandler = (error) => {
+            console.log(error.response, error.request)
+            const errorMsg = new ErrorMessage(error);
+            const errorFormFieldsName = errorMsg.getErrorFormFieldsName();
+            console.log(errorFormFieldsName)
+            if (errorFormFieldsName.length) {
+                  errorFormFieldsName.forEach(fieldName => {
+                        if (fieldName === 'name') {
+                              inputSignupDataChangeHandler('name')('', true);
+                        }
+
+                        if (fieldName === 'email') {
+                              inputSignupDataChangeHandler('email')('', true);
+                        }
+
+                        if (fieldName === 'password') {
+                              passwordChangeHandler('password')('', true);
+                              confirmPasswordChangeHandler({
+                                    value: '',
+                                    touched: true,
+                                    isValid: false,
+                                    errors: ['Passwords does not match.']
+                              });
+                        }
+
+                        if (fieldName === 'confirmPassword') {
+                              passwordChangeHandler('password')('', true);
+                              confirmPasswordChangeHandler({
+                                    value: '',
+                                    touched: true,
+                                    isValid: false,
+                                    errors: ['Passwords does not match.']
+                              });
+                        }
+                  });
             }
-      }, [authSignupSuccess, authRedirectPath, history, dispatch]);
+            setError(errorMsg);
+            const { errorMessage, errorDetailsArray } = errorMsg.getErrorMessageData();
+            dispatch(setMessage(errorMessage, errorDetailsArray));
+      }
 
       const submitHandler = async (event) => {
             event.preventDefault();
             const newUser = {
                   name: inputSignupData.name.value,
                   email: inputSignupData.email.value,
-                  password: passwordData.password.value
+                  password: passwordData.password.value,
+                  confirmPassword: confirmPasswordData.value
             }
-            console.log(newUser)
+            console.log(newUser);
 
-            dispatch(authSignup(newUser));
+            try {
+                  setLoading(asyncOperation.LOADING);
+                  setError(null);
+                  const response = await authService.signupUser(newUser);
+                  console.log(response.data);
+                  resetInputFields();
+                  setLoading(asyncOperation.SUCCESS);
+                  showSuccessSignupMessage();
+                  setSignupSuccess(true);
+            } catch (error) {
+                  signupErrorHandler(error);
+                  setLoading(asyncOperation.ERROR);
+            }
       }
 
       const { isValid: confirmPasswordIsValid } = confirmPasswordData;
       const isFormDataValid = confirmPasswordIsValid && passwordIsValid && inputSignupDataIsValid;
-      
-      const getAsyncOperationStatus = (error, loading) => {
-            if (!error && !loading) { return 'success' }
-            if (error) { return 'error' }
-            if (loading) { return 'loading' }
-            return 'idle';
+
+      if (signupSuccess) {
+            return (
+                  <Redirect to="/signin" />
+            )
       }
 
       return (
-            <AsyncOpBgComponent status={getAsyncOperationStatus(error, loading)}>
+            <AsyncOpBgComponent status={loading} error={error}>
                   <form className={styles['form']}>
                         <SignupInputs
                               inputSignupData={inputSignupData}

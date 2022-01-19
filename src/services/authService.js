@@ -29,7 +29,7 @@ const checkUser = async () => {
             const { userId, token: checkedToken } = response.data;
             localStorage.setItem('userId', JSON.stringify(userId));
             localStorage.setItem('token', JSON.stringify(checkedToken));
-            return Promise.resolve(response)
+            return Promise.resolve(response);
       } catch (error) {
             return Promise.reject(error);
       }
@@ -45,9 +45,9 @@ const newToken = async () => {
       try {
             const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
             const response = await axiosInstance.post('/admin/newtoken', refreshToken);
-            const { token: newToken, refreshToken: newRefreshToken } = response.data;
-            localStorage.setItem('rt', 'new')
+            const { token: newToken, refreshToken: newRefreshToken } = response.data; 
             TokenService.updateAccessToken(newToken);
+            TokenService.updateRefreshToken(newRefreshToken);
             return Promise.resolve(response);
       } catch (error) {
             return Promise.reject(error);

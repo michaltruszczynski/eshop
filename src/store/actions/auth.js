@@ -90,12 +90,13 @@ export const authSigninStart = () => {
       }
 }
 
-export const authSigninSuccess = (token, userId, redirectPath) => {
+export const authSigninSuccess = (token, userId, userRoles, redirectPath) => {
       return {
             type: actionTypes.AUTH_SIGNIN_SUCCESS,
             redirectPath: redirectPath,
             token: token,
-            userId: userId
+            userId: userId,
+            userRoles: userRoles
       }
 }
 
@@ -118,15 +119,12 @@ export const authCheck = () => {
       return async dispatch => {
             dispatch(authSigninStart());
             try {
-                  console.log('authCheck')
                   const response = await authService.checkUser();
-                  const { userId, token } = response.data;
-                  dispatch(authSigninSuccess(token, userId, null));
+                  const { userId, token, userRoles } = response.data;
+                  dispatch(authSigninSuccess(token, userId, userRoles, null));
             } catch (error) {
                   const errorMsg = new ErrorMessage(error);
-                  // console.dir(error)
-                  // console.log(error.response)
-                  // console.log('error.request', error.request)
+                  console.log('Error from action: ', error)
                   dispatch(authSigninFail(errorMsg.getErrorObject()));
                   dispatch(logout());
             }

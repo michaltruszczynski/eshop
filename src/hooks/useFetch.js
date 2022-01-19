@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from 'react';
 
-import axios from 'axios';
+import { ErrorMessage } from '../utility/helpers';
 
 import { axiosInstance } from '../services/api';
 
@@ -47,17 +47,24 @@ const useFetch = (url) => {
                   try {
                         // const response = await axios.get(`${URL_API}${url}`);
                         const response = await axiosInstance.get(`${url}`)
-                              dispatch({ type: 'success', data: response.data });
+                        dispatch({ type: 'success', data: response.data });
                   } catch (error) {
-                        if (error.response) {
-                              console.log(error.response);
-                              dispatch({ type: 'error', error: error.response });
-                        }
-                        if (error.request) {
-                              console.log(error.request);
-                              dispatch({ type: 'error', error: error.request });
-                        }
-                        dispatch({ type: 'error', error: error });
+                        const errorMsg = new ErrorMessage(error);
+
+                        // if (error.response) {
+                        //       console.log(error.response);
+                        //       dispatch({ type: 'error', error: error.response });
+                        // }
+                        // else if (error.request) {
+                        //       console.log(error.request);
+                        //       dispatch({ type: 'error', error: error.request });
+                        // }
+                        // else {
+                        //       dispatch({ type: 'error', error: error });
+                        // }
+
+                        dispatch({ type: 'error', error: errorMsg })
+
                   }
             };
             if (url) {

@@ -42,7 +42,6 @@ const ConfirmPasswordInput = ({ confirmPasswordData, confirmPasswordChangeHandle
                         isValid: confirmPasswordIsValid,
                         errors: errorMessage
                   }
-
                   return newState;
             })
       }, [passwordValue, confirmPasswordChangeHandler])

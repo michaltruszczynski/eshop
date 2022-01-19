@@ -4,6 +4,7 @@ import { updateObject } from '../../utility/helpers';
 
 const initialState = {
       userId: null,
+      uerRoles: null,
       token: null,
       error: false,
       loading: false,
@@ -59,13 +60,13 @@ const authSigninStart = (state, action) => {
 }
 
 const authSigninSuccess = (state, action) => {
-      const { userId, token, redirectPath } = action;
+      const { userId, token, userRoles} = action;
       return updateObject(state, {
             userId: userId,
             token: token,
+            userRoles: userRoles,
             loading: false,
-            authSigninSuccess: true,
-            authRedirectPath: redirectPath
+            authSigninSuccess: true
       });
 }
 

@@ -58,6 +58,14 @@ export class ErrorMessage {
       getErrorObject() {
             return this.errorObject ? this.errorObject : this.getErrorMessageData();
       }
+
+      getErrorFormFieldsName() {
+            if (!this.errorDetailsArray) return [];
+            return this.errorDetailsArray.map(error => {
+                  if (!error.param) return null;
+                  return error.param
+            });
+      }
 }
 
 export class Message {
