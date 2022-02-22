@@ -3,10 +3,13 @@
 .button-link {
       display: block;
       box-sizing: border-box;
-      max-width: 16rem;
+      width: max-content;
+      max-width: 18rem;
+      min-width: 16rem;
       padding: 0.8rem 2rem;
       margin: 0 auto;
       text-decoration: none;
       background-color: $main-pink;
       border-radius: 4rem;
+      text-align: center;
 }

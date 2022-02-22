@@ -2,7 +2,9 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import BackgroundContent from '../../components/BackgroundContent/BackgroundContent';
-import ButtonLink from '../../components/ButtonLink/ButtonLink'
+import ButtonLink from '../../components/ButtonLink/ButtonLink';
+
+import styles from './ErrorRedirectPage.module.scss';
 
 const ErrorRedirectPage = () => {
 
@@ -14,12 +16,16 @@ const ErrorRedirectPage = () => {
 
       let redirectButton = null;
       if (redirectFrom) {
-            redirectButton = (<ButtonLink link={redirectFrom}>Try again</ButtonLink>)
+            redirectButton = (
+                  <div className={styles['button-container']}>
+                        <ButtonLink link={redirectFrom}>Try again</ButtonLink>
+                  </div>
+            )
       }
 
       return (
             <BackgroundContent>
-                  {errorMessage ? errorMessage : null}
+                  {errorMessage ? (<h3>{errorMessage}</h3>) : null}
                   {redirectButton}
             </BackgroundContent>
       )

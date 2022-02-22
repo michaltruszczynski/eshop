@@ -10,10 +10,6 @@ export {
 } from './user';
 
 export {
-    authSignup,
-    authSignupStatusReset,
-    authSignin,
-    authSigninSuccess,
-    authSigninStatusReset,
-    authCheck
+    authCheck,
+    authSigninSuccess
 } from './auth';

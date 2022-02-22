@@ -5,52 +5,58 @@ import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 
 import useFetch from '../../hooks/useFetch';
 
-const UserListTable = () => {
-      const [state] = useFetch('/admin/products');
-      const { status, error } = state;
+const capitalize = word => {
+      const loweredCase = word.toLowerCase();
+      return loweredCase.charAt(0).toUpperCase() + loweredCase.slice(1)
+}
 
-      // const {sizeSystems: list} = sizeSystemList
-      // console.log(state);
+const UserListTable = () => {
+      const [state] = useFetch('/admin/users');
+      const { status, error } = state;
+      console.log(status)
 
       // tableData = [ {_id: 12345, colVal_1, colVal_2, colVal_3, ...}, {...}]
 
-      const productsTableColumnsHeadings = ['#', 'Name', 'Type',  'Brand', 'Category'];
+      const userTableColumnsHeadings = ['#', 'Name', 'Email', 'Role'];
 
-      const sizeSystemTableOptions = {
+      const userTableOptions = {
             type: 'link',
             linkName: 'View',
-            url: '/admin/editproduct/'
+            url: '/admin/edituser/'
       }
 
-      console.log('[ProductListTable], rendering', state)
+      console.log('[UserListTable], rendering', state)
 
-      const getProductsTableData = () => {
-            if (!state.data?.products) return [];
+      const getUserTableData = () => {
+            if (!state.data?.users) return [];
 
-            return state.data.products.map(product => {
+            return state.data.users.map(user => {
+                  const userRole = user.userRoles.map(role => {
+                        return capitalize(role.name);
+                  }).sort().join('')
+
                   return {
-                        _id: product._id,
-                        productName: product.productName,
-                        productType: product.productType,
-                        productBrand: product.productBrand,
-                        productCategory: product.productCategory
+                        _id: user._id,
+                        userName: user.name,
+                        userEmail: user.email,
+                        userRoles: userRole
                   }
             });
       }
 
-      const emptySizeSystemTableMessage = 'No products have been defined yet. '
+      const emptySizeSystemTableMessage = 'No users found. '
 
       return (
             <AsyncOpBgComponent status={status} error={error}>
                   <Table
-                        tableData={getProductsTableData()}
+                        tableData={getUserTableData()}
                         state={state}
-                        columnsHeading={productsTableColumnsHeadings}
-                        optionsColumn={sizeSystemTableOptions}
+                        columnsHeading={userTableColumnsHeadings}
+                        optionsColumn={userTableOptions}
                         breakOn="medium"
                         emptyTableDataMessage={emptySizeSystemTableMessage} />
             </AsyncOpBgComponent>
       )
 }
 
-export default ProductListTable
+export default UserListTable

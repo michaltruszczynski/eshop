@@ -1,7 +1,8 @@
 import React from 'react';
 
 import SectionTitle from '../../../components/UI/SectionTitle/SectionTitle';
-import UserListTable from '../../../components/UserListTable/ProductListTable';
+// import SectionTItle from '../../../components'
+import UserListTable from '../../../components/UserListTable/UserListTable';
 
 import styles from './UsersList.module.scss';
 

@@ -16,6 +16,8 @@ import EditBrand from './pages/AdminPages/EditBrand/EditBrand';
 import SizeSystemList from './pages/AdminPages/SizeSystemList/SizeSystemList';
 import EditSizeChartSystem from './pages/AdminPages/EditSizeChartSystem/EditSizeChartSystem';
 import BrandList from './pages/AdminPages/BrandList/BrandList';
+import UserList from './pages/AdminPages/UserList/UserList';
+import EditUser from './pages/AdminPages/EditUser/EditUser';
 
 import Signup from './pages/AuthPages/Signup/Signup';
 import Signin from './pages/AuthPages/Signin/Signin';
@@ -25,28 +27,26 @@ import ErrorRedirectPage from './pages/ErrorRedirectPage/ErrorRedirectPage';
 
 import AsyncOpBgComponent from './components/AsyncOpBgComponent/AsyncOpBgComponent';
 
+
 import './App.scss';
 
 const App = () => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
-  const { userId, loading, error } = auth;
+  const { userId, asyncOperation, error, userRoles } = auth;
+  // console.log(auth)
 
-  console.log(userId);
+  // console.log(userId);
 
   useLayoutEffect(() => {
     dispatch(authCheck())
   }, [dispatch]);
 
-  const getAsyncOpStatus = (loading, error) => {
-    if (loading) return 'loading';
-    else if (error) return 'error';
-    else return 'success';
-  }
-  const asyncOpStatus = getAsyncOpStatus(loading, error)
+
+  console.log('[App.js] asyncOpStatus', asyncOperation, error)
 
   return (
-    <AsyncOpBgComponent status={asyncOpStatus} error={null}>
+    <AsyncOpBgComponent status={asyncOperation} error={null}>
       <Layout>
         <Switch>
           <Route path="/shop" component={Products} />
@@ -54,18 +54,20 @@ const App = () => {
           <Route path="/cart" component={Cart} />
           <Route path="/signup" component={Signup} />
           <Route path="/signin" component={Signin} />
-          {userId ? <Route path="/admin/addproduct" component={EditProduct} /> : null}
+          <Route path="/admin/addproduct" component={EditProduct} />
           <Route path="/admin/editproduct/:id" component={EditProduct} />
           <Route path="/admin/products" component={ProductsList} />
           <Route path="/admin/addsizesystem" component={EditSizeChartSystem} />
           <Route path="/admin/editsizesystem/:id" component={EditSizeChartSystem} />
           {/* <Route path="/admin/sizesystems" component={SizeSystemList} /> */}
-          <ProtectedRoute path="/admin/sizesystems" isAuth={userId} roles={[]}>
+          <ProtectedRoute path="/admin/sizesystems" isAuth={userId} roles={[]} userRoles={userRoles}>
             <SizeSystemList />
           </ProtectedRoute>
           <Route path="/admin/addbrand" component={EditBrand} />
           <Route path="/admin/editbrand/:id" component={EditBrand} />
           <Route path="/admin/brands" component={BrandList} />
+          <Route path="/admin/users" component={UserList} />
+          <Route path="/admin/edituser/:id" component={EditUser} />
           <Route path="/servererror" component={ErrorRedirectPage} />
           {/* <Route path="/products" component={Products} /> */}
           <Route component={Shop} />

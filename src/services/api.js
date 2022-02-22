@@ -28,7 +28,13 @@ axiosInstance.interceptors.response.use(
 
       }, async (error) => {
             const originalConfig = error.config;
+
             if (originalConfig.url !== '/admin/signin' && error.response) {
+
+                  if (error.response.status === 401 && originalConfig.url === '/admin/newtoken') {
+                        return Promise.reject(error);
+                  }
+
                   if (error.response.status === 401 && !originalConfig.retry) {
                         originalConfig.retry = true;
                         try {
@@ -39,9 +45,7 @@ axiosInstance.interceptors.response.use(
                         }
                   }
 
-                  if (error.response.status === 403) {
-                        return Promise.reject(error);
-                  }
+                  return Promise.reject(error);
             }
             return Promise.reject(error);
       }

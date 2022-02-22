@@ -1,10 +1,6 @@
 import { useEffect, useReducer } from 'react';
-
 import { ErrorMessage } from '../utility/helpers';
-
 import { axiosInstance } from '../services/api';
-
-const URL_API = 'http://localhost:5000/api';
 
 const reducer = (state, action) => {
       switch (action.type) {
@@ -45,35 +41,21 @@ const useFetch = (url) => {
             const fetchData = async () => {
                   dispatch({ type: 'loading' })
                   try {
-                        // const response = await axios.get(`${URL_API}${url}`);
                         const response = await axiosInstance.get(`${url}`)
                         dispatch({ type: 'success', data: response.data });
                   } catch (error) {
                         const errorMsg = new ErrorMessage(error);
-
-                        // if (error.response) {
-                        //       console.log(error.response);
-                        //       dispatch({ type: 'error', error: error.response });
-                        // }
-                        // else if (error.request) {
-                        //       console.log(error.request);
-                        //       dispatch({ type: 'error', error: error.request });
-                        // }
-                        // else {
-                        //       dispatch({ type: 'error', error: error });
-                        // }
-
                         dispatch({ type: 'error', error: errorMsg })
-
                   }
             };
+
             if (url) {
                   fetchData();
             }
 
       }, [url]);
 
-      return [state]
+      return [state];
 }
 
 export default useFetch;

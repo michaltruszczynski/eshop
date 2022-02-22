@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import InputError from '../InpurtError/InputError';
+import Checkbox from '../Checkbox/Checkbox';
 
 import styles from './InputField.module.scss';
 
@@ -9,10 +10,11 @@ const InputField = ({ label,
       elementConfig,
       value,
       onInputChange,
-      onFocusChange = () => {},
+      onFocusChange = () => { },
       touched,
       isValid,
       disabled = false,
+      editable = true,
       errors }) => {
 
       const inputChangeHandler = (event) => {
@@ -37,6 +39,7 @@ const InputField = ({ label,
       let inputElement = null;
       switch (elementType) {
             case ('inputText'):
+                  console.log(disabled, editable);
                   inputElement = (
                         <input
                               value={value}
@@ -48,7 +51,7 @@ const InputField = ({ label,
                               onFocus={onFocusChange}
                               onBlur={onFocusChange}
                               className={inputFieldClasses('input')}
-                              disabled={disabled}
+                              disabled={editable ? disabled : true}
                         />
                   );
                   break;
@@ -63,7 +66,7 @@ const InputField = ({ label,
                               onChange={inputChangeHandler}
                               className={inputFieldClasses('input')}
                               min="0"
-                              disabled={disabled}
+                              disabled={editable ? disabled : false}
                         />
                   );
                   break;
@@ -77,7 +80,7 @@ const InputField = ({ label,
                               onChange={inputChangeHandler}
                               className={inputFieldClasses('textarea')}
                               maxLength="500"
-                              disabled={disabled}
+                              disabled={editable ? disabled : true}
                         />
                   );
                   break;
@@ -90,7 +93,7 @@ const InputField = ({ label,
                               onChange={inputChangeHandler}
                               // className={styles['field__select']}
                               className={inputFieldClasses('select')}
-                              disabled={disabled}
+                              disabled={editable ? disabled : true}
                         >
                               <option key={"empty"} value={""}>
                                     {elementConfig.placeholder}
@@ -116,12 +119,37 @@ const InputField = ({ label,
                                           onChange={inputChangeHandler}
                                           className={styles['field__radio']}
                                           checked={radio.system === value}
-                                          disabled={disabled}
+                                          disabled={editable ? disabled : true}
                                     />
                                     <span>{radio.displayValue}</span>
                               </label>
                         ))
                   );
+                  break;
+
+            case ('checkbox'):
+                  inputElement = <Checkbox
+                        elementConfig={elementConfig}
+                        editable={editable}
+                        disabled={disabled}
+                        value={value}
+                        onInputChange={onInputChange}
+                  />
+                  // inputElement = (
+                  //       elementConfig.options.map(checkbox => (
+                  //             <div>
+                  //                   <input
+                  //                         type="checkbox"
+                  //                         name={checkbox.name}
+                  //                         id={checkbox.name}
+                  //                         onChange={inputChangeHandler}
+                  //                         className={styles['field__radio']}
+                  //                         checked={checkbox.name === value}
+                  //                         disabled={editable ? disabled : true} />
+                  //                   <lable className={styles['field__name']}>{ }</lable>
+                  //             </div>
+                  //       ))
+                  // );
                   break;
             default:
                   inputElement = (
@@ -133,7 +161,7 @@ const InputField = ({ label,
                               placeholder={elementConfig.placeholder}
                               onChange={inputChangeHandler}
                               className={inputFieldClasses('input')}
-                              disabled={disabled}
+                              disabled={editable ? disabled : true}
                         />
                   );
       }
@@ -158,7 +186,7 @@ const InputField = ({ label,
                         {label}:
                   </label>)}
                   {inputElement}
-                  {errors ? <InputError touched={touched} isValid={isValid} errors={errors} />: null}
+                  {errors ? <InputError touched={touched} isValid={isValid} errors={errors} /> : null}
             </div>
       );
 }

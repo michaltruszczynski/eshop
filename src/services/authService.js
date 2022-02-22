@@ -44,6 +44,10 @@ const logout = () => {
 const newToken = async () => {
       try {
             const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+            // if (!refreshToken) {
+            //       const error 
+            //       return Promise.reject()
+            // }
             const response = await axiosInstance.post('/admin/newtoken', refreshToken);
             const { token: newToken, refreshToken: newRefreshToken } = response.data; 
             TokenService.updateAccessToken(newToken);

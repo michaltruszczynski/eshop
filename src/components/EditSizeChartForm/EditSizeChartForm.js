@@ -32,10 +32,6 @@ const EditSizeChartForm = () => {
       const { id } = useParams();
       const history = useHistory();
 
-      console.log('rendering')
-      // console.log(id);
-      // console.log(asyncCallStatus);
-
       useEffect(() => {
             if (!id) return setAsyncCallStatus(asyncOperation.SUCCESS);
             if (editing) return;
