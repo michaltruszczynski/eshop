@@ -1,6 +1,8 @@
+import { isArrayNotEmpty } from '../../../utility/validators';
+
 export const userRolesInputConfig = {
       userRoles: {
-            elementName: 'Role',
+            elementName: 'User role',
             elementType: 'checkbox',
             elementConfig: {
                   type: 'checkbox',
@@ -13,7 +15,9 @@ export const userRolesInputConfig = {
                         { name: 'admin', displayValue: 'Administrator' }
                   ],
                   placeholder: 'Select user roles.',
-                  validators: [],
+                  validators: [
+                        { check: isArrayNotEmpty, message: 'User must have at least one defined role.' }
+                  ],
                   addClassName: []
             }
       }

@@ -17,12 +17,10 @@ const initialState = {
       asyncOperation: asyncStatusType.IDLE
 }
 
-
-
 const authSigninStart = (state, action) => {
       return updateObject(state, {
-            asyncOperation: asyncStatusType.LOADING,
-            error: false
+            error: false,
+            asyncOperation: asyncStatusType.LOADING
       });
 }
 
@@ -30,8 +28,8 @@ const authSigninSuccess = (state, action) => {
       const { userId, token, userRoles } = action;
       return updateObject(state, {
             userId: userId,
-            token: token,
             userRoles: userRoles,
+            token: token,
             asyncOperation: asyncStatusType.SUCCESS
       });
 }

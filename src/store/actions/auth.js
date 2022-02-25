@@ -36,9 +36,7 @@ export const authCheck = () => {
                   dispatch(authSigninSuccess(token, userId, userRoles, null));
             } catch (error) {
                   const errorMsg = new ErrorMessage(error);
-                  console.log('Error from action: ', error)
                   dispatch(authSigninFail(errorMsg.getErrorObject()));
-                  // dispatch(logout());
             }
       }
 }

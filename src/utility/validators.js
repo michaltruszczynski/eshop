@@ -67,6 +67,15 @@ export const arrayLength = (config = { min: 5, max: 6 }) => value => {
       return value.length <= config.max && value.length >= config.min
 }
 
+export const isArrayNotEmpty = value => {
+      if (!value || value.length === 0) return false;
+      let isValid = true;
+      value.forEach(element => {
+            isValid = isValid && element.trim() !== ''
+      })
+      return isValid;
+}
+
 //Size chart validators
 
 export const sizeChartIsEmpty = value => {

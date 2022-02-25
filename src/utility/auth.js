@@ -14,6 +14,11 @@ class TokenService {
       updateRefreshToken(refreshToken) {
             localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
       }
+
+      removeTokens() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+      }
 }
 
 export default new TokenService();

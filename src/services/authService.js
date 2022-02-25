@@ -54,6 +54,7 @@ const newToken = async () => {
             TokenService.updateRefreshToken(newRefreshToken);
             return Promise.resolve(response);
       } catch (error) {
+            TokenService.removeTokens();
             return Promise.reject(error);
       }
 }

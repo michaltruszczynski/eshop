@@ -3,7 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import UserInfoInputs from './UserInfoInputs/UserInfoInputs';
 import UserRolesInput from './UserRolesInput/UserRolesInput';
-import AsyncOpBGComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
+import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
+import Button from '../Button/Button';
 
 import useForm from '../../hooks/useForm';
 
@@ -42,7 +43,7 @@ const EditUserForm = () => {
             const getUserDetails = async () => {
                   const getUserRoles = userRoles => {
                         if (!Array.isArray(userRoles)) return [];
-                        return userRoles.map(role => role)
+                        return userRoles.map(role => role.name)
                   }
 
                   setAsyncCallStatus(asyncOperation.LOADING);
@@ -54,9 +55,7 @@ const EditUserForm = () => {
                         setUserId(_id);
                         userInfoDataChangeHandler('name')(name);
                         userInfoDataChangeHandler('email')(email);
-
-                        const userRolesAttay = userRoles.map(role => role.name)
-                        userRolesDataChangeHandler('userRoles')(userRolesAttay);
+                        userRolesDataChangeHandler('userRoles')(getUserRoles(userRoles));
                         setAsyncCallStatus(asyncOperation.SUCCESS);
                   } catch (error) {
                         console.log(error.response);
@@ -66,25 +65,89 @@ const EditUserForm = () => {
 
             getUserDetails();
 
-      }, [id, editing])
+      }, [id, editing]);
+
+      const updateHandler = async (event) => {
+            event.preventDefault();
+            const updatedUser = {
+                  name: userInfoData.name.value,
+                  userRoles: userRolesData.userRoles.value
+            }
+            setAsyncCallStatus(asyncOperation.LOADING);
+            try {
+                  const respond = await adminService.putUser(userId, updatedUser);
+                  console.log(respond)
+                  setEditing(prevState => !prevState);
+                  setAsyncCallStatus(asyncOperation.SUCCESS);
+            }
+            catch (error) {
+                  console.log(error);
+                  setAsyncCallStatus(asyncOperation.ERROR);
+            }
+      }
+
+      const changeEditModeHandler = () => {
+            setEditing(prevState => !prevState)
+      }
+
+      const backToSizeSystemList = () => {
+            history.push('/admin/users');
+      }
+
+      const isFormDataValid = !(userInfoDataIsValid && userRolesDataIsValid);
 
 
       return (
-            // <AsyncOpBgComponent status={asyncCallStatus}>
-            <form className={styles['form']}>
-                  <UserInfoInputs
-                        userInfoData={userInfoData}
-                        userInfoDataChangeHandler={userInfoDataChangeHandler}
-                        disabled={!editing && !!id} />
-                  <UserRolesInput
-                        userRolesData={userRolesData}
-                        userRolesDataChangeHandler={userRolesDataChangeHandler}
-                        disabled={!editing && !!id} />
-                  <div className={styles['form__buttons']} >
-
-                  </div>
-            </form>
-            // </AsyncOpBgComponent>
+            <AsyncOpBgComponent status={asyncCallStatus}>
+                  <form className={styles['form']}>
+                        <UserInfoInputs
+                              userInfoData={userInfoData}
+                              userInfoDataChangeHandler={userInfoDataChangeHandler}
+                              disabled={!editing && !!id} />
+                        <UserRolesInput
+                              userRolesData={userRolesData}
+                              userRolesDataChangeHandler={userRolesDataChangeHandler}
+                              disabled={!editing && !!id} />
+                        <div className={styles['form__buttons']} >
+                              {(editing && userId) && (
+                                    <>
+                                          <Button
+                                                onClick={updateHandler}
+                                                buttonType="success"
+                                                buttonStyle="standard"
+                                                disabled={isFormDataValid} type="submit">
+                                                Update
+                                          </Button>
+                                          <Button
+                                                onClick={changeEditModeHandler}
+                                                buttonType="success"
+                                                buttonStyle="standard"
+                                                type="submit">
+                                                Cancel
+                                          </Button>
+                                    </>
+                              )}
+                              {(!editing && userId) && (
+                                    <>
+                                          <Button
+                                                onClick={changeEditModeHandler}
+                                                buttonType="success"
+                                                buttonStyle="standard"
+                                                type="submit">
+                                                Edit
+                                          </Button>
+                                          <Button
+                                                onClick={backToSizeSystemList}
+                                                buttonType="success"
+                                                buttonStyle="standard"
+                                                type="submit">
+                                                Back to list
+                                          </Button>
+                                    </>
+                              )}
+                        </div>
+                  </form>
+            </AsyncOpBgComponent>
       )
 }
 

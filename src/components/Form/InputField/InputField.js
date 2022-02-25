@@ -135,21 +135,6 @@ const InputField = ({ label,
                         value={value}
                         onInputChange={onInputChange}
                   />
-                  // inputElement = (
-                  //       elementConfig.options.map(checkbox => (
-                  //             <div>
-                  //                   <input
-                  //                         type="checkbox"
-                  //                         name={checkbox.name}
-                  //                         id={checkbox.name}
-                  //                         onChange={inputChangeHandler}
-                  //                         className={styles['field__radio']}
-                  //                         checked={checkbox.name === value}
-                  //                         disabled={editable ? disabled : true} />
-                  //                   <lable className={styles['field__name']}>{ }</lable>
-                  //             </div>
-                  //       ))
-                  // );
                   break;
             default:
                   inputElement = (
