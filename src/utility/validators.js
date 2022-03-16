@@ -1,4 +1,5 @@
 export const required = defineEmpty => value => {
+      console.log('required', value);
       if (defineEmpty) {
             return value.trim() !== defineEmpty;
       }

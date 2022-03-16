@@ -10,13 +10,13 @@ export const authSigninStart = () => {
       }
 }
 
-export const authSigninSuccess = (token, userId, userRoles, redirectPath) => {
+export const authSigninSuccess = (token, userId, userRole, redirectPath) => {
       return {
             type: actionTypes.AUTH_SIGNIN_SUCCESS,
             redirectPath: redirectPath,
             token: token,
             userId: userId,
-            userRoles: userRoles
+            userRole: userRole
       }
 }
 
@@ -32,8 +32,8 @@ export const authCheck = () => {
             dispatch(authSigninStart());
             try {
                   const response = await authService.checkUser();
-                  const { userId, token, userRoles } = response.data;
-                  dispatch(authSigninSuccess(token, userId, userRoles, null));
+                  const { userId, token, userRole } = response.data;
+                  dispatch(authSigninSuccess(token, userId, userRole, null));
             } catch (error) {
                   const errorMsg = new ErrorMessage(error);
                   dispatch(authSigninFail(errorMsg.getErrorObject()));

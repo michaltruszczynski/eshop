@@ -1,13 +1,12 @@
 import { axiosInstance } from './api';
 
-import TokenService from '../utility/auth';
+import { tokenService } from '../utility/auth';
 
 const signupUser = (data) => {
       return axiosInstance.post('/admin/signup', data);
 }
 
 const signinUser = async (data) => {
-
       try {
             const response = await axiosInstance.post('/admin/signin', data);
             const { userId, token, refreshToken } = response.data;
@@ -49,12 +48,12 @@ const newToken = async () => {
             //       return Promise.reject()
             // }
             const response = await axiosInstance.post('/admin/newtoken', refreshToken);
-            const { token: newToken, refreshToken: newRefreshToken } = response.data; 
-            TokenService.updateAccessToken(newToken);
-            TokenService.updateRefreshToken(newRefreshToken);
+            const { token: newToken, refreshToken: newRefreshToken } = response.data;
+            tokenService.updateAccessToken(newToken);
+            tokenService.updateRefreshToken(newRefreshToken);
             return Promise.resolve(response);
       } catch (error) {
-            TokenService.removeTokens();
+            tokenService.removeTokens();
             return Promise.reject(error);
       }
 }

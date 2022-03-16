@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import TokenService from '../utility/auth';
+import { tokenService } from '../utility/auth';
 import { authService } from '../services/authService';
 
 export const axiosInstance = axios.create({
@@ -10,8 +10,8 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
       (config) => {
-            const token = TokenService.getAccessToken();
-            const refreshToken = TokenService.getRefreshToken();
+            const token = tokenService.getAccessToken();
+            const refreshToken = tokenService.getRefreshToken();
             if (token && refreshToken) {
                   config.headers["x-access-token"] = token;
             }

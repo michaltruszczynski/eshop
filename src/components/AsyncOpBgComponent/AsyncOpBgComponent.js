@@ -4,7 +4,7 @@ import ErrorInformation from './ErrorInformation/ErrorInformation';
 import BackgroundContent from '../BackgroundContent/BackgroundContent';
 import Logo from '../Logo/Logo';
 
-const AsyncOpBgComponent = ({ status, error, children }) => {
+const AsyncOpBgComponent = ({ status, error, children, showErrorMessage }) => {
       console.log('AsyncOpBgComponent', 'status: ', status, error);
       switch (status) {
             case 'idle':
@@ -22,7 +22,7 @@ const AsyncOpBgComponent = ({ status, error, children }) => {
                         </BackgroundContent>
                   );
             case 'error':
-                  return <ErrorInformation error={error} children={children} />
+                  return <ErrorInformation error={error} children={children} showErrorMessage={showErrorMessage} />
             default:
                   return (
                         <BackgroundContent>

@@ -47,6 +47,7 @@ const EditProductForm = () => {
       const [editing, setEditing] = useState(false);
       const { id } = useParams();
       const history = useHistory();
+
       console.log('Edit product ID', id)
       useEffect(() => {
             if (!id) return setAsyncCallStatus(asyncOperation.SUCCESS);

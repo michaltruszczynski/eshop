@@ -66,11 +66,11 @@ const SigninForm = () => {
                   setLoading(asyncOperation.LOADING);
                   const response = await authService.signinUser(userCredentials);
                   console.log(response.data);
-                  const { userId, token, userRoles } = response.data;
+                  const { userId, token, userRole } = response.data;
                   resetInputFields();
                   setLoading(asyncOperation.SUCCESS);
                   showSuccessSigninMessage();
-                  dispatch(authSigninSuccess(token, userId, userRoles, null));
+                  dispatch(authSigninSuccess(token, userId, userRole, null));
             } catch (error) {
                   console.log(error.response, error.request)
                   const errorMsg = new ErrorMessage(error);

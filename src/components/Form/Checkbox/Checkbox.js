@@ -7,13 +7,13 @@ const Checkbox = ({ elementConfig, editable, disabled, value, onInputChange }) =
       const inputChangeHandler = (event) => {
             const isChecked = event.target.checked;
             if (isChecked) {
-                  const newUserRoles = [...value, event.target.value];
-                  onInputChange(newUserRoles);
+                  const newUserRole = [...value, event.target.value];
+                  onInputChange(newUserRole);
             } else {
                   const index = value.indexOf(event.target.value);
                   value.splice(index, 1)
-                  const newUserRoles = [...value];
-                  onInputChange(newUserRoles);
+                  const newUserRole = [...value];
+                  onInputChange(newUserRole);
             }
       }
 

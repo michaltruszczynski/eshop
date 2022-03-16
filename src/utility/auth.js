@@ -21,4 +21,12 @@ class TokenService {
       }
 }
 
-export default new TokenService();
+class LocalStorageService {
+      setUserId(userId) {
+            localStorage.set('userId'.userId)
+      }
+
+}
+
+export const tokenService = new TokenService();
+export const localStorageService = new LocalStorageService()

@@ -1,23 +1,19 @@
 import React from 'react';
-
+import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom'
 
-const ProtectedRoute = ({ children, path, isAuth = false, roles = [], userRoles = [] }) => {
+const ProtectedRoute = ({ children, path, onlyAuth = true, allowedRoles = [] }) => {
+      const authState = useSelector(state => state.auth);
+      const { userId, userRole } = authState;
 
-      console.log(roles)
-      console.log(isAuth)
-      console.log(userRoles)
+      const isAuthorised = () => {
+            if (!onlyAuth) return true;
 
-      const isUserAuthorized = (allowedRoles) => {
-            return allowedRoles.reduce((userIsAuthorized, role) => {
-                  return userIsAuthorized || userRoles.includes(role)
-            }, false);
+            return !!userId && allowedRoles.includes(userRole)
       }
 
-      console.log(isUserAuthorized(roles))
-
       return (
-            isAuth && isUserAuthorized(roles) ?
+            isAuthorised() ?
                   <Route path={path}>
                         {children}
                   </Route>

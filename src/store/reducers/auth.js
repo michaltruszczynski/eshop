@@ -11,7 +11,7 @@ const asyncStatusType = {
 
 const initialState = {
       userId: null,
-      uerRoles: null,
+      userRole: null,
       token: null,
       error: false,
       asyncOperation: asyncStatusType.IDLE
@@ -25,21 +25,22 @@ const authSigninStart = (state, action) => {
 }
 
 const authSigninSuccess = (state, action) => {
-      const { userId, token, userRoles } = action;
+      const { userId, token, userRole } = action;
       return updateObject(state, {
             userId: userId,
-            userRoles: userRoles,
+            userRole: userRole,
             token: token,
             asyncOperation: asyncStatusType.SUCCESS
       });
 }
 
 const authSigninFail = (state, action) => {
+      const { error } = action;
       return updateObject(state, {
             userId: null,
-            uerRoles: null,
+            userRole: null,
             token: null,
-            error: action.error,
+            error: error,
             asyncOperation: asyncStatusType.SUCCESS
       });
 }

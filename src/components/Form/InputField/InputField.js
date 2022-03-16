@@ -110,15 +110,15 @@ const InputField = ({ label,
             case ('radio'):
                   inputElement = (
                         elementConfig.options.map(radio => (
-                              <label key={radio.system} className={styles['field__name']}>
+                              <label key={radio.name} className={styles['field__name']}>
                                     <input
                                           type="radio"
-                                          value={radio.system}
+                                          value={radio.name}
                                           name={elementConfig.name}
                                           id={elementConfig.id}
                                           onChange={inputChangeHandler}
                                           className={styles['field__radio']}
-                                          checked={radio.system === value}
+                                          checked={radio.name === value}
                                           disabled={editable ? disabled : true}
                                     />
                                     <span>{radio.displayValue}</span>

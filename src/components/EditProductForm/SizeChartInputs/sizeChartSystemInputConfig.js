@@ -10,8 +10,8 @@ export const sizeChartSystemInputConfig = {
                   defaultValue: 'predefined',
                   placeholder: 'Select chart system.',
                   options: [
-                        { system: "predefined", displayValue: "Predefined size chart (i.e. defined for product type)." },
-                        { system: "custom", displayValue: "Custom numeric size chart (e.g. 12m, 123x123)." }
+                        { name: "predefined", displayValue: "Predefined size chart (i.e. defined for product type)." },
+                        { name: "custom", displayValue: "Custom numeric size chart (e.g. 12m, 123x123)." }
                   ],
                   validators: [{
                         check: required('empty'), message: 'Please define product size chart.'

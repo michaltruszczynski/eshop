@@ -1,4 +1,4 @@
-@import '../../../abstracts/index';
+@import "../../../abstracts/index";
 
 .navigation {
       padding: 1.6rem 0;
@@ -8,6 +8,9 @@
       left: 0;
       z-index: 100;
       width: 100%;
+      color: $main-dark-blue;
+
+      $this: &;
 
       &__container {
             max-width: 120rem;
@@ -18,62 +21,51 @@
             justify-content: space-between;
       }
 
-      &__items {
+      &__left {
+            display: flex;
+            align-items: center;
+      }
+
+      &__right {
             display: flex;
             align-items: center;
             justify-content: flex-end;
+            color: $main-dark-blue;
+      }
 
-            .user-icon {
-                  color: inherit;
-                  font-size: 3rem;
-                  padding: 0.8rem 1rem;
-                  transition: all 300ms ease-in-out;
+      &__link {
+            color: $main-dark-blue;
+      }
+
+      &--fixed {
+            position: fixed;
+            background-color: $main-dark-blue;
+            box-shadow: 0 5px 15px $boxShadowColor;
+
+            #{$this}__right {
+                  color: $main-white;
+            }
+            color: $main-white;
+
+            #{$this}__link {
+                  color: $main-white;
             }
 
-            .cart-icon {
-                  color: inherit;
-                  font-size: 3rem;
-                  padding: 0.8rem 1rem;
-                  transition: all 300ms ease-in-out;
-            }
-
-            .hamburger-icon {
-                  color: inherit;
-                  display: none;
-            }
       }
 }
 
-.navigation--fixed {
-      position: fixed;
-      background-color: $main-dark-blue;
-      box-shadow: 0 5px 15px $boxShadowColor;
-      color: $main-white;;
-}
-
-@media only screen and (max-width: $mediaMDevices) {
-      .navigation__items {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 50%;
-            flex-grow: 1;
-
-            .user-icon {
-                  display: block;
-                  font-size: 3rem;
+@media only screen and (max-width: $mediaLDevices) {
+      .navigation {
+            &__container {
+                  padding: 0 1rem;
             }
 
-            .cart-icon {
-                  display: block;
-                  font-size: 3rem;
-            }
-
-            .hamburger-icon {
-                  display: block;
-                  font-size: 3rem;
-                  padding: 0.5rem;
-                  cursor: pointer;
+            &__right {
+                  display: flex;
+                  align-items: center;
+                  justify-content: flex-end;
+                  max-width: 50%;
+                  flex-grow: 1;
             }
       }
 }

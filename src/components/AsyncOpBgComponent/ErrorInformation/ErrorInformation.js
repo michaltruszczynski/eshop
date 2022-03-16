@@ -11,11 +11,12 @@ const ErrorInformation = ({ error, children, showErrorMessage = false }) => {
       const { pathname } = location
 
       useEffect(() => {
-            console.log('[ErrorInformation]', error)
+
             if (!showErrorMessage || !error) return;
 
             const { status: errorStatusCode } = error.getErrorObject();
-            if (errorStatusCode === 401 || errorStatusCode === 403) {
+
+            if (errorStatusCode === 401 || errorStatusCode === 403 || errorStatusCode === 422) {
                   const { errorMessage, errorDetailsArray } = error.getErrorMessageData();
                   dispatch(setMessage(errorMessage, errorDetailsArray));
             }

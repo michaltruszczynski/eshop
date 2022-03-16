@@ -6,6 +6,7 @@ import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 import useFetch from '../../hooks/useFetch';
 
 const capitalize = word => {
+      if (!word) return '';
       const loweredCase = word.toLowerCase();
       return loweredCase.charAt(0).toUpperCase() + loweredCase.slice(1)
 }
@@ -31,15 +32,11 @@ const UserListTable = () => {
             if (!state.data?.users) return [];
 
             return state.data.users.map(user => {
-                  const userRole = user.userRoles.map(role => {
-                        return capitalize(role.name);
-                  }).sort().join('')
-
                   return {
                         _id: user._id,
                         userName: user.name,
                         userEmail: user.email,
-                        userRoles: userRole
+                        userRole: capitalize(user.userRole.name)
                   }
             });
       }

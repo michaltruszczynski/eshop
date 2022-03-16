@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import UserInfoInputs from './UserInfoInputs/UserInfoInputs';
-import UserRolesInput from './UserRolesInput/UserRolesInput';
+import UserRoleInput from './UserRoleInput/UserRoleInput';
 import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 import Button from '../Button/Button';
 
 import useForm from '../../hooks/useForm';
 
 import { userInfoInputConfig } from './UserInfoInputs/userInfoInputsConfig';
-import { userRolesInputConfig } from './UserRolesInput/userRolesInputConfig';
+import { userRoleInputConfig } from './UserRoleInput/userRoleInputConfig';
 
 import { adminService } from '../../services/adminService';
+import { ErrorMessage } from '../../utility/helpers';
 
 import styles from './EditUserForm.module.scss';
 
@@ -24,41 +26,34 @@ const asyncOperation = {
 
 const EditUserForm = () => {
       const [userInfoData, userInfoDataIsValid, userInfoDataChangeHandler] = useForm(userInfoInputConfig);
-      const [userRolesData, userRolesDataIsValid, userRolesDataChangeHandler] = useForm(userRolesInputConfig);
-
+      const [userRoleData, userRoleDataIsValid, userRoleDataChangeHandler] = useForm(userRoleInputConfig);
+      const [error, setError] = useState(null);
       const [asyncCallStatus, setAsyncCallStatus] = useState(asyncOperation.IDLE);
       const [userId, setUserId] = useState(null);
       const [editing, setEditing] = useState(false);
       const { id } = useParams();
       const history = useHistory();
 
-      console.log(id)
-
-      console.log(userRolesData)
+      const authState = useSelector(state => state.auth);
 
       useEffect(() => {
             if (!id) return setAsyncCallStatus(asyncOperation.SUCCESS);
             if (editing) return;
 
             const getUserDetails = async () => {
-                  const getUserRoles = userRoles => {
-                        if (!Array.isArray(userRoles)) return [];
-                        return userRoles.map(role => role.name)
-                  }
-
                   setAsyncCallStatus(asyncOperation.LOADING);
                   try {
                         const response = await adminService.getUser(id)
                         const { user } = response.data;
-                        console.log(user);
-                        const { _id, email, name, userRoles } = user;
+                        const { _id, email, name, userRole } = user;
                         setUserId(_id);
                         userInfoDataChangeHandler('name')(name);
                         userInfoDataChangeHandler('email')(email);
-                        userRolesDataChangeHandler('userRoles')(getUserRoles(userRoles));
+                        userRoleDataChangeHandler('userRole')(userRole.name);
                         setAsyncCallStatus(asyncOperation.SUCCESS);
                   } catch (error) {
-                        console.log(error.response);
+                        const errorMsg = new ErrorMessage(error);
+                        setError(errorMsg);
                         setAsyncCallStatus(asyncOperation.ERROR);
                   }
             }
@@ -69,19 +64,28 @@ const EditUserForm = () => {
 
       const updateHandler = async (event) => {
             event.preventDefault();
+
             const updatedUser = {
                   name: userInfoData.name.value,
-                  userRoles: userRolesData.userRoles.value
+                  userRole: userRoleData.userRole.value
             }
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
-                  const respond = await adminService.putUser(userId, updatedUser);
-                  console.log(respond)
+                  const response = await adminService.putUser(userId, updatedUser);
                   setEditing(prevState => !prevState);
                   setAsyncCallStatus(asyncOperation.SUCCESS);
             }
             catch (error) {
-                  console.log(error);
+                  const errorMsg = new ErrorMessage(error);
+                  const errorFormFieldsName = errorMsg.getErrorFormFieldsName();
+                        if (errorFormFieldsName.length) {
+                              errorFormFieldsName.forEach(fieldName => {
+                                    if (fieldName === 'name') {
+                                          userInfoDataChangeHandler('name')('', true);
+                                    }
+                              });
+                        }
+                  setError(errorMsg);
                   setAsyncCallStatus(asyncOperation.ERROR);
             }
       }
@@ -94,19 +98,19 @@ const EditUserForm = () => {
             history.push('/admin/users');
       }
 
-      const isFormDataValid = !(userInfoDataIsValid && userRolesDataIsValid);
+      const isFormDataValid = !(userInfoDataIsValid && userRoleDataIsValid);
 
 
       return (
-            <AsyncOpBgComponent status={asyncCallStatus}>
+            <AsyncOpBgComponent status={asyncCallStatus} error={error} showErrorMessage={true}>
                   <form className={styles['form']}>
                         <UserInfoInputs
                               userInfoData={userInfoData}
                               userInfoDataChangeHandler={userInfoDataChangeHandler}
                               disabled={!editing && !!id} />
-                        <UserRolesInput
-                              userRolesData={userRolesData}
-                              userRolesDataChangeHandler={userRolesDataChangeHandler}
+                        <UserRoleInput
+                              userRoleData={userRoleData}
+                              userRoleDataChangeHandler={userRoleDataChangeHandler}
                               disabled={!editing && !!id} />
                         <div className={styles['form__buttons']} >
                               {(editing && userId) && (
@@ -127,23 +131,23 @@ const EditUserForm = () => {
                                           </Button>
                                     </>
                               )}
+                              {((!editing && userId) && (userId !== authState.userId)) && (
+                                    <Button
+                                          onClick={changeEditModeHandler}
+                                          buttonType="success"
+                                          buttonStyle="standard"
+                                          type="submit">
+                                          Edit
+                                    </Button>
+                              )}
                               {(!editing && userId) && (
-                                    <>
-                                          <Button
-                                                onClick={changeEditModeHandler}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                type="submit">
-                                                Edit
-                                          </Button>
-                                          <Button
-                                                onClick={backToSizeSystemList}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                type="submit">
-                                                Back to list
-                                          </Button>
-                                    </>
+                                    <Button
+                                          onClick={backToSizeSystemList}
+                                          buttonType="success"
+                                          buttonStyle="standard"
+                                          type="submit">
+                                          Back to list
+                                    </Button>
                               )}
                         </div>
                   </form>
