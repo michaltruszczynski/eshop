@@ -4,25 +4,20 @@ import DynamicDropDown from '../../../Form/DynamicDropDown/DynamicDropDown';
 import SizeInput from '../../../Form/CustomSizeChart/SizeInput/SizeInput';
 import Button from '../../../Button/Button';
 
-import useForm from '../../../../hooks/useForm';
-
 import styles from './DefinedSizeChart.module.scss';
 
-import { definedSizeChartInputConfig } from './definedSizeChartInputConfig';
+import { definedSizeChartInputConfigId } from './definedSizeChartInputConfig';
 
 import useFetch from '../../../../hooks/useFetch';
 
-const DefinedSizeChartMenu = ({ sizeChart, changeSizeChart, changeSizeSystem, disabled }) => {
-
-      const [definedSizeChartId, definedSizeChartIdIsValid, setDefinedSizeChartId] = useForm(definedSizeChartInputConfig);
-
+const DefinedSizeChartMenu = ({ sizeChart, changeSizeChart, changeSizeSystem, sizeSystemIdData, changeSizeSystemId, disabled }) => {
       const [fetchState] = useFetch('/admin/sizesystems')
 
       const { status } = fetchState;
-      const { definedSizeChart } = definedSizeChartId;
+      const { sizeSystemId: { isValid: sizeSystemIdIsValid } } = sizeSystemIdData;
 
       const getOptionsArray = () => {
-            if (!fetchState.data?.sizeSystems ) return [];
+            if (!fetchState.data?.sizeSystems) return [];
             return fetchState.data.sizeSystems.map(sizeChart => {
                   return {
                         key: sizeChart._id,
@@ -41,26 +36,27 @@ const DefinedSizeChartMenu = ({ sizeChart, changeSizeChart, changeSizeSystem, di
                         }
                   });
             }
-            setDefinedSizeChartId('definedSizeChart')(id)
+            changeSizeSystemId(id);
             changeSizeChart(newSizeChart, true);
       }
 
       const editDefinedSizeSystem = () => {
             changeSizeSystem('custom');
+            changeSizeSystemId('');
       }
 
       const renderDefinedSizeChartDropDown = () => {
-            return Object.values(definedSizeChartInputConfig).map(formElement => (
+            return Object.values(definedSizeChartInputConfigId).map(formElement => (
                   <DynamicDropDown
                         key={formElement.elementName}
                         label={formElement.elementName}
                         elementType={formElement.elementType}
                         elementConfig={formElement.elementConfig}
-                        value={definedSizeChartId[formElement.elementConfig.name].value}
+                        value={sizeSystemIdData[formElement.elementConfig.name].value}
                         options={getOptionsArray()}
-                        touched={definedSizeChartId[formElement.elementConfig.name].touched}
-                        isValid={definedSizeChartId[formElement.elementConfig.name].isValid}
-                        errors={definedSizeChartId[formElement.elementConfig.name].errors}
+                        touched={sizeSystemIdData[formElement.elementConfig.name].touched}
+                        isValid={sizeSystemIdData[formElement.elementConfig.name].isValid}
+                        errors={sizeSystemIdData[formElement.elementConfig.name].errors}
                         fetchStatus={status}
                         disabled={disabled}
                         onInputChange={handleDefinedSizeChartChange}
@@ -70,7 +66,7 @@ const DefinedSizeChartMenu = ({ sizeChart, changeSizeChart, changeSizeSystem, di
 
       let sizeChartList = null
 
-      if (definedSizeChart.value !== 'empty' && definedSizeChart.value !== '') {
+      if (sizeSystemIdIsValid) {
             sizeChartList = sizeChart.value.map((sizeInput, index) => (
                   <li key={`sizeInput${index}`}>
                         <SizeInput
@@ -78,6 +74,7 @@ const DefinedSizeChartMenu = ({ sizeChart, changeSizeChart, changeSizeSystem, di
                               name={`sizeInput${index}`}
                               id={`sizeInput${index}`}
                               label={'Size description (dimensions)'}
+                              disabled={disabled}
                               editable={false}
                               value={sizeInput.sizeDescription}
                         />
@@ -91,7 +88,7 @@ const DefinedSizeChartMenu = ({ sizeChart, changeSizeChart, changeSizeSystem, di
                   <ul className={styles['input-list']}>
                         {sizeChartList}
                   </ul>
-                  {definedSizeChartIdIsValid ? (
+                  {(sizeSystemIdIsValid && !disabled) ? (
                         <div className={styles['container']}>
                               <p className={styles['instruction']}>You can customize defined sie chart.</p>
                               <Button
@@ -103,7 +100,7 @@ const DefinedSizeChartMenu = ({ sizeChart, changeSizeChart, changeSizeSystem, di
                                     Edit
                               </Button>
                         </div>
-                  ) : null
+                  ) : <div className={styles['divider']}></div>
                   }
             </div >
       )

@@ -1,12 +1,16 @@
 import axios from 'axios';
+import { store } from '../store/store'
 
 import { tokenService } from '../utility/auth';
 import { authService } from '../services/authService';
 
+import { logout } from '../store/actions'
+
+const { dispatch } = store
+
 export const axiosInstance = axios.create({
       baseURL: 'http://localhost:5000/api'
 });
-
 
 axiosInstance.interceptors.request.use(
       (config) => {
@@ -27,15 +31,19 @@ axiosInstance.interceptors.response.use(
             return response;
 
       }, async (error) => {
+            const originalError = error;
             const originalConfig = error.config;
-
+console.log('testing', error.response)
             if (originalConfig.url !== '/admin/signin' && error.response) {
-
+                  console.log('testing2')
                   if (error.response.status === 401 && originalConfig.url === '/admin/newtoken') {
-                        return Promise.reject(error);
+                        console.log('Check 1')
+                        dispatch(logout())
+                        return Promise.reject(originalError);
                   }
 
                   if (error.response.status === 401 && !originalConfig.retry) {
+                        console.log('Check 2')
                         originalConfig.retry = true;
                         try {
                               const response = await authService.newToken();

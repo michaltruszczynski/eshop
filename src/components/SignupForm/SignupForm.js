@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, NavLink } from 'react-router-dom';
 
 import SignupInputs from './SignupInputs/SignupInputs';
 import PasswordInput from './PasswordInput/PasswordInput';
@@ -162,6 +162,7 @@ const SignupForm = () => {
                         >
                               Submit
                         </Button>
+                        <p className={styles['form__info']}>Already have an account? <NavLink to="/signin" >Sign in</NavLink>.</p>
                   </form>
             </AsyncOpBgComponent>
       )

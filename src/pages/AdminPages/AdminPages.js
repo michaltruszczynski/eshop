@@ -17,7 +17,6 @@ const AdminPages = () => {
 
       return (
             <Switch>
-
                   <ProtectedRoute path={`${path}/addproduct`} allowedRoles={['employee', 'admin']} onlyAuth={true} >
                         <EditProduct />
                   </ProtectedRoute>

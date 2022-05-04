@@ -14,7 +14,6 @@ const Cart = () => {
                         </div>
                         {/* <div className={styles['links-container']}>
                               <p>Continiue shoppping</p>
-                              <p>Your wishlist</p>
                               <p>Checkout</p>
                         </div> */}
                         <CartData />

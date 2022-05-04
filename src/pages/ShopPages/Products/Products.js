@@ -12,7 +12,6 @@ import { productSortInputConfig } from '../../../components/ProductOffer/FilterP
 import styles from './Products.module.scss';
 
 const Products = () => {
-
       const [inputCategoryData, , inputTypeChangeHandler] = useForm(producCategoryInputConfig);
       const [inputBrandData, , inputBrandChangeHandler] = useForm(productBrandInputConfig);
       const [inputSortData, , inputSortChangeHandler] = useForm(productSortInputConfig);

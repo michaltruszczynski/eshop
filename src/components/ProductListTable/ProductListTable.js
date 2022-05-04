@@ -6,7 +6,7 @@ import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 import useFetch from '../../hooks/useFetch';
 
 const ProductListTable = () => {
-      const [state] = useFetch('/admin/products');
+      const [state] = useFetch('/admin/allproducts');
       const { status, error } = state;
 
       // const {sizeSystems: list} = sizeSystemList
@@ -44,7 +44,7 @@ const ProductListTable = () => {
             <AsyncOpBgComponent status={status} error={error}>
                   <Table
                         tableData={getProductsTableData()}
-                        state={state}
+                        // state={state}
                         columnsHeading={productsTableColumnsHeadings}
                         optionsColumn={sizeSystemTableOptions}
                         breakOn="medium"

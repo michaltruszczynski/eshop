@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import styles from './CartIcon.module.scss';
 
 const CartIcon = () => {
-      const productsNumber = useSelector(state => state.user.cartProductNumber);
+      const productsNumber = useSelector(state => state.cart.cartProductNumber);
 
       return (
             <div className={styles['cart-icon']}>

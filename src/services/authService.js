@@ -47,12 +47,14 @@ const newToken = async () => {
             //       const error 
             //       return Promise.reject()
             // }
-            const response = await axiosInstance.post('/admin/newtoken', refreshToken);
+            console.log('[authService] refresh token: ', refreshToken )
+            const response = await axiosInstance.post('/admin/newtoken', {refreshToken});
             const { token: newToken, refreshToken: newRefreshToken } = response.data;
             tokenService.updateAccessToken(newToken);
             tokenService.updateRefreshToken(newRefreshToken);
             return Promise.resolve(response);
       } catch (error) {
+            console.log('removing tokens')
             tokenService.removeTokens();
             return Promise.reject(error);
       }

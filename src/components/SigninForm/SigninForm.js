@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 
 import EmailInput from './EmailInput/EmailInput';
 import PasswordInput from './PasswordInput/PasswordInput';
@@ -12,7 +12,7 @@ import useForm from '../../hooks/useForm';
 import { emailInputConfig } from './EmailInput/emailInputConfig';
 import { passwordInputConfig } from './PasswordInput/passwordInputConfig';
 
-import { authSigninSuccess, setMessage } from '../../store/actions';
+import { authSigninSuccess, setMessage, setRedirectPath } from '../../store/actions';
 
 import { authService } from '../../services/authService';
 import { Message, ErrorMessage } from '../../utility/helpers';
@@ -33,25 +33,37 @@ const SigninForm = () => {
       const history = useHistory();
       const [emailData, emailIsValid, emailDataChangeHandler] = useForm(emailInputConfig);
       const [passwordData, passwordIsValid, passwordChangeHandler] = useForm(passwordInputConfig);
-
+      
       const authState = useSelector(state => state.auth);
-      const { userId } = authState;
+      const { userId, redirectPath } = authState;
 
       useEffect(() => {
-            if (userId) {
-                  history.push('/shop');
+            if (!userId) { return; }
+
+            if (!redirectPath) {
+                  return history.push('/shop');
             }
 
-      }, [userId, history])
+            history.push(redirectPath);
+
+      }, [userId, redirectPath, history, dispatch])
+
+      useEffect(() => {
+            return () => {
+                  dispatch(setRedirectPath(null))
+            }
+      }, [dispatch])
 
       const resetInputFields = () => {
             emailDataChangeHandler('email')('', false);
             passwordChangeHandler('password')('', false);
       }
 
-      const showSuccessSigninMessage = () => {
+      const showSuccessSigninMessage = (userRole) => {
             const signinMessage = new Message('You are logged in.');
-            signinMessage.addMessageDetails('Enjoy shopping.');
+            if (userRole === 'client') {
+                  signinMessage.addMessageDetails('Enjoy shopping.');
+            }
             const { message, messageDetailsArray } = signinMessage.getMessageData();
             dispatch(setMessage(message, messageDetailsArray));
       }
@@ -66,11 +78,11 @@ const SigninForm = () => {
                   setLoading(asyncOperation.LOADING);
                   const response = await authService.signinUser(userCredentials);
                   console.log(response.data);
-                  const { userId, token, userRole } = response.data;
+                  const { userId, token, userRole, userName, orders } = response.data;
                   resetInputFields();
                   setLoading(asyncOperation.SUCCESS);
-                  showSuccessSigninMessage();
-                  dispatch(authSigninSuccess(token, userId, userRole, null));
+                  if (!redirectPath) showSuccessSigninMessage(userRole);
+                  dispatch(authSigninSuccess(token, userId, userRole, userName, orders));
             } catch (error) {
                   console.log(error.response, error.request)
                   const errorMsg = new ErrorMessage(error);
@@ -95,7 +107,7 @@ const SigninForm = () => {
       const isFormDataValid = passwordIsValid && emailIsValid;
 
       return (
-            <AsyncOpBgComponent status={loading} error={error}>
+            <AsyncOpBgComponent status={loading} error={error} showErrorMessage={true}>
                   <form className={styles['form']}>
                         <EmailInput
                               emailData={emailData}
@@ -114,7 +126,10 @@ const SigninForm = () => {
                         >
                               Submit
                         </Button>
+                        <p className={styles['form__info']}>If you don't have an account <NavLink to="/signup" >Sign up</NavLink>.</p>
+
                   </form>
+
             </AsyncOpBgComponent>
       )
 }

@@ -3,9 +3,23 @@ import { NavLink } from 'react-router-dom';
 
 import styles from './ButtonLink.module.scss';
 
-const ButtonLink = ({ link, children }) => {
+const ButtonLink = ({ linkPath, children, buttonStyle = 'square' }) => {
+
+      let buttonLinkClassName = [styles['button-link']]
+
+      switch (buttonStyle) {
+            case 'square':
+                  buttonLinkClassName.push(styles['button-link__square'])
+                  break;
+            case 'round':
+                  buttonLinkClassName.push(styles['button-link__round'])
+                  break;
+            default:
+                  break;
+      }
+
       return (
-            <NavLink to={link} className={styles['button-link']}>
+            <NavLink to={linkPath} className={buttonLinkClassName.join(' ')}>
                   {children}
             </NavLink>
       )

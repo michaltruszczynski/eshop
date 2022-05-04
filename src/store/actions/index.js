@@ -6,12 +6,16 @@ export {
 export {
     addToCart,
     removeFormCart,
-    deleteFromCart
-} from './user';
+    deleteFromCart,
+    resetCart,
+    startPaymentProcess,
+    endPaymentProcess
+} from './cart';
 
 export {
     authCheck,
     authSigninSuccess,
     authSigninFail,
-    logout
+    logout,
+    setRedirectPath
 } from './auth';

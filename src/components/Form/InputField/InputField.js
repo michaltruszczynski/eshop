@@ -58,15 +58,18 @@ const InputField = ({ label,
             case ('inputNumber'):
                   inputElement = (
                         <input
-                              value={value}
+                              value={(value > 0 || (!isValid && touched)) ? value : ''}
                               type={elementConfig.type}
                               name={elementConfig.name}
                               id={elementConfig.id}
                               placeholder={elementConfig.placeholder}
                               onChange={inputChangeHandler}
-                              className={inputFieldClasses('input')}
+                              onFocus={onFocusChange}
+                              onBlur={onFocusChange}
+                              className={inputFieldClasses('number')}
                               min="0"
                               disabled={editable ? disabled : false}
+                              onWheel={(e) => e.target.blur()}
                         />
                   );
                   break;
@@ -135,6 +138,9 @@ const InputField = ({ label,
                         value={value}
                         onInputChange={onInputChange}
                   />
+                  break;
+            case ('none'):
+                  inputElement = null;
                   break;
             default:
                   inputElement = (

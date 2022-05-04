@@ -4,6 +4,11 @@
       border-radius: 5px;
       position: relative;
 
+      &__sticky {
+            position: sticky;
+            top: 12rem;
+      }
+
       &__item {
             padding: 1rem 0;
             display: flex;
@@ -19,9 +24,4 @@
                   font-size: 1.8rem;
             }
       }
-}
-
-.testing {
-      position: sticky;
-      top: 12rem;
 }

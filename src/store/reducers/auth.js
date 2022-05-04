@@ -12,8 +12,11 @@ const asyncStatusType = {
 const initialState = {
       userId: null,
       userRole: null,
+      userName: null,
+      orders: null,
       token: null,
       error: false,
+      redirectPath: null,
       asyncOperation: asyncStatusType.IDLE
 }
 
@@ -25,10 +28,12 @@ const authSigninStart = (state, action) => {
 }
 
 const authSigninSuccess = (state, action) => {
-      const { userId, token, userRole } = action;
+      const { userId, token, userRole, userName, orders } = action;
       return updateObject(state, {
             userId: userId,
             userRole: userRole,
+            userName: userName,
+            orders: orders,
             token: token,
             asyncOperation: asyncStatusType.SUCCESS
       });
@@ -39,6 +44,8 @@ const authSigninFail = (state, action) => {
       return updateObject(state, {
             userId: null,
             userRole: null,
+            userName: null,
+            orders: null,
             token: null,
             error: error,
             asyncOperation: asyncStatusType.SUCCESS
@@ -52,6 +59,13 @@ const authLogout = (state, action) => {
       })
 }
 
+const setRedirectPath = (state, action) => {
+      const { redirectPath } = action;
+      return updateObject(state, {
+            redirectPath: redirectPath
+      })
+}
+
 const reducer = (state = initialState, action) => {
       switch (action.type) {
             case actionTypes.AUTH_SIGNIN_START:
@@ -62,6 +76,8 @@ const reducer = (state = initialState, action) => {
                   return authSigninFail(state, action);
             case actionTypes.AUTH_LOGOUT:
                   return authLogout(state, action);
+            case actionTypes.SET_REDIRECT_PATH:
+                  return setRedirectPath(state, action);
             default:
                   return state;
       }

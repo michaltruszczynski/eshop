@@ -10,13 +10,14 @@ export const authSigninStart = () => {
       }
 }
 
-export const authSigninSuccess = (token, userId, userRole, redirectPath) => {
+export const authSigninSuccess = (token, userId, userRole, userName, orders) => {
       return {
             type: actionTypes.AUTH_SIGNIN_SUCCESS,
-            redirectPath: redirectPath,
             token: token,
             userId: userId,
-            userRole: userRole
+            userRole: userRole,
+            userName: userName,
+            orders: orders
       }
 }
 
@@ -32,8 +33,8 @@ export const authCheck = () => {
             dispatch(authSigninStart());
             try {
                   const response = await authService.checkUser();
-                  const { userId, token, userRole } = response.data;
-                  dispatch(authSigninSuccess(token, userId, userRole, null));
+                  const { userId, token, userRole, userName, orders } = response.data;
+                  dispatch(authSigninSuccess(token, userId, userRole, userName, orders));
             } catch (error) {
                   const errorMsg = new ErrorMessage(error);
                   dispatch(authSigninFail(errorMsg.getErrorObject()));
@@ -45,5 +46,12 @@ export const logout = () => {
       authService.logout();
       return {
             type: actionTypes.AUTH_LOGOUT
+      }
+}
+
+export const setRedirectPath = (redirectPath) => {
+      return {
+            type: actionTypes.SET_REDIRECT_PATH,
+            redirectPath: redirectPath
       }
 }

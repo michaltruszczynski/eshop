@@ -44,7 +44,7 @@ const Product = ({ productImage = defaultProduct.image, productName = defaultPro
                         {/* <p className={styles['product__price']}>100,00 zł</p> */}
                         {/* <p className={styles['product__price']}>Explore</p> */}
                         <Price sale={sale} price={productPrice} />
-                        <ButtonLink link={`/product/${id}`}>Explore</ButtonLink>
+                        <ButtonLink linkPath={`/product/${id}`}>Explore</ButtonLink>
                   </div>
             </div>
       )

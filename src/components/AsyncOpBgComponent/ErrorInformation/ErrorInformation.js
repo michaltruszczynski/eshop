@@ -8,14 +8,14 @@ const ErrorInformation = ({ error, children, showErrorMessage = false }) => {
       const dispatch = useDispatch();
 
       const location = useLocation();
-      const { pathname } = location
+      const { pathname } = location;
 
       useEffect(() => {
-
             if (!showErrorMessage || !error) return;
 
             const { status: errorStatusCode } = error.getErrorObject();
 
+            //422 Unprocessable entity
             if (errorStatusCode === 401 || errorStatusCode === 403 || errorStatusCode === 422) {
                   const { errorMessage, errorDetailsArray } = error.getErrorMessageData();
                   dispatch(setMessage(errorMessage, errorDetailsArray));
@@ -59,9 +59,10 @@ const ErrorInformation = ({ error, children, showErrorMessage = false }) => {
             />
       }
 
+      //400 Bad request
 
-      if (errorStatusCode === 404) {
-            const errorMessage = 'Server responded with error. Resources not found. Please let us know using contact form.'
+      if (errorStatusCode === 400) {
+            const errorMessage = 'Bad request. Incorrect data provided.'
             return <Redirect
                   to={{
                         pathname: "/servererror",

@@ -3,6 +3,7 @@
 .button {
       display: block;
       box-sizing: border-box;
+      font-family: inherit;
       cursor: pointer;
 
       &--icon {
@@ -19,27 +20,24 @@
 
       &--standard {
             min-width: 4.7rem;
-
             padding: 1rem 2rem;
             margin: 1rem 0;
             align-self: center;
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             font-weight: 400;
             color: $buttonFontWhite;
             border-radius: 0.5rem;
       }
 
       &--large {
-            min-width: 12rem;
-            max-width: 20rem;
-            padding: 0.8rem 4rem;
-
+            min-width: 16rem;
+            max-width: max-content;
+            align-self: center;
+            padding: 1rem 2rem;
             font-size: 1.6rem;
             font-weight: 400;
             color: $buttonFontWhite;
-            border-radius: 3rem;
-
-            outline: none;
+            border-radius: 0.5rem;
       }
 
       &--green {
@@ -61,11 +59,11 @@
       }
 
       &--blue {
-            background: $buttonBackGrBlue;
-            border: 2px solid $buttonBorderBlue;
+            background: $main-dark-blue;
+            border: 1px solid $main-dark-blue;
             &:hover,
             &:active {
-                  border: 2px solid $buttonBackGrHoverBlue;
+                  border: 1px solid darken($main-dark-blue, 10%);
             }
       }
 

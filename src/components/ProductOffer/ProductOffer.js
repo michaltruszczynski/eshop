@@ -17,14 +17,12 @@ const ProductOffer = ({
       productsBrandIsValid,
       productsSortIsValid,
 }) => {
-
       const [productUrl, setProductUrl] = useState(null);
       const [currentPage, setCurrentPage] = useState(1);
       const [state] = useFetch(productUrl);
       const { status } = state;
       const productsPerPage = 2;
       console.log('rendering ProductOffer', state);
-
 
       useEffect(() => {
             setCurrentPage(1);

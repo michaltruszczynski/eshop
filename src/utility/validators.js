@@ -1,9 +1,15 @@
 export const required = defineEmpty => value => {
-      console.log('required', value);
+      // console.log('required', value);
       if (defineEmpty) {
             return value.trim() !== defineEmpty;
       }
       return value.trim() !== '';
+}
+
+export const requiredNumber = value => {
+      console.log(typeof value)
+      console.log(value > 0, value)
+      return value > 0;
 }
 
 export const length = (config = { min: 5, max: 10 }) => value => {

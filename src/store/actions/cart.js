@@ -25,3 +25,21 @@ export const removeFormCart = (productId, productSize) => {
             productSize: productSize
       }
 }
+
+export const resetCart = () => {
+      return {
+            type: actionTypes.RESET_CART
+      }
+}
+
+export const startPaymentProcess = () => {
+      return {
+            type: actionTypes.START_PAYMENT_PROCESS
+      }
+}
+
+export const endPaymentProcess = () => {
+      return {
+            type: actionTypes.END_PAYMENT_PROCESS
+      }
+}

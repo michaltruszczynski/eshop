@@ -65,7 +65,9 @@ const MainNavigation = () => {
                         <div className={styles['navigation__right']}>
                               <Backdrop show={mobileNavOpen} onBackdropClick={closeMobileNav} />
                               <NavigationItems isMobileNavOpen={mobileNavOpen} closeMobileNav={closeMobileNav} />
-                              <NavLink to="/signin" className={styles['navigation__link']} >
+                              <NavLink
+                                    to={ userId ? "/user" : "/signin"}
+                                    className={styles['navigation__link']} >
                                     <UserIcon />
                               </NavLink>
                               <NavLink to="/cart" className={styles['navigation__link']}>

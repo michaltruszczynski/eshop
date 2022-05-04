@@ -1,4 +1,5 @@
-import { required, length } from '../../../utility/validators'
+import { required, requiredNumber, length } from '../../../utility/validators'
+import { numberToFixed } from '../../../utility/sanitizers'
 
 export const productDescriptionInputsConfig = {
       productCategory: {
@@ -32,7 +33,7 @@ export const productDescriptionInputsConfig = {
                   placeholder: 'Enter product name.',
                   validators: [
                         // { check: length(), message: 'Product name must be 5 - 40 characters long.' }
-                        { check: length({min: 5, max: 40}), message: 'Product name must be 5 - 40 characters long.' }
+                        { check: length({ min: 5, max: 40 }), message: 'Product name must be 5 - 40 characters long.' }
                   ],
                   addClassName: []
             }
@@ -48,7 +49,7 @@ export const productDescriptionInputsConfig = {
                   placeholder: 'Enter product type.',
                   validators: [
                         // { check: length(), message: 'Product type must be 5 - 10 characters long.' }
-                        { check: length({min: 5, max: 50}), message: 'Product type must be 5 - 50 characters long.' }
+                        // { check: length({min: 5, max: 50}), message: 'Product type must be 5 - 50 characters long.' }
                   ],
                   addClassName: []
             }
@@ -63,9 +64,25 @@ export const productDescriptionInputsConfig = {
                   placeholder: 'Enter product description.',
                   validators: [
                         // { check: length(), message: 'Product description must be 5 - 10 characters long.' }
-                        { check: length({min: 100, max: 800}), message: 'Product description must be 100 - 800 characters long.' }
+                        { check: length({ min: 100, max: 800 }), message: 'Product description must be 100 - 800 characters long.' }
                   ],
                   addClassName: []
             }
-      }
+      },
+      productPrice: {
+            elementName: 'Price',
+            elementType: 'inputNumber',
+            elementConfig: {
+                  type: 'number',
+                  name: 'productPrice',
+                  id: 'productPrice',
+                  defaultValue: 0,
+                  placeholder: 'Enter product price.',
+                  validators: [
+                        { check: requiredNumber, message: 'Please enter product price.' }
+                  ],
+                  sanitizers: [numberToFixed],
+                  addClassName: []
+            }
+      },
 }

@@ -18,7 +18,7 @@ const ErrorRedirectPage = () => {
       if (redirectFrom) {
             redirectButton = (
                   <div className={styles['button-container']}>
-                        <ButtonLink link={redirectFrom}>Try again</ButtonLink>
+                        <ButtonLink linkPath={redirectFrom} >Try again</ButtonLink>
                   </div>
             )
       }

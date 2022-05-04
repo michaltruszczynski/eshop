@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { addToCart, removeFormCart, deleteFromCart } from '../../../../store/actions';
 import QuantityInput from '../../../ProductData/ProductDetails/QuantityInput/QuantityInput';
+
+import { addToCart, removeFormCart, deleteFromCart } from '../../../../store/actions';
 
 import styles from './CartItem.module.scss';
 

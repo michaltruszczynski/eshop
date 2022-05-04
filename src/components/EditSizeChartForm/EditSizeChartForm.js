@@ -13,6 +13,8 @@ import { sizeChartInputConfig } from '../Form/CustomSizeChart/sizeChartInputsCon
 
 import { addNewSizeSystem, getSizeSystem, putSizeSystem } from '../../services/productService';
 
+import { ErrorMessage } from '../../utility/helpers';
+
 import styles from './EditSizeChartForm.module.scss';
 
 const asyncOperation = {
@@ -25,7 +27,7 @@ const asyncOperation = {
 const EditSizeChartForm = () => {
       const [inputSizeSystemNameData, inputSizeChartNameDataIsValid, inputSizeChartNameDataChangeHandler] = useForm(sizeChartNameInputConfig)
       const [inputSizeChartData, inputSizeChartDataIsValid, inputSizeChartDataChangeHandler] = useForm(sizeChartInputConfig)
-
+      const [error, setError] = useState(null);
       const [asyncCallStatus, setAsyncCallStatus] = useState(asyncOperation.IDLE);
       const [sizeSystemId, setSizeSystemId] = useState(null);
       const [editing, setEditing] = useState(false);
@@ -40,14 +42,15 @@ const EditSizeChartForm = () => {
                   setAsyncCallStatus(asyncOperation.LOADING)
                   try {
                         const sizeSystem = await getSizeSystem(id);
-                        console.log(sizeSystem)
+
                         const { _id, sizeSystemName, sizeChart } = sizeSystem.data;
                         inputSizeChartDataChangeHandler('sizeChart')(sizeChart);
                         inputSizeChartNameDataChangeHandler('sizeChartName')(sizeSystemName);
                         setSizeSystemId(_id);
                         setAsyncCallStatus(asyncOperation.SUCCESS);
                   } catch (error) {
-                        console.log(error.response);
+                        const errorMsg = new ErrorMessage(error);
+                        setError(errorMsg);
                         setAsyncCallStatus(asyncOperation.ERROR);
                   }
             }
@@ -65,12 +68,24 @@ const EditSizeChartForm = () => {
             setAsyncCallStatus(asyncOperation.LOADING)
             try {
                   const respond = await addNewSizeSystem(newSizeSystem);
-                  console.log(respond)
+
                   setAsyncCallStatus(asyncOperation.SUCCESS);
-                  backToSizeSystemList()
+                  backToSizeSystemList();
             } catch (error) {
-                  console.log(error.response);
-                  console.log(error.request);
+                  const errorMsg = new ErrorMessage(error);
+                  const errorFormFieldsName = error.getErrorFormFieldsName();
+                  if (errorFormFieldsName.length) {
+                        errorFormFieldsName.forEach(fieldName => {
+                              if (fieldName === 'sizeChart') {
+                                    inputSizeChartDataChangeHandler('sizeChart')('', true);
+                              }
+
+                              if (fieldName === 'sizeSystemName') {
+                                    inputSizeChartNameDataChangeHandler('sizeChartName')('', true);
+                              }
+                        })
+                  }
+                  setError(errorMsg);
                   setAsyncCallStatus(asyncOperation.ERROR);
             }
       }
@@ -85,11 +100,25 @@ const EditSizeChartForm = () => {
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
                   const respond = await putSizeSystem(sizeSystemId, updatedSizeSystem);
-                  console.log(respond)
+
                   setEditing(prevState => !prevState);
                   setAsyncCallStatus(asyncOperation.SUCCESS);
             } catch (error) {
-                  console.log(error);
+                  const errorMsg = new ErrorMessage(error);
+                  const errorFormFieldsName = error.getErrorFormFieldsName();
+                  console.log(errorFormFieldsName)
+                  if (errorFormFieldsName.length) {
+                        errorFormFieldsName.forEach(fieldName => {
+                              if (fieldName === 'sizeChart') {
+                                    inputSizeChartDataChangeHandler('sizeChart')('', true);
+                              }
+
+                              if (fieldName === 'sizeSystemName') {
+                                    inputSizeChartNameDataChangeHandler('sizeChartName')('', true);
+                              }
+                        })
+                  }
+                  setError(errorMsg);
                   setAsyncCallStatus(asyncOperation.ERROR);
             }
       }
@@ -105,7 +134,7 @@ const EditSizeChartForm = () => {
       const isFormDataValid = !(inputSizeChartNameDataIsValid && inputSizeChartDataIsValid);
 
       return (
-            <AsyncOpBgComponent status={asyncCallStatus}>
+            <AsyncOpBgComponent status={asyncCallStatus} error={error} showErrorMessage={true}>
                   <form className={styles['form']}>
                         <SizeChartNameInput
                               inputSizeChartNameData={inputSizeSystemNameData}

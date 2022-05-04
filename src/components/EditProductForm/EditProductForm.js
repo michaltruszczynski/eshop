@@ -15,10 +15,13 @@ import { productBrandInputConfig } from './ProductBrandInput/productBrandInputCo
 import { sizeChartSystemInputConfig } from './SizeChartInputs/sizeChartSystemInputConfig';
 import { sizeChartInputConfig } from './SizeChartInputs/CustomSizeChart/sizeChartInputConfig';
 import { productImageInputConfig } from './ImageFilePicker/productImageInputConfig';
-
-import styles from './EditProductForm.module.scss';
+import { definedSizeChartInputConfigId } from './SizeChartInputs/DefinedSizeChart/definedSizeChartInputConfig'
 
 import { addNewProduct, getProduct, putProduct } from '../../services/productService';
+
+import { ErrorMessage } from '../../utility/helpers';
+
+import styles from './EditProductForm.module.scss';
 
 const filePickerConfiguration = {
       fileType: ['image/jpeg', 'image/png', 'image/jpg', 'text/plain'],
@@ -41,14 +44,18 @@ const EditProductForm = () => {
       const [inputSizeSystemData, inputSizeSystemIsValid, inputSizeSystemChangeHandler] = useForm(sizeChartSystemInputConfig)
       const [inputSizeChartData, inputSizeChartDataIsValid, inputSizeChartDataChangeHandler] = useForm(sizeChartInputConfig)
       const [inputImageData, inputImageDataIsValid, inputImageDataChangeHandler] = useForm(productImageInputConfig);
+      const [sizeSystemIdData, , sizeSystemIdDataChangeHandler] = useForm(definedSizeChartInputConfigId);
 
       const [asyncCallStatus, setAsyncCallStatus] = useState(asyncOperation.IDLE);
+      const [error, setError] = useState(null);
       const [productId, setProductId] = useState(null);
       const [editing, setEditing] = useState(false);
       const { id } = useParams();
       const history = useHistory();
 
-      console.log('Edit product ID', id)
+      console.log('[EditProductForm]', inputsDescriptionData.productPrice.value)
+      console.log('[EditProductForm]', typeof inputsDescriptionData.productPrice.value)
+
       useEffect(() => {
             if (!id) return setAsyncCallStatus(asyncOperation.SUCCESS);
             if (editing) return;
@@ -57,16 +64,21 @@ const EditProductForm = () => {
                   setAsyncCallStatus(asyncOperation.LOADING);
                   try {
                         const response = await getProduct(id);
-                        console.log(response);
-                        const { _id, productCategory, productName, productType, productBrand, description, sizeChart, images } = response.data;
-                        console.log(productBrand);
+                        const { _id, productCategory, productName, productType, productBrand, description, sizeChart, sizeSystemId, images, productPrice } = response.data;
+                        console.log('productPrice', typeof productPrice, productPrice)
                         inputBrandChangeHandler('productBrand')(productBrand);
                         inputsDescriptionDataChangeHandler('productCategory')(productCategory);
                         inputsDescriptionDataChangeHandler('productName')(productName);
                         inputsDescriptionDataChangeHandler('productType')(productType);
                         inputsDescriptionDataChangeHandler('description')(description);
-                        inputSizeSystemChangeHandler('sizeSystem')('custom');
+                        inputsDescriptionDataChangeHandler('productPrice')(productPrice);
                         inputSizeChartDataChangeHandler('sizeChart')(sizeChart);
+                        if (sizeSystemId) {
+                              sizeSystemIdDataChangeHandler('sizeSystemId')(sizeSystemId);
+                              inputSizeSystemChangeHandler('sizeSystem')('predefined');
+                        } else {
+                              inputSizeSystemChangeHandler('sizeSystem')('custom');
+                        }
                         if (images) {
                               const productImage = images.map(image => ({
                                     url: image.imageUrl,
@@ -77,11 +89,12 @@ const EditProductForm = () => {
                         } else {
                               inputImageDataChangeHandler('productImage')([]);
                         }
+
                         setProductId(_id);
                         setAsyncCallStatus(asyncOperation.SUCCESS);
                   } catch (error) {
-                        console.log(error.response);
-                        console.log(error.request);
+                        const errorMsg = new ErrorMessage(error);
+                        setError(errorMsg);
                         setAsyncCallStatus(asyncOperation.ERROR);
                   }
             }
@@ -89,10 +102,6 @@ const EditProductForm = () => {
             getProductDetails();
 
       }, [id, editing]);
-
-      useEffect(() => {
-
-      }, [id])
 
       const submitHandler = async (event) => {
             event.preventDefault();
@@ -111,10 +120,10 @@ const EditProductForm = () => {
             }
 
             const appendInputsDataImages = inputsDataImages => {
-                  console.log(inputsDataImages)
+                  // console.log(inputsDataImages)
                   Object.entries(inputsDataImages).forEach(data => {
                         data[1].value.forEach(image => {
-                              console.log(data[0], image.file);
+                              // console.log(data[0], image.file);
                               newData.append(data[0], image.file);
                         })
                   });
@@ -124,17 +133,19 @@ const EditProductForm = () => {
             appendInputsData(inputBrandData);
             appendInputsData(inputsDescriptionData);
             appendInputsData(inputSizeSystemData);
+            appendInputsData(sizeSystemIdData);
             appendInputsDataJSON(inputSizeChartData);
             appendInputsDataImages(inputImageData);
 
+            setAsyncCallStatus(asyncOperation.LOADING);
             try {
                   const response = await addNewProduct(newData);
-                  console.log(response);
+
                   setAsyncCallStatus(asyncOperation.SUCCESS);
                   backToProductList();
             } catch (error) {
-                  console.log(error.response);
-                  console.log(error.request);
+                  const errorMsg = new ErrorMessage(error);
+                  setError(errorMsg);
                   setAsyncCallStatus(asyncOperation.ERROR);
             }
       }
@@ -145,6 +156,7 @@ const EditProductForm = () => {
             const newData = new FormData();
             const appendInputsData = inputsData => {
                   Object.entries(inputsData).forEach(data => {
+                        console.log(data[0], data[1].value)
                         newData.append(data[0], data[1].value)
                   });
             }
@@ -156,10 +168,9 @@ const EditProductForm = () => {
             }
 
             const appendInputsDataImages = inputsDataImages => {
-                  console.log(inputsDataImages)
                   Object.entries(inputsDataImages).forEach(data => {
                         data[1].value.forEach(image => {
-                              console.log(data[0], image.file);
+                              // console.log(data[0], image.file);
                               if (!image.file) {
                                     newData.append('fileName', image.fileName);
                               }
@@ -174,17 +185,16 @@ const EditProductForm = () => {
             appendInputsDataJSON(inputSizeChartData);
             appendInputsDataImages(inputImageData);
 
+            setAsyncCallStatus(asyncOperation.LOADING);
             try {
                   const response = await putProduct(productId, newData);
-                  console.log(response.data);
                   setAsyncCallStatus(asyncOperation.SUCCESS);
                   backToProductList();
             } catch (error) {
-                  console.log(error.response);
-                  console.log(error.request);
+                  const errorMsg = new ErrorMessage(error);
+                  setError(errorMsg);
                   setAsyncCallStatus(asyncOperation.ERROR);
             }
-
       }
 
       const isFormDataValid = !(inputBrandDataIsValid && inputsDescriptionDataAreValid && inputSizeSystemIsValid && inputSizeChartDataIsValid && inputImageDataIsValid);
@@ -198,7 +208,7 @@ const EditProductForm = () => {
       }
 
       return (
-            <AsyncOpBgComponent status={asyncCallStatus}>
+            <AsyncOpBgComponent status={asyncCallStatus} error={error} showErrorMessage={true}>
                   <form className={styles['form']}>
                         <ProductBrandInput
                               inputBrandData={inputBrandData}
@@ -213,6 +223,8 @@ const EditProductForm = () => {
                         <SizeChart
                               inputSizeSystemData={inputSizeSystemData}
                               inputSizeSystemChangeHandler={inputSizeSystemChangeHandler}
+                              sizeSystemIdData={sizeSystemIdData}
+                              sizeSystemIdDataChangeHandler={sizeSystemIdDataChangeHandler}
                               inputSizeChartData={inputSizeChartData}
                               inputSizeChartDataChangeHandler={inputSizeChartDataChangeHandler}
                               disabled={!editing && productId}

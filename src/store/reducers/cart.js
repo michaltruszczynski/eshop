@@ -3,12 +3,9 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../utility/helpers';
 
 const initialState = {
-      userId: null,
-      userName: '',
-      loading: false,
-      error: null,
       cart: [],
-      cartProductNumber: 0
+      cartProductNumber: 0,
+      paymentStarted: false
 }
 
 const addToCart = (state, action) => {
@@ -75,6 +72,18 @@ const deleteFromCart = (state, action) => {
       return updateObject(state, { cart: updatedCart, cartProductNumber: productsTotalNumber });
 }
 
+const startPaymentProcess = (state, action) => {
+      return updateObject(state, { paymentStarted: true })
+}
+
+const endPaymentProcess = (state, action) => {
+      return updateObject(state, { paymentStarted: false })
+}
+
+const resetCart = (state, action) => {
+      return initialState;
+}
+
 const reducer = (state = initialState, action) => {
       switch (action.type) {
             case actionTypes.ADD_TO_CART:
@@ -83,6 +92,12 @@ const reducer = (state = initialState, action) => {
                   return removeFromCart(state, action);
             case actionTypes.DELETE_FROM_CART:
                   return deleteFromCart(state, action);
+            case actionTypes.RESET_CART:
+                  return resetCart();
+            case actionTypes.START_PAYMENT_PROCESS:
+                  return startPaymentProcess(state, action);
+            case actionTypes.END_PAYMENT_PROCESS:
+                  return endPaymentProcess(state, action);
             default:
                   return state;
       }
