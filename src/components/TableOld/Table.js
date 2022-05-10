@@ -60,7 +60,7 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
                                                       className={styles['table__column']}
                                                       key={columnIndex}
                                                       data-heading={data.key}>
-                                                      <span className={styles['table__column__item']}>{rowIndex + 1}</span>
+                                                      {rowIndex + 1}
                                                 </td>
                                           )
                                     }
@@ -70,7 +70,7 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
                                                 className={styles['table__column']}
                                                 key={columnIndex}
                                                 data-heading={data.key}>
-                                                <span className={styles['table__column__item']}>{data.value}</span>
+                                                {data.value}
                                           </td>
                                     )
                               })
@@ -83,17 +83,8 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
                   return (
                         <tr className={styles['table__row']} key={`row-${rowIndex}`}>
                               {renderRow()}
-                              {optionsColumn ? (
-                                    <td td className={styles['table__column']} data-heading={'Options'}>
-                                          <span className={styles['table__column__item']}>
-                                                <Link to={`${optionsColumn.url}${row._id}`}>
-                                                      {optionsColumn.linkName}
-                                                </Link>
-                                          </span>
-                                    </td>
-                              )
-                                    : null}
-                        </tr >
+                              {optionsColumn ? <td className={styles['table__column']} data-heading={'Options'}><Link to={`${optionsColumn.url}${row._id}`}>{optionsColumn.linkName}</Link></td> : null}
+                        </tr>
                   )
             });
       }
