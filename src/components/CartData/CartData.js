@@ -63,7 +63,6 @@ const CartData = () => {
                   <div className={styles['cart-data-container']}>
                         <CartProductList cartItems={cartItems} />
                         <CartSummary
-                              cartItems={cartItems}
                               productsSubTotalPrice={productsSubTotalPrice}
                               priceDiscount={priceDiscount}
                               shippingCost={shippingCost}

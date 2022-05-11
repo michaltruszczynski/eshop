@@ -15,8 +15,6 @@
                   display: block;
                   position: relative;
                   margin-bottom: 2px;
-                  // padding-left: 120px;
-                  // padding: 1rem 1rem;
                   padding: 0rem;
                   display: flex;
                   justify-content: space-between;
@@ -24,16 +22,7 @@
                   &::before {
                         content: attr(data-heading);
                         box-sizing: border-box;
-                        // position: absolute;
-                        // position: relative;
-                        // top: 0;
-                        // left: 0;
                         min-width: 150px;
-                       
-                        // width: max-content;
-                        // width: max-content;
-                        // height: max-content;
-                        // min-width: 240px;
                         display: flex;
                         align-items: center;
                         font-size: 1.6rem;
@@ -41,7 +30,6 @@
                         border: 2px solid $main-dark-blue;
                         justify-content: center;
                         border-radius: 3px;
-                        // padding: 1rem;
                   }
 
                   &__item {

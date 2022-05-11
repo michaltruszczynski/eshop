@@ -6,6 +6,7 @@ import Layout from './components/Layout/Layout';
 import Shop from './pages/ShopPages/Shop/Shop';
 import Cart from './pages/ShopPages/Cart/Cart';
 import User from  './pages/User/User/User';
+import Order from './pages/User/Order/Order';
 import ProductPage from './pages/ShopPages/ProductPage/ProductPage';
 import Products from './pages/ShopPages/Products/Products';
 import PaymentPage from './pages/PaymentPages/PaymentPage';
@@ -51,6 +52,9 @@ const App = () => {
           </Route>
           <Route path="/user">
             <User />
+          </Route>
+          <Route path="/order/:id">
+            <Order />
           </Route>
           <Route path="/signup" component={Signup} />
           <Route path="/signin" component={Signin} />

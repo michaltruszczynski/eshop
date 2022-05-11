@@ -1,9 +1,5 @@
 import React from "react";
-
-
 import CartItem from './CartItem/CartItem';
-
-import styles from './CartProductList.module.scss';
 
 const CartProductList = ({ cartItems = [] }) => {
       return (

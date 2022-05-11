@@ -7,7 +7,7 @@ import BackgroundContent from '../BackgroundContent/BackgroundContent';
 import styles from './Table.module.scss';
 
 const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = false, emptyTableDataMessage = 'No data to display' }) => {
-      console.log(tableData)
+      // console.log(tableData)
       const { url, path } = useRouteMatch();
       console.log('path: ', path, 'url: ', url);
 
@@ -51,7 +51,7 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
                   }
 
                   const renderRow = () => {
-                        console.log('dupa')
+                        // console.log('dupa')
                         return (
                               rowData.map((data, columnIndex) => {
                                     if (data.key === '#') {
@@ -78,13 +78,13 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
                   }
 
                   const rowData = getRowData(row, columnsHeading);
-                  console.log(rowData)
+                  // console.log(rowData)
 
                   return (
                         <tr className={styles['table__row']} key={`row-${rowIndex}`}>
                               {renderRow()}
                               {optionsColumn ? (
-                                    <td td className={styles['table__column']} data-heading={'Options'}>
+                                    <td className={styles['table__column']} data-heading={'Options'}>
                                           <span className={styles['table__column__item']}>
                                                 <Link to={`${optionsColumn.url}${row._id}`}>
                                                       {optionsColumn.linkName}
