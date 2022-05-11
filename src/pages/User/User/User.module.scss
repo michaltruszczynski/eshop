@@ -18,6 +18,10 @@
             font-size: 3rem;
             position: relative;
 
+            &--secondary {
+                  font-size: 2rem;
+            }
+
             &::after {
                   content: "";
                   position: absolute;
@@ -31,3 +35,26 @@
             }
       }
 }
+
+.title-secondary {
+      margin: 4rem 0 7rem 0;
+      text-align: center;
+
+      &__text {
+            font-size: 2rem;
+            position: relative;
+
+            &::after {
+                  content: "";
+                  position: absolute;
+                  left: 50%;
+                  bottom: -20%;
+                  transform: translate(-50%, -50%);
+                  background-color: $main-yellow;
+                  width: 30%;
+                  height: 0.4rem;
+                  z-index: 1;
+            }
+      }
+}
+
