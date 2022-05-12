@@ -6,7 +6,7 @@ import styles from './UserData.module.scss';
 const UserData = () => {
 
       const user = useSelector(state => state.auth)
-      const { userName, email } = user;
+      const { userName, userEmail } = user;
 
       return (
             <div className={styles['user-data-container']}>
@@ -15,7 +15,7 @@ const UserData = () => {
                               <span className={styles['data__description']}>User name:</span> {userName}
                         </p>
                         <p className={styles['data__item']}>
-                              <span className={styles['data__description']}>User email:</span> {email}
+                              <span className={styles['data__description']}>User email:</span> {userEmail}
                         </p>
                   </div>
             </div>

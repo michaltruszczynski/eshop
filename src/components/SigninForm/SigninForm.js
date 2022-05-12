@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
 
@@ -37,7 +37,7 @@ const SigninForm = () => {
       const authState = useSelector(state => state.auth);
       const { userId, redirectPath } = authState;
 
-      useEffect(() => {
+      useLayoutEffect(() => {
             if (!userId) { return; }
 
             if (!redirectPath) {
@@ -78,11 +78,11 @@ const SigninForm = () => {
                   setLoading(asyncOperation.LOADING);
                   const response = await authService.signinUser(userCredentials);
                   console.log(response.data);
-                  const { userId, token, userRole, userName, orders } = response.data;
+                  const { userId, token, userRole, userName, orders, userEmail } = response.data;
                   resetInputFields();
                   setLoading(asyncOperation.SUCCESS);
                   if (!redirectPath) showSuccessSigninMessage(userRole);
-                  dispatch(authSigninSuccess(token, userId, userRole, userName, orders));
+                  dispatch(authSigninSuccess(token, userId, userRole, userName, userEmail, orders));
             } catch (error) {
                   console.log(error.response, error.request)
                   const errorMsg = new ErrorMessage(error);

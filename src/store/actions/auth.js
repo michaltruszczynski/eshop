@@ -10,13 +10,14 @@ export const authSigninStart = () => {
       }
 }
 
-export const authSigninSuccess = (token, userId, userRole, userName, orders) => {
+export const authSigninSuccess = (token, userId, userRole, userName, userEmail, orders) => {
       return {
             type: actionTypes.AUTH_SIGNIN_SUCCESS,
             token: token,
             userId: userId,
             userRole: userRole,
             userName: userName,
+            userEmail: userEmail,
             orders: orders
       }
 }
@@ -33,8 +34,8 @@ export const authCheck = () => {
             dispatch(authSigninStart());
             try {
                   const response = await authService.checkUser();
-                  const { userId, token, userRole, userName, orders } = response.data;
-                  dispatch(authSigninSuccess(token, userId, userRole, userName, orders));
+                  const { userId, token, userRole, userName, userEmail, orders } = response.data;
+                  dispatch(authSigninSuccess(token, userId, userRole, userName, userEmail, orders));
             } catch (error) {
                   const errorMsg = new ErrorMessage(error);
                   dispatch(authSigninFail(errorMsg.getErrorObject()));

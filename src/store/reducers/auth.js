@@ -13,6 +13,7 @@ const initialState = {
       userId: null,
       userRole: null,
       userName: null,
+      userEmail: null,
       orders: null,
       token: null,
       error: false,
@@ -28,11 +29,12 @@ const authSigninStart = (state, action) => {
 }
 
 const authSigninSuccess = (state, action) => {
-      const { userId, token, userRole, userName, orders } = action;
+      const { userId, token, userRole, userName, userEmail, orders } = action;
       return updateObject(state, {
             userId: userId,
             userRole: userRole,
             userName: userName,
+            userEmail: userEmail,
             orders: orders,
             token: token,
             asyncOperation: asyncStatusType.SUCCESS
@@ -45,6 +47,7 @@ const authSigninFail = (state, action) => {
             userId: null,
             userRole: null,
             userName: null,
+            userEmail: null,
             orders: null,
             token: null,
             error: error,
