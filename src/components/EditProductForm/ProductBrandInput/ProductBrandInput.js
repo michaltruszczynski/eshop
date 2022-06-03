@@ -9,7 +9,7 @@ import { productBrandInputConfig } from './productBrandInputConfig';
 const ProductBrandInput = ({ inputBrandData, inputBrandChangeHandler, disabled }) => {
 
       const [fetchState] = useFetch('/admin/brands');
-      console.log(fetchState)
+      // console.log(fetchState)
 
       const { status } = fetchState;
 

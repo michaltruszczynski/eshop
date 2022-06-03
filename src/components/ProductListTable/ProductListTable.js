@@ -14,13 +14,21 @@ const ProductListTable = () => {
 
       // tableData = [ {_id: 12345, colVal_1, colVal_2, colVal_3, ...}, {...}]
 
-      const productsTableColumnsHeadings = ['#', 'Name', 'Type',  'Brand', 'Category'];
+      const productsTableColumnsHeadings = ['#', 'Name', 'Type', 'Brand', 'Category'];
 
-      const sizeSystemTableOptions = {
-            type: 'link',
-            linkName: 'View',
-            url: '/admin/editproduct/'
-      }
+      const sizeSystemTableOptions = [
+            {
+                  type: 'link',
+                  linkName: 'View',
+                  url: '/admin/editproduct/'
+            },
+            {
+                  type: 'link',
+                  linkName: 'Remove',
+                  url: '/admin/products/remove/'
+            }
+      ]
+
 
       console.log('[ProductListTable], rendering', state)
 

@@ -39,7 +39,7 @@ const InputField = ({ label,
       let inputElement = null;
       switch (elementType) {
             case ('inputText'):
-                  console.log(disabled, editable);
+                  // console.log(disabled, editable);
                   inputElement = (
                         <input
                               value={value}

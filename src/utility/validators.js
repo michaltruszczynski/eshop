@@ -7,8 +7,8 @@ export const required = defineEmpty => value => {
 }
 
 export const requiredNumber = value => {
-      console.log(typeof value)
-      console.log(value > 0, value)
+      // console.log(typeof value)
+      // console.log(value > 0, value)
       return value > 0;
 }
 

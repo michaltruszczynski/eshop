@@ -17,7 +17,8 @@ import { sizeChartInputConfig } from './SizeChartInputs/CustomSizeChart/sizeChar
 import { productImageInputConfig } from './ImageFilePicker/productImageInputConfig';
 import { definedSizeChartInputConfigId } from './SizeChartInputs/DefinedSizeChart/definedSizeChartInputConfig'
 
-import { addNewProduct, getProduct, putProduct } from '../../services/productService';
+import { addNewProduct, getProduct, putProduct, removeProduct } from '../../services/productService';
+import { adminService } from '../../services/adminService';
 
 import { ErrorMessage } from '../../utility/helpers';
 
@@ -53,8 +54,9 @@ const EditProductForm = () => {
       const { id } = useParams();
       const history = useHistory();
 
-      console.log('[EditProductForm]', inputsDescriptionData.productPrice.value)
-      console.log('[EditProductForm]', typeof inputsDescriptionData.productPrice.value)
+      // console.log('[EditProductForm]', inputsDescriptionData.productPrice.value)
+      // console.log('[EditProductForm]', typeof inputsDescriptionData.productPrice.value)
+      console.log('[EditProductForm]', inputImageData)
 
       useEffect(() => {
             if (!id) return setAsyncCallStatus(asyncOperation.SUCCESS);
@@ -122,11 +124,18 @@ const EditProductForm = () => {
             const appendInputsDataImages = inputsDataImages => {
                   // console.log(inputsDataImages)
                   Object.entries(inputsDataImages).forEach(data => {
-                        data[1].value.forEach(image => {
-                              // console.log(data[0], image.file);
-                              newData.append(data[0], image.file);
-                        })
+                        if (data[0] === 'productImage') {
+                              data[1].value.forEach(image => {
+                                    // console.log(data[0], image.file);
+                                    newData.append(data[0], image.file);
+                              })
+                        }
+                        if (data[0] === 'primaryProductImage') {
+                              newData.append(data[0], data[1].value)
+                        }
                   });
+
+
                   newData.append('fileName', 'empty')
             }
 
@@ -156,26 +165,35 @@ const EditProductForm = () => {
             const newData = new FormData();
             const appendInputsData = inputsData => {
                   Object.entries(inputsData).forEach(data => {
-                        console.log(data[0], data[1].value)
+                        console.log('[EditProductForm]', data[0], data[1].value)
                         newData.append(data[0], data[1].value)
                   });
             }
 
             const appendInputsDataJSON = inputsDataJSON => {
                   Object.entries(inputsDataJSON).forEach(data => {
+                        console.log(data[0], JSON.stringify(data[1].value))
                         newData.append(data[0], JSON.stringify(data[1].value))
                   });
             }
 
             const appendInputsDataImages = inputsDataImages => {
                   Object.entries(inputsDataImages).forEach(data => {
-                        data[1].value.forEach(image => {
-                              // console.log(data[0], image.file);
-                              if (!image.file) {
-                                    newData.append('fileName', image.fileName);
-                              }
-                              newData.append(data[0], image.file);
-                        })
+                        if (data[0] === 'productImage') {
+                              data[1].value.forEach(image => {
+                                    console.log(data[0], image.file);
+                                    if (!image.file) {
+                                          // newData.append('fileName', image.fileName);
+                                          newData.append('fileName', JSON.stringify(image));
+                                    }
+                                    newData.append(data[0], image.file);
+                              })
+                        }
+
+                        if (data[0] === 'primaryProductImage') {
+                              newData.append(data[0], data[1].value)
+                        }
+
                   });
             }
 
@@ -207,6 +225,20 @@ const EditProductForm = () => {
             history.push('/admin/products');
       }
 
+      const removeProductHandler = async () => {
+            setAsyncCallStatus(asyncOperation.LOADING);
+            try {
+                  const response = await adminService.removeProduct(id);
+                  setAsyncCallStatus(asyncOperation.SUCCESS);
+                  backToProductList();
+
+            } catch (error) {
+                  const errorMsg = new ErrorMessage(error);
+                  setError(errorMsg);
+                  setAsyncCallStatus(asyncOperation.ERROR);
+            }
+      }
+
       return (
             <AsyncOpBgComponent status={asyncCallStatus} error={error} showErrorMessage={true}>
                   <form className={styles['form']}>
@@ -231,7 +263,8 @@ const EditProductForm = () => {
                         />
                         <FilePicker
                               imageData={inputImageData.productImage}
-                              onChangeHandler={inputImageDataChangeHandler('productImage')}
+                              primaryImageData={inputImageData.primaryProductImage}
+                              onChangeHandler={inputImageDataChangeHandler}
                               {...filePickerConfiguration}
                               inputName={productImageInputConfig.productImage.elementName}
                               disabled={!editing && productId}
@@ -277,6 +310,13 @@ const EditProductForm = () => {
                                                 buttonStyle="standard"
                                                 type="submit">
                                                 Edit
+                                          </Button>
+                                          <Button
+                                                onClick={removeProductHandler}
+                                                buttonType="success"
+                                                buttonStyle="standard"
+                                                type="button">
+                                                Remove
                                           </Button>
                                           <Button
                                                 onClick={backToProductList}

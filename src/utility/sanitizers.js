@@ -1,9 +1,9 @@
 export const sanitizeInput = (sanitizers, value) => {
-      console.log('dupa', !sanitizers || !sanitizers.length, sanitizers)
+      // console.log('dupa', !sanitizers || !sanitizers.length, sanitizers)
       if (!sanitizers || !sanitizers.length) return value;
       let sanitizedValue = value;
       sanitizers.forEach(sanitizer => {
-            console.log('inside')
+            // console.log('inside')
             sanitizedValue = sanitizer(value);
       });
 

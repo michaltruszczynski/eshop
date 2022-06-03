@@ -16,11 +16,11 @@ const SizeSystemTable = () => {
 
       const sizeSystemsTableColumnsHeadings = ['#', 'Name'];
 
-      const sizeSystemTableOptions = {
+      const sizeSystemTableOptions = [{
             type: 'link',
             linkName: 'View',
             url: '/admin/editsizesystem/'
-      }
+      }]
 
       const getSizeSystemTableData = () => {
             if (!state.data?.sizeSystems) return [];

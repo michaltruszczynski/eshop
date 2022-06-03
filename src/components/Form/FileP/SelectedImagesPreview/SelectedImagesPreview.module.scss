@@ -1,16 +1,24 @@
 @import "../../../../abstracts/index";
 
-
-.image-container {
+.preview-container {
       min-height: 18rem;
       max-width: 18rem;
       padding: 1rem;
       border: 1px solid $inputIconColor;
       border-radius: 0.2rem;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       position: relative;
+}
+
+.image-container {
+      position: relative;
+}
+
+.button-container {
+      // border: 1px solid $inputIconColor;
 }
 
 .image {
@@ -24,8 +32,8 @@
 
 .icon-container {
       position: absolute;
-      bottom: 5%;
-      right: 5%;
+      bottom: 2%;
+      right: -2%;
 }
 
 .delete-icon {
@@ -44,4 +52,16 @@
                   cursor: not-allowed;
             }
       }
+}
+
+.radio-button {
+      display: inline-block;
+      resize: none;
+      padding: 0.7rem;
+      outline: none;
+      border: 1px solid #ccc;
+      font-family: "Popins", sans-serif;
+      border-radius: 0.2rem;
+      color: $inputFontColor;
+      margin-right: 0.5rem;
 }

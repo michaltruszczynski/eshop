@@ -5,7 +5,7 @@ import BackgroundContent from '../BackgroundContent/BackgroundContent';
 import Logo from '../Logo/Logo';
 
 const AsyncOpBgComponent = ({ status, error, children, showErrorMessage }) => {
-      console.log('AsyncOpBgComponent', 'status: ', status, error);
+      // console.log('AsyncOpBgComponent', 'status: ', status, error);
       switch (status) {
             case 'idle':
                   return (

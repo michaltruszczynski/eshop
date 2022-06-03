@@ -20,11 +20,11 @@ const UserListTable = () => {
 
       const userTableColumnsHeadings = ['#', 'Name', 'Email', 'Role'];
 
-      const userTableOptions = {
+      const userTableOptions = [{
             type: 'link',
             linkName: 'View',
             url: '/admin/edituser/'
-      }
+      }]
 
       console.log('[UserListTable], rendering', state)
 

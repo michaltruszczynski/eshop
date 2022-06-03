@@ -83,13 +83,29 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
                   return (
                         <tr className={styles['table__row']} key={`row-${rowIndex}`}>
                               {renderRow()}
-                              {optionsColumn ? (
+                              {/* {optionsColumn ? (
                                     <td className={styles['table__column']} data-heading={'Options'}>
                                           <span className={styles['table__column__item']}>
                                                 <Link to={`${optionsColumn.url}${row._id}`}>
                                                       {optionsColumn.linkName}
                                                 </Link>
                                           </span>
+                                    </td>
+                              )
+                                    : null} */}
+                              {optionsColumn ? (
+                                    <td className={styles['table__column']} data-heading={'Options'}>
+                                          {
+                                                optionsColumn.map(option => {
+                                                      return (
+                                                            <span className={styles['table__column__item']}>
+                                                                  <Link to={`${option.url}${row._id}`}>
+                                                                        {option.linkName}
+                                                                  </Link>
+                                                            </span>
+                                                      )
+                                                })
+                                          }
                                     </td>
                               )
                                     : null}

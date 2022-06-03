@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:5000/api';
 
 export const addNewProduct = (data) => {
-      return axios.post(`${API_URL}/admin/product`, data)
+      return axios.post(`${API_URL}/admin/producttest`, data)
 }
 
 export const getProduct = (id) => {
@@ -37,3 +37,4 @@ export const getBrand = (id) => {
 export const putBrand = (id, data) => {
       return axios.put(`${API_URL}/admin/brand/${id}`, data);
 }
+

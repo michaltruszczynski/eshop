@@ -2,9 +2,9 @@ import React from 'react';
 
 import Button from '../../../Button/Button';
 
-import styles from './ErrorList.module.scss'
+import styles from './FileErrorList.module.scss'
 
-const ErrorList = ({ invalidFilesList, onClearErrorMessage }) => {
+const FileErrorList = ({ invalidFilesList, onClearErrorMessage }) => {
       if (!invalidFilesList.length) return null;
 
       const clearErrorListHandler = (event) => {
@@ -32,4 +32,4 @@ const ErrorList = ({ invalidFilesList, onClearErrorMessage }) => {
       )
 }
 
-export default ErrorList;
+export default FileErrorList;

@@ -9,7 +9,17 @@ const putUser = (id, data) => {
       return axiosInstance.put(`/admin/users/${id}`, data);
 }
 
+const deleteProduct = (id) => {
+      return axiosInstance.delete(`/admin/products/${id}`);
+}
+
+const removeProduct = (id) => {
+      return axiosInstance.get(`/admin/products/remove/${id}`);
+}
+
 export const adminService = {
       getUser,
-      putUser
+      putUser,
+      deleteProduct,
+      removeProduct
 }

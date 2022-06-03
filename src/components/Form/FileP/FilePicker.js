@@ -5,7 +5,8 @@ import InputError from '../InpurtError/InputError';
 import SelectedImagesPreview from './SelectedImagesPreview/SelectedImagesPreview';
 import SelectButton from './SelectButton/SelectButton';
 import SelectedImagesList from './SelectedImagesList/SelectedImagesList';
-import ErrorList from './ErrorList/ErrorList';
+import FileErrorList from './FileErrorList/FileErrorList';
+import DataErrorList from './DataErrorList/DataErrorList';
 
 import { validateInput } from '../../../utility/validators';
 import { fileSize, fileType, duplicated, arrayLength } from '../../../utility/validators';
@@ -14,6 +15,7 @@ import styles from './FilePicker.module.scss';
 
 const FilePicker = ({
       imageData,
+      primaryImageData,
       inputName,
       onChangeHandler,
       fileTypeArray = ['image/jpeg', 'image/png', 'image/jpg', 'text/plain'],
@@ -26,7 +28,8 @@ const FilePicker = ({
       const [invalidFilesList, setInvalidFilesList] = useState([]);
 
       const { value: filesSelected, touched, isValid, errors } = imageData;
-      console.log(touched, isValid)
+      const { value: primaryImage } = primaryImageData;
+
       const fileValidators = [
             { check: fileSize(maxFileSize), message: 'File can not be larger than 1MB.' },
             { check: fileType(fileTypeArray), message: 'Accepted file types: jpg, jpeg, png.' },
@@ -43,7 +46,7 @@ const FilePicker = ({
                   if (!event.target.files.length) {
                         event.target.value = null;
                         setInvalidFilesList([]);
-                        return onChangeHandler([...filesSelected]);
+                        return onChangeHandler('productImage')([...filesSelected]);
                   }
 
                   [...event.target.files].forEach(file => {
@@ -72,7 +75,7 @@ const FilePicker = ({
                   });
                   event.target.value = null;
                   setInvalidFilesList(newFilesWithErrors);
-                  onChangeHandler([...filesSelected, ...newFiles]);
+                  onChangeHandler('productImage')([...filesSelected, ...newFiles]);
             }
 
             addNewFiles();
@@ -82,7 +85,12 @@ const FilePicker = ({
             if (disabled) return;
             const newFilesList = [...filesSelected];
             newFilesList.splice(index, 1);
-            onChangeHandler(newFilesList);
+            onChangeHandler('productImage')(newFilesList);
+            console.log(newFilesList)
+            const isFileIncluded = newFilesList.find(file => file.name === primaryImage)
+            if (!isFileIncluded) {
+                  onChangeHandler('primaryProductImage')('');
+            }
             setInvalidFilesList([]);
       }
 
@@ -92,6 +100,12 @@ const FilePicker = ({
 
       const maxFilesNumberReached = () => {
             return filesSelected.length >= maxFileNumber;
+      }
+
+      const selectPrimaryImageHandler = (event) => {
+            const primaryFileName = event.target.value;
+            console.log(primaryFileName, filesSelected);
+            onChangeHandler('primaryProductImage')(primaryFileName);
       }
 
       // const getInputName = (minFileNumber, maxFileNumber) => {
@@ -105,22 +119,23 @@ const FilePicker = ({
                   <PreviewContainer touched={touched} isValid={isValid} >
                         <SelectedImagesPreview
                               imagesSelected={filesSelected}
+                              primaryImage={primaryImage}
                               onDeleteImage={removeFileHandler}
-                              disabled={disabled} />
+                              onSelectPrimaryImage={selectPrimaryImageHandler}
+                              disabled={disabled}
+                              editable={true} />
                         <SelectButton
                               disabled={disabled || maxFilesNumberReached()}
                               formIsValid={isValid}
                               touched={touched}
                               onSelectFile={selectFileHandler} />
                   </PreviewContainer>
-                  <div className={styles['field__error']}>
-                        <InputError
-                              touched={touched}
-                              isValid={isValid}
-                              errors={errors} />
-                  </div>
+                  <DataErrorList
+                        imageData={imageData}
+                        primaryImageData={primaryImageData}
+                  />
                   <SelectedImagesList imagesSelected={filesSelected} />
-                  <ErrorList
+                  <FileErrorList
                         invalidFilesList={invalidFilesList}
                         onClearErrorMessage={clearErrorMessagesHandler}
                   />

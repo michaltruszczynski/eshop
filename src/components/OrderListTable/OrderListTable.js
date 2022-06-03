@@ -9,11 +9,11 @@ const OrderListTable = () => {
 
       const orderTableColumnsHeadings = ['#', 'Date', 'Products quantity', 'Product category', 'Total Price'];
 
-      const sizeSystemTableOptions = {
+      const sizeSystemTableOptions = [{
             type: 'link',
             linkName: 'View',
             url: '/order/'
-      }
+      }]
 
       const getOrderTableData = () => {
             if (!orders) return [];

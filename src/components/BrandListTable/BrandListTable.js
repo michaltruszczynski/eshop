@@ -15,11 +15,11 @@ const BrandListTable = () => {
 
       const brandListTableColumnsHeadings = ['#', 'Name'];
 
-      const brandTableOptions = {
+      const brandTableOptions = [{
             type: 'link',
             linkName: 'View',
             url: '/admin/editbrand/'
-      }
+      }];
 
       const getBrandTableData = () => {
             return state.data?.brands ? state.data?.brands : []
