@@ -17,7 +17,7 @@ import { sizeChartInputConfig } from './SizeChartInputs/CustomSizeChart/sizeChar
 import { productImageInputConfig } from './ImageFilePicker/productImageInputConfig';
 import { definedSizeChartInputConfigId } from './SizeChartInputs/DefinedSizeChart/definedSizeChartInputConfig'
 
-import { addNewProduct, getProduct, putProduct, removeProduct } from '../../services/productService';
+import { addNewProduct, getProduct, putProduct } from '../../services/productService';
 import { adminService } from '../../services/adminService';
 
 import { ErrorMessage } from '../../utility/helpers';
@@ -54,8 +54,6 @@ const EditProductForm = () => {
       const { id } = useParams();
       const history = useHistory();
 
-      // console.log('[EditProductForm]', inputsDescriptionData.productPrice.value)
-      // console.log('[EditProductForm]', typeof inputsDescriptionData.productPrice.value)
       console.log('[EditProductForm]', inputImageData)
 
       useEffect(() => {
@@ -134,9 +132,7 @@ const EditProductForm = () => {
                               newData.append(data[0], data[1].value)
                         }
                   });
-
-
-                  newData.append('fileName', 'empty')
+                  newData.append('fileName', 'empty');
             }
 
             appendInputsData(inputBrandData);
