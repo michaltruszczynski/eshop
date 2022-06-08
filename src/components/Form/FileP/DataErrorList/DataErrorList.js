@@ -6,7 +6,7 @@ import styles from './DataErrorList.module.scss';
 const DataErrorList = ({ imageData, primaryImageData }) => {
 
       const renderSelectedImagesError = () => {
-            const { touched: imageDataTouched, isValid: imageDataIsValid, errors: imageDataErrors } = imageData.productImage;
+            const { touched: imageDataTouched, isValid: imageDataIsValid, errors: imageDataErrors } = imageData;
             return (!imageDataIsValid && imageDataTouched) ? (
                   <InputError
                         touched={imageDataTouched}
@@ -17,7 +17,7 @@ const DataErrorList = ({ imageData, primaryImageData }) => {
 
       const renderPrimaryImageError = () => {
             if (!imageData.primaryProductImage) return null;
-            const { touched: primaryImageTouched, isValid: primaryImageIsValid, errors: primaryImageErrors } = imageData.primaryProductImage
+            const { touched: primaryImageTouched, isValid: primaryImageIsValid, errors: primaryImageErrors } = primaryImageData;
             return (!primaryImageIsValid && primaryImageTouched) ? (
                   <InputError
                         touched={primaryImageTouched}

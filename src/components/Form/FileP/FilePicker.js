@@ -14,8 +14,10 @@ import styles from './FilePicker.module.scss';
 
 const FilePicker = ({
       imageData,
+      primaryImageData = null,
+      imageDataOnChangeHandler,
+      primaryImageDataOnChangeHandler = null,
       inputName,
-      onChangeHandler,
       fileTypeArray = ['image/jpeg', 'image/png', 'image/jpg', 'text/plain'],
       maxFileSize = 15000,
       allowDuplicate = false,
@@ -25,7 +27,7 @@ const FilePicker = ({
 
       const [invalidFilesList, setInvalidFilesList] = useState([]);
 
-      const { value: filesSelected, touched, isValid, errors } = imageData.productImage;
+      const { value: filesSelected, touched, isValid, errors } = imageData;
 
       const fileValidators = [
             { check: fileSize(maxFileSize), message: 'File can not be larger than 1MB.' },
@@ -43,7 +45,7 @@ const FilePicker = ({
                   if (!event.target.files.length) {
                         event.target.value = null;
                         setInvalidFilesList([]);
-                        return onChangeHandler('productImage')([...filesSelected]);
+                        return imageDataOnChangeHandler([...filesSelected]);
                   }
 
                   [...event.target.files].forEach(file => {
@@ -72,7 +74,7 @@ const FilePicker = ({
                   });
                   event.target.value = null;
                   setInvalidFilesList(newFilesWithErrors);
-                  onChangeHandler('productImage')([...filesSelected, ...newFiles]);
+                  imageDataOnChangeHandler([...filesSelected, ...newFiles]);
             }
 
             addNewFiles();
@@ -82,12 +84,12 @@ const FilePicker = ({
             if (disabled) return;
             const newFilesList = [...filesSelected];
             newFilesList.splice(index, 1);
-            onChangeHandler('productImage')(newFilesList);
+            imageDataOnChangeHandler(newFilesList);
             console.log(newFilesList)
-            if (imageData.primaryProductImage) {
-                  const isFileIncluded = newFilesList.find(file => file.name === imageData.primaryProductImage.value)
+            if (primaryImageData) {
+                  const isFileIncluded = newFilesList.find(file => file.name === primaryImageData.value)
                   if (!isFileIncluded) {
-                        onChangeHandler('primaryProductImage')('');
+                        primaryImageDataOnChangeHandler('');
                   }
             }
 
@@ -105,8 +107,8 @@ const FilePicker = ({
       const selectPrimaryImageHandler = (event) => {
             const primaryFileName = event.target.value;
             console.log(primaryFileName, filesSelected);
-            if (imageData.primaryProductImage) {
-                  onChangeHandler('primaryProductImage')(primaryFileName);
+            if (primaryImageData) {
+                  primaryImageDataOnChangeHandler(primaryFileName);
             }
       }
 
@@ -120,10 +122,8 @@ const FilePicker = ({
                   <p className={styles['field__name']}>{inputName}:</p>
                   <PreviewContainer touched={touched} isValid={isValid} >
                         <SelectedImagesPreview
-                              // imagesSelected={filesSelected}
-                              // primaryImage={primaryImage}
-                              // zastąpić images selected and primary image -> imageData
-                              imageData={imageData}
+                              imagesSelected={filesSelected}
+                              primaryImage={primaryImageData ? primaryImageData.value : null}
                               onDeleteImage={removeFileHandler}
                               onSelectPrimaryImage={selectPrimaryImageHandler}
                               disabled={disabled}
@@ -135,10 +135,8 @@ const FilePicker = ({
                               onSelectFile={selectFileHandler} />
                   </PreviewContainer>
                   <DataErrorList
-                        // imageData={imageData}
-                        // primaryImageData={primaryImageData}
-                        //zastąpić
                         imageData={imageData}
+                        primaryImageData={primaryImageData}
                   />
                   <SelectedImagesList imagesSelected={filesSelected} />
                   <FileErrorList

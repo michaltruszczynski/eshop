@@ -2,14 +2,7 @@ import React from 'react';
 
 import styles from './SelectedImagesPreview.module.scss';
 
-const SelectedImagesPreview = ({ disabled, onDeleteImage, editable, imageData, onSelectPrimaryImage }) => {
-
-      const { value: imagesSelected } = imageData.productImage;
-      let primaryImage = null;
-
-      if (imageData.primaryProductImage) {
-            primaryImage = imageData.primaryProductImage.value;
-      }
+const SelectedImagesPreview = ({imagesSelected, primaryImage, disabled, onDeleteImage, editable, imageData, onSelectPrimaryImage }) => {
 
       if (!imagesSelected.length) return null;
 

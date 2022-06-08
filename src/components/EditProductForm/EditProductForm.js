@@ -267,9 +267,10 @@ const EditProductForm = () => {
                               disabled={!editing && productId}
                         />
                         <FilePicker
-                              imageData={inputImageData}
-                              // primaryImageData={inputImageData}
-                              onChangeHandler={inputImageDataChangeHandler}
+                              imageData={inputImageData.productImage}
+                              primaryImageData={inputImageData.primaryProductImage}
+                              imageDataOnChangeHandler={inputImageDataChangeHandler('productImage')}
+                              primaryImageDataOnChangeHandler={inputImageDataChangeHandler('primaryProductImage')}
                               {...filePickerConfiguration}
                               inputName={productImageInputConfig.productImage.elementName}
                               disabled={!editing && productId}
