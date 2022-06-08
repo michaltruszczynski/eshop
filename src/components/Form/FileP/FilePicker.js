@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import PreviewContainer from './PreviewContainer/PreviewContainer';
-import InputError from '../InpurtError/InputError';
 import SelectedImagesPreview from './SelectedImagesPreview/SelectedImagesPreview';
 import SelectButton from './SelectButton/SelectButton';
 import SelectedImagesList from './SelectedImagesList/SelectedImagesList';
@@ -15,7 +14,6 @@ import styles from './FilePicker.module.scss';
 
 const FilePicker = ({
       imageData,
-      primaryImageData,
       inputName,
       onChangeHandler,
       fileTypeArray = ['image/jpeg', 'image/png', 'image/jpg', 'text/plain'],
@@ -27,8 +25,7 @@ const FilePicker = ({
 
       const [invalidFilesList, setInvalidFilesList] = useState([]);
 
-      const { value: filesSelected, touched, isValid, errors } = imageData;
-      const { value: primaryImage } = primaryImageData;
+      const { value: filesSelected, touched, isValid, errors } = imageData.productImage;
 
       const fileValidators = [
             { check: fileSize(maxFileSize), message: 'File can not be larger than 1MB.' },
@@ -87,10 +84,13 @@ const FilePicker = ({
             newFilesList.splice(index, 1);
             onChangeHandler('productImage')(newFilesList);
             console.log(newFilesList)
-            const isFileIncluded = newFilesList.find(file => file.name === primaryImage)
-            if (!isFileIncluded) {
-                  onChangeHandler('primaryProductImage')('');
+            if (imageData.primaryProductImage) {
+                  const isFileIncluded = newFilesList.find(file => file.name === imageData.primaryProductImage.value)
+                  if (!isFileIncluded) {
+                        onChangeHandler('primaryProductImage')('');
+                  }
             }
+
             setInvalidFilesList([]);
       }
 
@@ -105,7 +105,9 @@ const FilePicker = ({
       const selectPrimaryImageHandler = (event) => {
             const primaryFileName = event.target.value;
             console.log(primaryFileName, filesSelected);
-            onChangeHandler('primaryProductImage')(primaryFileName);
+            if (imageData.primaryProductImage) {
+                  onChangeHandler('primaryProductImage')(primaryFileName);
+            }
       }
 
       // const getInputName = (minFileNumber, maxFileNumber) => {
@@ -118,8 +120,10 @@ const FilePicker = ({
                   <p className={styles['field__name']}>{inputName}:</p>
                   <PreviewContainer touched={touched} isValid={isValid} >
                         <SelectedImagesPreview
-                              imagesSelected={filesSelected}
-                              primaryImage={primaryImage}
+                              // imagesSelected={filesSelected}
+                              // primaryImage={primaryImage}
+                              // zastąpić images selected and primary image -> imageData
+                              imageData={imageData}
                               onDeleteImage={removeFileHandler}
                               onSelectPrimaryImage={selectPrimaryImageHandler}
                               disabled={disabled}
@@ -131,8 +135,10 @@ const FilePicker = ({
                               onSelectFile={selectFileHandler} />
                   </PreviewContainer>
                   <DataErrorList
+                        // imageData={imageData}
+                        // primaryImageData={primaryImageData}
+                        //zastąpić
                         imageData={imageData}
-                        primaryImageData={primaryImageData}
                   />
                   <SelectedImagesList imagesSelected={filesSelected} />
                   <FileErrorList

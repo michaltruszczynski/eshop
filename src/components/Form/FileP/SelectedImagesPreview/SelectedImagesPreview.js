@@ -2,7 +2,14 @@ import React from 'react';
 
 import styles from './SelectedImagesPreview.module.scss';
 
-const SelectedImagesPreview = ({ imagesSelected, disabled, onDeleteImage, editable, primaryImage, onSelectPrimaryImage }) => {
+const SelectedImagesPreview = ({ disabled, onDeleteImage, editable, imageData, onSelectPrimaryImage }) => {
+
+      const { value: imagesSelected } = imageData.productImage;
+      let primaryImage = null;
+
+      if (imageData.primaryProductImage) {
+            primaryImage = imageData.primaryProductImage.value;
+      }
 
       if (!imagesSelected.length) return null;
 
@@ -30,20 +37,21 @@ const SelectedImagesPreview = ({ imagesSelected, disabled, onDeleteImage, editab
                                     onClick={(e) => removeFileHandler(e, index)} ></i>
                         </div>
                   </div>
-                  <div className={styles['button-container']}>
-                        <input
-                              type="radio"
-                              id={image.name}
-                              value={image.name}
-                              name='primary-image'
-                              onChange={onSelectPrimaryImage}
-                              checked={primaryImage === image.name}
-                              disabled={editable ? disabled : true}
-                              className={styles['radio-button']}/>
-                        <label htmlFor={image.name}>Primary image</label>
-                  </div>
-
-
+                  {primaryImage ? (
+                        <div className={styles['button-container']}>
+                              <input
+                                    type="radio"
+                                    id={image.name}
+                                    value={image.name}
+                                    name='primary-image'
+                                    onChange={onSelectPrimaryImage}
+                                    checked={primaryImage === image.name}
+                                    disabled={editable ? disabled : true}
+                                    className={styles['radio-button']} />
+                              <label htmlFor={image.name}>Primary image</label>
+                        </div>
+                  ) :
+                        null}
             </div>
       ));
 }

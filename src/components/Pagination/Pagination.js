@@ -48,7 +48,7 @@ const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }) => {
       if (currentPage === 0 || paginationButtonsRange.length < 2) {
             return null;
       }
-
+console.log(paginationButtonsRange)
       return (
             <div className={styles['pagination-controls']}>
                   {!isMobile ? (<ul className={styles['button-list']}>

@@ -21,8 +21,9 @@ const ProductOffer = ({
       const [currentPage, setCurrentPage] = useState(1);
       const [state] = useFetch(productUrl);
       const { status } = state;
-      const productsPerPage = 2;
+      const productsPerPage = 6;
       console.log('rendering ProductOffer', state);
+      console.log(currentPage)
 
       useEffect(() => {
             setCurrentPage(1);
@@ -73,7 +74,7 @@ const ProductOffer = ({
                                     return <Product
                                           key={product._id}
                                           id={product._id}
-                                          productImage={product.image}
+                                          productImage={product.productImage}
                                           productName={product.productName}
                                           productPrice={product.productPrice}
                                           productBrand={product.productBrand}

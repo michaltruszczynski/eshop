@@ -54,7 +54,7 @@ const EditProductForm = () => {
       const { id } = useParams();
       const history = useHistory();
 
-      console.log('[EditProductForm]', inputImageData)
+      // console.log('[EditProductForm]', inputImageData)
 
       useEffect(() => {
             if (!id) return setAsyncCallStatus(asyncOperation.SUCCESS);
@@ -64,8 +64,9 @@ const EditProductForm = () => {
                   setAsyncCallStatus(asyncOperation.LOADING);
                   try {
                         const response = await getProduct(id);
-                        const { _id, productCategory, productName, productType, productBrand, description, sizeChart, sizeSystemId, images, productPrice } = response.data;
-                        console.log('productPrice', typeof productPrice, productPrice)
+                        const { _id, productCategory, productName, productType, productBrand, description, sizeChart, sizeSystemId, images, productPrice, productImage } = response.data;
+                        // console.log('productPrice', typeof productPrice, productPrice)
+                        console.log('productImage: ', productImage);
                         inputBrandChangeHandler('productBrand')(productBrand);
                         inputsDescriptionDataChangeHandler('productCategory')(productCategory);
                         inputsDescriptionDataChangeHandler('productName')(productName);
@@ -73,6 +74,12 @@ const EditProductForm = () => {
                         inputsDescriptionDataChangeHandler('description')(description);
                         inputsDescriptionDataChangeHandler('productPrice')(productPrice);
                         inputSizeChartDataChangeHandler('sizeChart')(sizeChart);
+                        // do zmiany jak będą poprawione dane w db
+                        console.log(productImage)
+                        if (productImage) {
+                              inputImageDataChangeHandler('primaryProductImage')(productImage.originalFileName);
+                        }
+                        //
                         if (sizeSystemId) {
                               sizeSystemIdDataChangeHandler('sizeSystemId')(sizeSystemId);
                               inputSizeSystemChangeHandler('sizeSystem')('predefined');
@@ -80,6 +87,7 @@ const EditProductForm = () => {
                               inputSizeSystemChangeHandler('sizeSystem')('custom');
                         }
                         if (images) {
+                              console.log(images)
                               const productImage = images.map(image => ({
                                     url: image.imageUrl,
                                     name: image.originalFileName,
@@ -93,6 +101,7 @@ const EditProductForm = () => {
                         setProductId(_id);
                         setAsyncCallStatus(asyncOperation.SUCCESS);
                   } catch (error) {
+                        console.log(error)
                         const errorMsg = new ErrorMessage(error);
                         setError(errorMsg);
                         setAsyncCallStatus(asyncOperation.ERROR);
@@ -258,8 +267,8 @@ const EditProductForm = () => {
                               disabled={!editing && productId}
                         />
                         <FilePicker
-                              imageData={inputImageData.productImage}
-                              primaryImageData={inputImageData.primaryProductImage}
+                              imageData={inputImageData}
+                              // primaryImageData={inputImageData}
                               onChangeHandler={inputImageDataChangeHandler}
                               {...filePickerConfiguration}
                               inputName={productImageInputConfig.productImage.elementName}

@@ -4,23 +4,32 @@ import InputError from '../../InpurtError/InputError';
 import styles from './DataErrorList.module.scss';
 
 const DataErrorList = ({ imageData, primaryImageData }) => {
-      const { touched: imageDataTouched, isValid: imageDataIsValid, errors: imageDataErrors } = imageData;
-      const { touched: primaryImageTouched, isValid: primaryImageIsValid, errors: primaryImageErrors } = primaryImageData;
+
+      const renderSelectedImagesError = () => {
+            const { touched: imageDataTouched, isValid: imageDataIsValid, errors: imageDataErrors } = imageData.productImage;
+            return (!imageDataIsValid && imageDataTouched) ? (
+                  <InputError
+                        touched={imageDataTouched}
+                        isValid={imageDataIsValid}
+                        errors={imageDataErrors} />
+            ) : null
+      }
+
+      const renderPrimaryImageError = () => {
+            if (!imageData.primaryProductImage) return null;
+            const { touched: primaryImageTouched, isValid: primaryImageIsValid, errors: primaryImageErrors } = imageData.primaryProductImage
+            return (!primaryImageIsValid && primaryImageTouched) ? (
+                  <InputError
+                        touched={primaryImageTouched}
+                        isValid={primaryImageIsValid}
+                        errors={primaryImageErrors} />
+            ) : null
+      }
 
       return (
             <div className={styles['field__error']}>
-                  {(!imageDataIsValid && imageDataTouched) ? (
-                        <InputError
-                              touched={imageDataTouched}
-                              isValid={imageDataIsValid}
-                              errors={imageDataErrors} />
-                  ) : null}
-                  {(!primaryImageIsValid && primaryImageTouched) ? (
-                        <InputError
-                              touched={primaryImageTouched}
-                              isValid={primaryImageIsValid}
-                              errors={primaryImageErrors} />
-                  ) : null}
+                  {renderSelectedImagesError()}
+                  {renderPrimaryImageError()}
             </div>
       )
 }

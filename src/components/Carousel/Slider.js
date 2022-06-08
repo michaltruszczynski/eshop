@@ -9,10 +9,6 @@ import useElementSize from '../../hooks/useElementSize';
 
 import styles from './Slider.module.scss';
 
-// const images = require.context('../../images/Products/Kites/OrbitBigAirFreeride', true, /^\.\/.*\.png$/)
-
-// const img = ['orbit_view', 'orbit_top', 'orbit_bottom', 'orbit_side', 'orbit_front']
-
 const Slider = ({ autoPlay, controls, imagesArray, imagesMaxNumber }) => {
 
       const refEl = useRef();
@@ -171,7 +167,6 @@ const Slider = ({ autoPlay, controls, imagesArray, imagesMaxNumber }) => {
                         transition={transition}
                         width={containerWidth * slidesArray.length}>
                         {slidesArray.map((slide, index) => {
-                              // return <Slide key={index + 1} content={imagesContext(`./${slide}.png`)} width={containerWidth / slidesVisibleNumber} />
                               return <Slide key={index + 1} content={slide} width={containerWidth / slidesVisibleNumber} />
                         })}
                   </SliderContent>
