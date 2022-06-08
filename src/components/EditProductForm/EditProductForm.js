@@ -78,6 +78,8 @@ const EditProductForm = () => {
                         console.log(productImage)
                         if (productImage) {
                               inputImageDataChangeHandler('primaryProductImage')(productImage.originalFileName);
+                        } else {
+                              inputImageDataChangeHandler('primaryProductImage')('');
                         }
                         //
                         if (sizeSystemId) {
@@ -276,13 +278,25 @@ const EditProductForm = () => {
                               disabled={!editing && productId}
                         />
                         <div className={styles['form__buttons']} >
-                              {(!editing && !productId) && <Button
-                                    onClick={submitHandler}
-                                    buttonType="success"
-                                    buttonStyle="standard"
-                                    disabled={isFormDataValid} type="submit">
-                                    Save
-                              </Button>}
+                              {(!editing && !productId) && (
+                                    <>
+                                          <Button
+                                                onClick={submitHandler}
+                                                buttonType="success"
+                                                buttonStyle="standard"
+                                                disabled={isFormDataValid} type="submit">
+                                                Save
+                                          </Button>
+                                          <Button
+                                                onClick={backToProductList}
+                                                buttonType="success"
+                                                buttonStyle="standard"
+                                                type="submit">
+                                                Back to list
+                                          </Button>
+                                    </>
+                              )
+                              }
                               {(editing && productId) && (
                                     <>
                                           <Button

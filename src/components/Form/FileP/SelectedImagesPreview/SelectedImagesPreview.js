@@ -5,6 +5,7 @@ import styles from './SelectedImagesPreview.module.scss';
 const SelectedImagesPreview = ({imagesSelected, primaryImage, disabled, onDeleteImage, editable, imageData, onSelectPrimaryImage }) => {
 
       if (!imagesSelected.length) return null;
+      console.log(primaryImage)
 
       const removeFileHandler = (event, index) => {
             onDeleteImage(event, index);
@@ -30,7 +31,7 @@ const SelectedImagesPreview = ({imagesSelected, primaryImage, disabled, onDelete
                                     onClick={(e) => removeFileHandler(e, index)} ></i>
                         </div>
                   </div>
-                  {primaryImage ? (
+                  {primaryImage !== null ? (
                         <div className={styles['button-container']}>
                               <input
                                     type="radio"
