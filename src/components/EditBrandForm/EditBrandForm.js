@@ -12,6 +12,7 @@ import { brandNameInputConfig } from './BrandNameInput/brandNameInputConfig';
 import { brandLogoInputConfig } from './BrandLogoInputConfig/brandLogoInputConfig';
 
 import { postNewBrand, getBrand, putBrand } from '../../services/productService';
+import { adminService } from '../../services/adminService';
 
 import styles from './EditBrandForm.module.scss';
 
@@ -48,7 +49,7 @@ const EditBrandForm = () => {
             const getBrandDetails = async () => {
                   setAsyncCallStatus(asyncOperation.LOADING);
                   try {
-                        const response = await getBrand(id);
+                        const response = await adminService.getBrand(id);
                         console.log(response)
                         const { _id, brandName, images } = response.data;
                         inputBrandNameDataChangeHandler('brandName')(brandName);
@@ -98,7 +99,7 @@ const EditBrandForm = () => {
 
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
-                  const response = await postNewBrand(newData);
+                  const response = await adminService.postBrand(newData);
                   console.log(response);
                   setAsyncCallStatus(asyncOperation.SUCCESS);
                   backToSizeSystemList();
@@ -111,26 +112,6 @@ const EditBrandForm = () => {
 
       const updateHandler = async (event) => {
             event.preventDefault();
-            // const newData = new FormData();
-
-            // const appendInputsData = inputsData => {
-            //       Object.entries(inputsData).forEach(data => {
-            //             newData.append(data[0], data[1].value);
-            //       });
-            // }
-
-            // const appendInputsDataImages = inputsDataImages => {
-            //       console.log(inputsDataImages);
-            //       Object.entries(inputsDataImages).forEach(data => {
-            //             data[1].value.forEach(image => {
-            //                   console.log(data[0], image.file);
-            //                   if (!image.file) {
-            //                         newData.append('fileName', image.fileName);
-            //                   }
-            //                   newData.append(data[0], image.file);
-            //             })
-            //       });
-            // }
 
             const getFormData = (inputsData = {}, inputsDataImages = {}) => {
                   const newData = new FormData();
@@ -146,7 +127,8 @@ const EditBrandForm = () => {
                         data[1].value.forEach(image => {
                               console.log(data[0], image.file);
                               if (!image.file) {
-                                    newData.append('fileName', image.fileName);
+                                    // newData.append('fileName', image.fileName);
+                                    newData.append('fileName', JSON.stringify(image));
                               }
                               newData.append(data[0], image.file);
                         })
@@ -155,15 +137,12 @@ const EditBrandForm = () => {
                   return newData;
             }
 
-            // appendInputsData(inputBrandNameData);
-            // appendInputsDataImages(inputBrandLogoData);
 
             const newData = getFormData(inputBrandNameData, inputBrandLogoData);
-            // const newData = getFormData(inputBrandNameData);
-            console.log(newData)
+
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
-                  const response = await putBrand(brandId, newData);
+                  const response = await adminService.putBrand(brandId, newData);
                   console.log(response)
                   setEditing(prevState => !prevState);
                   setAsyncCallStatus(asyncOperation.SUCCESS);
@@ -193,7 +172,7 @@ const EditBrandForm = () => {
                         />
                         <FilePicker
                               imageData={inputBrandLogoData.brandImage}
-                              onChangeHandler={inputBrandLogoDataChangeHandler('brandImage')}
+                              imageDataOnChangeHandler={inputBrandLogoDataChangeHandler('brandImage')}
                               {...filePickerConfiguration}
                               inputName={brandLogoInputConfig.brandImage.elementName}
                               disabled={!editing && id}

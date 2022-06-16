@@ -38,7 +38,9 @@ const FilePicker = ({
       const selectFileHandler = (event) => {
             const addNewFiles = () => {
                   event.preventDefault();
-
+                  if (!filesSelected.length && primaryImageData) {
+                        primaryImageDataOnChangeHandler('');
+                  }
                   let newFilesWithErrors = [];
                   let newFiles = [];
 

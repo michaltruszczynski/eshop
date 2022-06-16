@@ -7,6 +7,7 @@ import SizeChart from './SizeChartInputs/SizeChart';
 import FilePicker from '../Form/FileP/FilePicker';
 import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 import Button from '../Button/Button';
+import ControlButtons from './ControlButtons/ControlButtons';
 
 import useForm from '../../hooks/useForm';
 
@@ -15,9 +16,8 @@ import { productBrandInputConfig } from './ProductBrandInput/productBrandInputCo
 import { sizeChartSystemInputConfig } from './SizeChartInputs/sizeChartSystemInputConfig';
 import { sizeChartInputConfig } from './SizeChartInputs/CustomSizeChart/sizeChartInputConfig';
 import { productImageInputConfig } from './ImageFilePicker/productImageInputConfig';
-import { definedSizeChartInputConfigId } from './SizeChartInputs/DefinedSizeChart/definedSizeChartInputConfig'
+import { definedSizeChartInputConfigId } from './SizeChartInputs/DefinedSizeChart/definedSizeChartInputConfig';
 
-import { addNewProduct, getProduct, putProduct } from '../../services/productService';
 import { adminService } from '../../services/adminService';
 
 import { ErrorMessage } from '../../utility/helpers';
@@ -48,22 +48,27 @@ const EditProductForm = () => {
       const [sizeSystemIdData, , sizeSystemIdDataChangeHandler] = useForm(definedSizeChartInputConfigId);
 
       const [asyncCallStatus, setAsyncCallStatus] = useState(asyncOperation.IDLE);
+      const [product, setProduct] = useState(null);
       const [error, setError] = useState(null);
       const [productId, setProductId] = useState(null);
       const [editing, setEditing] = useState(false);
       const { id } = useParams();
       const history = useHistory();
 
-      // console.log('[EditProductForm]', inputImageData)
+      console.log('[EditProductForm]', inputImageData)
 
       useEffect(() => {
-            if (!id) return setAsyncCallStatus(asyncOperation.SUCCESS);
+            if (!id) {
+                  // inputImageDataChangeHandler('primaryProductImage')('');
+                  return setAsyncCallStatus(asyncOperation.SUCCESS);
+            }
             if (editing) return;
 
             const getProductDetails = async () => {
                   setAsyncCallStatus(asyncOperation.LOADING);
                   try {
-                        const response = await getProduct(id);
+                        const response = await adminService.getProduct(id);
+                        setProduct(response.data);
                         const { _id, productCategory, productName, productType, productBrand, description, sizeChart, sizeSystemId, images, productPrice, productImage } = response.data;
                         // console.log('productPrice', typeof productPrice, productPrice)
                         console.log('productImage: ', productImage);
@@ -74,8 +79,8 @@ const EditProductForm = () => {
                         inputsDescriptionDataChangeHandler('description')(description);
                         inputsDescriptionDataChangeHandler('productPrice')(productPrice);
                         inputSizeChartDataChangeHandler('sizeChart')(sizeChart);
-                        // do zmiany jak będą poprawione dane w db
-                        console.log(productImage)
+                        // TODO - do zmiany jak będą poprawione dane w db
+                        // console.log(productImage)
                         if (productImage) {
                               inputImageDataChangeHandler('primaryProductImage')(productImage.originalFileName);
                         } else {
@@ -89,7 +94,7 @@ const EditProductForm = () => {
                               inputSizeSystemChangeHandler('sizeSystem')('custom');
                         }
                         if (images) {
-                              console.log(images)
+                              // console.log(images)
                               const productImage = images.map(image => ({
                                     url: image.imageUrl,
                                     name: image.originalFileName,
@@ -103,7 +108,6 @@ const EditProductForm = () => {
                         setProductId(_id);
                         setAsyncCallStatus(asyncOperation.SUCCESS);
                   } catch (error) {
-                        console.log(error)
                         const errorMsg = new ErrorMessage(error);
                         setError(errorMsg);
                         setAsyncCallStatus(asyncOperation.ERROR);
@@ -130,20 +134,25 @@ const EditProductForm = () => {
                   });
             }
 
+
             const appendInputsDataImages = inputsDataImages => {
-                  // console.log(inputsDataImages)
                   Object.entries(inputsDataImages).forEach(data => {
                         if (data[0] === 'productImage') {
                               data[1].value.forEach(image => {
-                                    // console.log(data[0], image.file);
+                                    console.log(data[0], image.file);
+                                    if (!image.file) {
+                                          // newData.append('fileName', image.fileName);
+                                          newData.append('fileName', JSON.stringify(image));
+                                    }
                                     newData.append(data[0], image.file);
                               })
                         }
+
                         if (data[0] === 'primaryProductImage') {
                               newData.append(data[0], data[1].value)
                         }
+
                   });
-                  newData.append('fileName', 'empty');
             }
 
             appendInputsData(inputBrandData);
@@ -155,11 +164,12 @@ const EditProductForm = () => {
 
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
-                  const response = await addNewProduct(newData);
+                  const response = await adminService.postProduct(newData);
 
                   setAsyncCallStatus(asyncOperation.SUCCESS);
                   backToProductList();
             } catch (error) {
+                  console.log('[EditProductForm - error]', error.response, error.request)
                   const errorMsg = new ErrorMessage(error);
                   setError(errorMsg);
                   setAsyncCallStatus(asyncOperation.ERROR);
@@ -172,14 +182,14 @@ const EditProductForm = () => {
             const newData = new FormData();
             const appendInputsData = inputsData => {
                   Object.entries(inputsData).forEach(data => {
-                        console.log('[EditProductForm]', data[0], data[1].value)
+                        // console.log('[EditProductForm]', data[0], data[1].value)
                         newData.append(data[0], data[1].value)
                   });
             }
 
             const appendInputsDataJSON = inputsDataJSON => {
                   Object.entries(inputsDataJSON).forEach(data => {
-                        console.log(data[0], JSON.stringify(data[1].value))
+                        // console.log(data[0], JSON.stringify(data[1].value))
                         newData.append(data[0], JSON.stringify(data[1].value))
                   });
             }
@@ -212,10 +222,12 @@ const EditProductForm = () => {
 
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
-                  const response = await putProduct(productId, newData);
+                  const response = await adminService.putProduct(productId, newData);
+                  console.log(response)
                   setAsyncCallStatus(asyncOperation.SUCCESS);
                   backToProductList();
             } catch (error) {
+                  console.log('[EditProductForm - error]', error)
                   const errorMsg = new ErrorMessage(error);
                   setError(errorMsg);
                   setAsyncCallStatus(asyncOperation.ERROR);
@@ -277,77 +289,16 @@ const EditProductForm = () => {
                               inputName={productImageInputConfig.productImage.elementName}
                               disabled={!editing && productId}
                         />
-                        <div className={styles['form__buttons']} >
-                              {(!editing && !productId) && (
-                                    <>
-                                          <Button
-                                                onClick={submitHandler}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                disabled={isFormDataValid} type="submit">
-                                                Save
-                                          </Button>
-                                          <Button
-                                                onClick={backToProductList}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                type="submit">
-                                                Back to list
-                                          </Button>
-                                    </>
-                              )
-                              }
-                              {(editing && productId) && (
-                                    <>
-                                          <Button
-                                                onClick={updateHandler}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                disabled={isFormDataValid} type="submit">
-                                                Update
-                                          </Button>
-                                          <Button
-                                                onClick={submitHandler}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                disabled={isFormDataValid} type="submit">
-                                                Save as new
-                                          </Button>
-                                          <Button
-                                                onClick={changeEditModeHandler}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                type="submit">
-                                                Cancel
-                                          </Button>
-                                    </>
-                              )}
-                              {(!editing && productId) && (
-                                    <>
-                                          <Button
-                                                onClick={changeEditModeHandler}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                type="submit">
-                                                Edit
-                                          </Button>
-                                          <Button
-                                                onClick={removeProductHandler}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                type="button">
-                                                Remove
-                                          </Button>
-                                          <Button
-                                                onClick={backToProductList}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                type="submit">
-                                                Back to list
-                                          </Button>
-                                    </>
-                              )}
-                        </div>
+                        <ControlButtons
+                              editing={editing}
+                              isFormValid={isFormDataValid}
+                              elementId={productId}
+                              submitHandler={submitHandler}
+                              removeHandler={removeProductHandler}
+                              updateHandler={updateHandler}
+                              backToPreviousPageHandler={backToProductList}
+                              changeEditModeHandler={changeEditModeHandler}
+                        />
                   </form>
             </AsyncOpBgComponent>
       )

@@ -11,7 +11,7 @@ export const productImageInputConfig = {
                   defaultValue: [],
                   placeholder: '',
                   validators: [
-                        { check: arrayLength({ min: 1, max: 5 }), message: 'Product must have 1 -5 images.' }
+                        { check: arrayLength({ min: 1, max: 5 }), message: 'Product must have 1-5 images.' }
                   ],
                   addClassName: []
             }
@@ -26,7 +26,7 @@ export const productImageInputConfig = {
                   placeholder: 'Select primary image',
                   options: [],
                   validators: [
-                        { check: required(), message: 'Product must have selected primary image.' }
+                        { check: required(), message: 'Product primary image must be selected.' }
                   ],
                   addClassName: []
             }

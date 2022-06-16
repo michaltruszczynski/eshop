@@ -33,7 +33,7 @@ axiosInstance.interceptors.response.use(
       }, async (error) => {
             const originalError = error;
             const originalConfig = error.config;
-console.log('testing', error.response)
+            console.log('testing', error.response, error.request)
             if (originalConfig.url !== '/admin/signin' && error.response) {
                   console.log('testing2')
                   if (error.response.status === 401 && originalConfig.url === '/admin/newtoken') {
