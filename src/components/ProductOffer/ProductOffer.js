@@ -74,10 +74,10 @@ const ProductOffer = ({
                                     return <Product
                                           key={product._id}
                                           id={product._id}
-                                          productImage={product.productImage}
-                                          productName={product.productName}
-                                          productPrice={product.productPrice}
-                                          productBrand={product.productBrand}
+                                          productImage={product.primaryImage}
+                                          productName={product.name}
+                                          productPrice={product.price}
+                                          productBrand={product.brand}
                                     />
                               }) : null}
                         </div>

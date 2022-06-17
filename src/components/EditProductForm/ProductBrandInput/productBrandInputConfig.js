@@ -1,12 +1,12 @@
 import { required } from '../../../utility/validators';
 
 export const productBrandInputConfig = {
-      productBrand: {
+      brand: {
             elementName: 'Brand',
             elementType: 'select',
             elementConfig: {
-                  name: 'productBrand',
-                  id: 'productBrand',
+                  name: 'brand',
+                  id: 'brand',
                   defaultValue: '',
                   placeholder: 'Select brand.',
                   options: [

@@ -38,10 +38,10 @@ const ProductListTable = () => {
             return state.data.products.map(product => {
                   return {
                         _id: product._id,
-                        productName: product.productName,
-                        productType: product.productType,
-                        productBrand: product.productBrand,
-                        productCategory: product.productCategory
+                        name: product.name,
+                        type: product.type,
+                        brand: product.brand,
+                        category: product.category
                   }
             });
       }

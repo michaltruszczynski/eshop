@@ -15,7 +15,7 @@ const CartItem = ({ itemData }) => {
 
       const dispatch = useDispatch();
       const {productId, productSize, quantity, productData} = itemData;
-      const {productCategory, productBrand, productName, productType, productPrice, images} = productData
+      const {productCategory, productBrand, productName, productType, productPrice, primaryImage} = productData
 
       const incrementQuantityHandler = () => {
             dispatch(addToCart(productId, productSize, 1, productData));
@@ -33,7 +33,7 @@ const CartItem = ({ itemData }) => {
       return (
             <li className={styles['item']}>
                   <img className={styles['item__image']}
-                        src={images[0].imageUrl}
+                        src={primaryImage.url}
                         alt={productCategory} />
                   <div className={styles['item__details']}>
                         <div className={styles['item__description']}>

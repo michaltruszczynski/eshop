@@ -19,7 +19,7 @@ const ProductDetails = ({ product }) => {
       const [quantity, setQuantity] = useState(1);
       const dispatch = useDispatch();
 
-      const { _id: productId, productCategory, productName, productType, productBrand, productPrice, sizeChart, description, images } = product;
+      const { _id: productId, category: productCategory, name: productName, type: productType, brand: productBrand, price: productPrice, sizeChart, description, primaryImage } = product;
 
       const quantityIncrementHandler = () => {
             setQuantity(quantity => quantity + 1);
@@ -47,7 +47,7 @@ const ProductDetails = ({ product }) => {
                   productBrand,
                   productPrice,
                   productCategory,
-                  images
+                  primaryImage
             }
             dispatch(addToCart(productId, inputSizeData.selectedProductSize.value, quantity, productData));
             setQuantity(1);

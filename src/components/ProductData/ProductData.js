@@ -9,7 +9,7 @@ const ProductData = ({ product }) => {
       const { images } = product;
 
       const getImagesAray = () => {
-            return images.map(image => image.location)
+            return images.map(image => image.url)
       }
 
       return (

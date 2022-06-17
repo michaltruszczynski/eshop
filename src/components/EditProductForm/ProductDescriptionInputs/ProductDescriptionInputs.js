@@ -2,7 +2,7 @@ import React from 'react';
 
 import InputField from '../../Form/InputField/InputField';
 
-import { productDescriptionInputsConfig } from './ProductDescriptionInputsConfig';
+import { productDescriptionInputsConfig } from './productDescriptionInputsConfig';
 
 const ProductDescriptionInputs = ({ inputsDescriptionData, inputsDescriptionDataChangeHandler, disabled }) => {
 

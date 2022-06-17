@@ -20,7 +20,7 @@ const Product = ({ productImage = defaultProduct.image, productName = defaultPro
       return (
             <div className={styles['product']}>
                   <div className={styles['product__header']}>
-                        <img className={styles['product__image']} src={productImage.location} alt={productImage.originalFileName} />
+                        <img className={styles['product__image']} src={productImage.url} alt={productImage.name} />
                         <ul className={styles['icons']}>
                               <span className={styles['icon__container']}><i className="bx bx-heart"></i></span>
                               <span className={styles['icon__container']}><i className="bx bx-shopping-bag"></i></span>

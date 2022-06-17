@@ -2,12 +2,12 @@ import { required, requiredNumber, length } from '../../../utility/validators'
 import { numberToFixed } from '../../../utility/sanitizers'
 
 export const productDescriptionInputsConfig = {
-      productCategory: {
+      category: {
             elementName: 'Product category',
             elementType: 'select',
             elementConfig: {
-                  name: 'productCategory',
-                  id: 'productCategory',
+                  name: 'category',
+                  id: 'category',
                   defaultValue: '',
                   placeholder: 'Select category.',
                   options: [
@@ -22,13 +22,13 @@ export const productDescriptionInputsConfig = {
                   addClassName: []
             },
       },
-      productName: {
+      name: {
             elementName: 'Product name',
             elementType: 'inputText',
             elementConfig: {
                   type: 'text',
-                  name: 'productName',
-                  id: 'productName',
+                  name: 'name',
+                  id: 'name',
                   defaultValue: '',
                   placeholder: 'Enter product name.',
                   validators: [
@@ -38,13 +38,13 @@ export const productDescriptionInputsConfig = {
                   addClassName: []
             }
       },
-      productType: {
+      type: {
             elementName: 'Product type',
             elementType: 'inputText',
             elementConfig: {
                   type: 'text',
-                  name: 'productType',
-                  id: 'productType',
+                  name: 'type',
+                  id: 'type',
                   defaultValue: '',
                   placeholder: 'Enter product type.',
                   validators: [
@@ -69,13 +69,13 @@ export const productDescriptionInputsConfig = {
                   addClassName: []
             }
       },
-      productPrice: {
+      price: {
             elementName: 'Price',
             elementType: 'inputNumber',
             elementConfig: {
                   type: 'number',
-                  name: 'productPrice',
-                  id: 'productPrice',
+                  name: 'price',
+                  id: 'price',
                   defaultValue: 0,
                   placeholder: 'Enter product price.',
                   validators: [

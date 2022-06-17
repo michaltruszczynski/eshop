@@ -1,12 +1,12 @@
 import { arrayLength, required } from '../../../utility/validators';
 
 export const productImageInputConfig = {
-      productImage: {
+      images: {
             elementName: 'Product images (select 3 - 5 images)',
             elementType: '',
             elementConfig: {
                   type: '',
-                  name: 'fileList',
+                  name: 'images',
                   id: '',
                   defaultValue: [],
                   placeholder: '',
@@ -16,7 +16,7 @@ export const productImageInputConfig = {
                   addClassName: []
             }
       },
-      primaryProductImage: {
+      primaryImage: {
             elementName: 'Primary image',
             elementType: 'radio',
             elementConfig: {

@@ -12,10 +12,6 @@ const Cart = () => {
                         <div className={styles['title']}>
                               <h1 className={styles['title__text']}>Your Cart</h1>
                         </div>
-                        {/* <div className={styles['links-container']}>
-                              <p>Continiue shoppping</p>
-                              <p>Checkout</p>
-                        </div> */}
                         <CartData />
                   </div>
             </section>

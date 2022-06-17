@@ -6,12 +6,11 @@ import ProductDescriptionInputs from './ProductDescriptionInputs/ProductDescript
 import SizeChart from './SizeChartInputs/SizeChart';
 import FilePicker from '../Form/FileP/FilePicker';
 import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
-import Button from '../Button/Button';
 import ControlButtons from './ControlButtons/ControlButtons';
 
 import useForm from '../../hooks/useForm';
 
-import { productDescriptionInputsConfig } from './ProductDescriptionInputs/ProductDescriptionInputsConfig';
+import { productDescriptionInputsConfig } from './ProductDescriptionInputs/productDescriptionInputsConfig';
 import { productBrandInputConfig } from './ProductBrandInput/productBrandInputConfig'
 import { sizeChartSystemInputConfig } from './SizeChartInputs/sizeChartSystemInputConfig';
 import { sizeChartInputConfig } from './SizeChartInputs/CustomSizeChart/sizeChartInputConfig';
@@ -59,7 +58,6 @@ const EditProductForm = () => {
 
       useEffect(() => {
             if (!id) {
-                  // inputImageDataChangeHandler('primaryProductImage')('');
                   return setAsyncCallStatus(asyncOperation.SUCCESS);
             }
             if (editing) return;
@@ -69,43 +67,27 @@ const EditProductForm = () => {
                   try {
                         const response = await adminService.getProduct(id);
                         setProduct(response.data);
-                        const { _id, productCategory, productName, productType, productBrand, description, sizeChart, sizeSystemId, images, productPrice, productImage } = response.data;
-                        // console.log('productPrice', typeof productPrice, productPrice)
-                        console.log('productImage: ', productImage);
-                        inputBrandChangeHandler('productBrand')(productBrand);
-                        inputsDescriptionDataChangeHandler('productCategory')(productCategory);
-                        inputsDescriptionDataChangeHandler('productName')(productName);
-                        inputsDescriptionDataChangeHandler('productType')(productType);
+                        const { _id, name, type, category, brand, description, sizeChart, sizeSystemId, price, images, primaryImage } = response.data;
+                        console.log(response.data)
+                        inputsDescriptionDataChangeHandler('name')(name);
+                        inputsDescriptionDataChangeHandler('type')(type);
+                        inputsDescriptionDataChangeHandler('category')(category);
+                        inputBrandChangeHandler('brand')(brand);
                         inputsDescriptionDataChangeHandler('description')(description);
-                        inputsDescriptionDataChangeHandler('productPrice')(productPrice);
+                        inputsDescriptionDataChangeHandler('price')(price);
                         inputSizeChartDataChangeHandler('sizeChart')(sizeChart);
-                        // TODO - do zmiany jak będą poprawione dane w db
-                        // console.log(productImage)
-                        if (productImage) {
-                              inputImageDataChangeHandler('primaryProductImage')(productImage.originalFileName);
-                        } else {
-                              inputImageDataChangeHandler('primaryProductImage')('');
-                        }
-                        //
+
                         if (sizeSystemId) {
                               sizeSystemIdDataChangeHandler('sizeSystemId')(sizeSystemId);
                               inputSizeSystemChangeHandler('sizeSystem')('predefined');
                         } else {
                               inputSizeSystemChangeHandler('sizeSystem')('custom');
                         }
-                        if (images) {
-                              // console.log(images)
-                              const productImage = images.map(image => ({
-                                    url: image.imageUrl,
-                                    name: image.originalFileName,
-                                    fileName: image.fileName
-                              }));
-                              inputImageDataChangeHandler('productImage')(productImage);
-                        } else {
-                              inputImageDataChangeHandler('productImage')([]);
-                        }
 
+                        inputImageDataChangeHandler('images')(images);
+                        inputImageDataChangeHandler('primaryImage')(primaryImage);
                         setProductId(_id);
+
                         setAsyncCallStatus(asyncOperation.SUCCESS);
                   } catch (error) {
                         const errorMsg = new ErrorMessage(error);
@@ -137,18 +119,18 @@ const EditProductForm = () => {
 
             const appendInputsDataImages = inputsDataImages => {
                   Object.entries(inputsDataImages).forEach(data => {
-                        if (data[0] === 'productImage') {
+                        if (data[0] === 'images') {
                               data[1].value.forEach(image => {
                                     console.log(data[0], image.file);
                                     if (!image.file) {
                                           // newData.append('fileName', image.fileName);
-                                          newData.append('fileName', JSON.stringify(image));
+                                          newData.append('urlImages', JSON.stringify(image));
                                     }
                                     newData.append(data[0], image.file);
                               })
                         }
 
-                        if (data[0] === 'primaryProductImage') {
+                        if (data[0] === 'primaryImage') {
                               newData.append(data[0], data[1].value)
                         }
 
@@ -178,7 +160,7 @@ const EditProductForm = () => {
 
       const updateHandler = async (event) => {
             event.preventDefault();
-
+            //TODO nie form data powtarz sie refactoryzować
             const newData = new FormData();
             const appendInputsData = inputsData => {
                   Object.entries(inputsData).forEach(data => {
@@ -196,18 +178,18 @@ const EditProductForm = () => {
 
             const appendInputsDataImages = inputsDataImages => {
                   Object.entries(inputsDataImages).forEach(data => {
-                        if (data[0] === 'productImage') {
+                        if (data[0] === 'images') {
                               data[1].value.forEach(image => {
                                     console.log(data[0], image.file);
                                     if (!image.file) {
                                           // newData.append('fileName', image.fileName);
-                                          newData.append('fileName', JSON.stringify(image));
+                                          newData.append('urlImages', JSON.stringify(image));
                                     }
                                     newData.append(data[0], image.file);
                               })
                         }
 
-                        if (data[0] === 'primaryProductImage') {
+                        if (data[0] === 'primaryImage') {
                               newData.append(data[0], data[1].value)
                         }
 
@@ -218,6 +200,7 @@ const EditProductForm = () => {
             appendInputsData(inputsDescriptionData);
             appendInputsData(inputSizeSystemData);
             appendInputsDataJSON(inputSizeChartData);
+            appendInputsData(sizeSystemIdData);
             appendInputsDataImages(inputImageData);
 
             setAsyncCallStatus(asyncOperation.LOADING);
@@ -281,12 +264,12 @@ const EditProductForm = () => {
                               disabled={!editing && productId}
                         />
                         <FilePicker
-                              imageData={inputImageData.productImage}
-                              primaryImageData={inputImageData.primaryProductImage}
-                              imageDataOnChangeHandler={inputImageDataChangeHandler('productImage')}
-                              primaryImageDataOnChangeHandler={inputImageDataChangeHandler('primaryProductImage')}
+                              imageData={inputImageData.images}
+                              primaryImageData={inputImageData.primaryImage}
+                              imageDataOnChangeHandler={inputImageDataChangeHandler('images')}
+                              primaryImageDataOnChangeHandler={inputImageDataChangeHandler('primaryImage')}
                               {...filePickerConfiguration}
-                              inputName={productImageInputConfig.productImage.elementName}
+                              inputName={productImageInputConfig.images.elementName}
                               disabled={!editing && productId}
                         />
                         <ControlButtons
