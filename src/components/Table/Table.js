@@ -1,15 +1,12 @@
 import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import BackgroundContent from '../BackgroundContent/BackgroundContent';
 
 import styles from './Table.module.scss';
 
-const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = false, emptyTableDataMessage = 'No data to display' }) => {
-      // console.log(tableData)
-      const { url, path } = useRouteMatch();
-      console.log('path: ', path, 'url: ', url);
+const Table = ({ tableData, columnsHeading, breakOn = 'medium', options, emptyTableDataMessage = 'No data to display' }) => {
 
       if (!tableData || tableData.length === 0) {
             return (
@@ -44,14 +41,17 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
 
                   const getRowData = () => {
                         const rowEntries = Object.entries(row);
+                        // console.log('rowEntries: ', rowEntries)
                         return rowEntries.map((data, index) => ({
                               key: columnsHeading[index],
                               value: data[1]
                         }));
                   }
 
+                  const rowData = getRowData(row, columnsHeading);
+                  //render sigle row
                   const renderRow = () => {
-                        // console.log('dupa')
+                        // console.log('rowData: ', rowData)
                         return (
                               rowData.map((data, columnIndex) => {
                                     if (data.key === '#') {
@@ -65,57 +65,66 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
                                           )
                                     }
 
+                                    if (data.key === 'Options') {
+                                          let informationIcons = [<i className={['bx bx-file-find', styles['icon'], styles['icon--green']].join(' ')} ></i >]
+
+                                          if (data.value.isOwner && data.value.hasOwnProperty('isOwner')) {
+                                                informationIcons.push(<i className={['bx bxs-edit', styles['icon'], styles['icon--green']].join(' ')}></i>)
+                                          }
+                                          if (!data.value.isOwner && data.value.hasOwnProperty('isOwner')) {
+                                                informationIcons.push(<i className={['bx bxs-edit', styles['icon'], styles['icon--red']].join(' ')}></i>)
+                                          }
+                                          if (data.value.inOffer && data.value.hasOwnProperty('inOffer')) {
+                                                informationIcons.push(<i className={['bx bxs-circle', styles['icon'], styles['icon--green']].join(' ')}></i>)
+                                          }
+                                          if (!data.value.inOffer && data.value.hasOwnProperty('inOffer')) {
+                                                informationIcons.push(<i className={['bx bxs-circle', styles['icon'], styles['icon--red']].join(' ')}></i>)
+                                          }
+                                          if (data.value.inStock && data.value.hasOwnProperty('inStock')) {
+                                                informationIcons.push(<i className={['bx bxs-box', styles['icon'], styles['icon--green']].join(' ')}></i>)
+                                          }
+                                          if (!data.value.inStock && data.value.hasOwnProperty('inStock')) {
+                                                informationIcons.push(<i className={['bx bxs-box', styles['icon'], styles['icon--red']].join(' ')}></i>)
+                                          }
+
+                                          return (
+                                                <td
+                                                      className={styles['table__column']}
+                                                      key={columnIndex}
+                                                      data-heading={data.key}>
+                                                      <Link to={`${options.linkUrl}${row._id}`} className={styles['table__link']}>
+                                                            <span className={styles['table__column__item']}>{informationIcons}</span>
+                                                      </Link>
+                                                </td >
+                                          )
+                                    }
+
                                     return (
                                           <td
                                                 className={styles['table__column']}
                                                 key={columnIndex}
                                                 data-heading={data.key}>
+
                                                 <span className={styles['table__column__item']}>{data.value}</span>
+
                                           </td>
                                     )
                               })
                         )
                   }
-
-                  const rowData = getRowData(row, columnsHeading);
-                  // console.log(rowData)
+                  console.log(renderRow())
 
                   return (
                         <tr className={styles['table__row']} key={`row-${rowIndex}`}>
                               {renderRow()}
-                              {/* {optionsColumn ? (
-                                    <td className={styles['table__column']} data-heading={'Options'}>
-                                          <span className={styles['table__column__item']}>
-                                                <Link to={`${optionsColumn.url}${row._id}`}>
-                                                      {optionsColumn.linkName}
-                                                </Link>
-                                          </span>
-                                    </td>
-                              )
-                                    : null} */}
-                              {optionsColumn ? (
-                                    <td className={styles['table__column']} data-heading={'Options'}>
-                                          {
-                                                optionsColumn.map(option => {
-                                                      return (
-                                                            <span className={styles['table__column__item']}>
-                                                                  <Link to={`${option.url}${row._id}`}>
-                                                                        {option.linkName}
-                                                                  </Link>
-                                                            </span>
-                                                      )
-                                                })
-                                          }
-                                    </td>
-                              )
-                                    : null}
-                        </tr >
+                        </tr>
                   )
             });
       }
 
       const setTableClass = () => {
-            let tableClass = [styles['table']]
+            let tableClass = [styles['table']];
+
             if (breakOn === 'small') {
                   tableClass.push(styles['table--break-xs']);
             } else if (breakOn === 'medium') {
@@ -127,13 +136,50 @@ const Table = ({ tableData, columnsHeading, breakOn = 'medium', optionsColumn = 
             return tableClass.join(' ')
       }
 
+      const renderHeadingIcons = () => {
+            // console.log(options)
+            let headingIcons = [];
+            if (options.linkUrl) {
+                  headingIcons.push(
+                        <span>
+                              <i className={['bx bx-file-find', styles['icon'], styles['icon--green']].join(' ')} ></i > View
+                        </span>
+                  )
+            }
+            if (options.icons?.isEditable) {
+                  headingIcons.push(
+                        <span>
+                              <i className={['bx bxs-edit', styles['icon'], styles['icon--green']].join(' ')}></i> Edit
+                        </span>
+                  )
+            }
+            if (options.icons?.inOffer) {
+                  headingIcons.push(
+                        <span>
+                              <i className={['bx bxs-circle', styles['icon'], styles['icon--green']].join(' ')}></i> Available in store
+                        </span>
+                  )
+            }
+            if (options.icons?.inStock) {
+                  headingIcons.push(
+                        <span>
+                              <i className={['bx bxs-box', styles['icon'], styles['icon--green']].join(' ')}></i> In stock
+                        </span>
+                  )
+            }
+
+            return headingIcons.length ? headingIcons : null;
+      }
+
       return (
             <div className={styles['table-container']}>
+                  <div className={styles['table__heading-icons']}>
+                        {renderHeadingIcons()}
+                  </div>
                   <table className={setTableClass()}>
                         <thead className={styles['table__heading']}>
                               <tr className={styles['table__heading-row']}>
                                     {renderTableHeading()}
-                                    {optionsColumn ? <th className={styles['table__heading-column']} key={`column-${'options'}`}>Options</th> : null}
                               </tr>
                         </thead>
                         <tbody>
@@ -148,7 +194,7 @@ Table.propTypes = {
       tableData: PropTypes.arrayOf(PropTypes.object).isRequired,
       columnsHeading: PropTypes.arrayOf(PropTypes.string).isRequired,
       breakOn: PropTypes.oneOf(['small', 'medium', 'large']),
-      optionsColumn: PropTypes.oneOfType([PropTypes.oneOf([false]), PropTypes.array])
+      options: PropTypes.object
 }
 
 export default Table;

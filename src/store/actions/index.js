@@ -1,6 +1,7 @@
 export {
     setMessage,
-    clearMessage
+    clearMessage,
+    requestConfirmation
 } from './message';
 
 export {

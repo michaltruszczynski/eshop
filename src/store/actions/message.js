@@ -15,3 +15,10 @@ export const clearMessage = () => {
       }
 }
 
+export const requestConfirmation = (confirmationMessage, confirmationResolver) => {
+      return {
+            type: actionTypes.REQUEST_CONFIRMATION,
+            confirmationMessage: confirmationMessage,
+            confirmationResolver: confirmationResolver
+      }
+}

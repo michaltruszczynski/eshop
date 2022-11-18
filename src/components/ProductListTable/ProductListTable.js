@@ -14,20 +14,16 @@ const ProductListTable = () => {
 
       // tableData = [ {_id: 12345, colVal_1, colVal_2, colVal_3, ...}, {...}]
 
-      const productsTableColumnsHeadings = ['#', 'Name', 'Type', 'Brand', 'Category'];
+      const productsTableColumnsHeadings = ['#', 'Name', 'Type', 'Brand', 'Category', 'Options'];
 
-      const sizeSystemTableOptions = [
-            {
-                  type: 'link',
-                  linkName: 'View',
-                  url: '/admin/editproduct/'
-            },
-            {
-                  type: 'link',
-                  linkName: 'Remove',
-                  url: '/admin/products/remove/'
+      const sizeSystemTableOptions = {
+            linkUrl: '/admin/editproduct/',
+            icons: {
+                  isEditable: true,
+                  inStock: true,
+                  inOffer: true
             }
-      ]
+      }
 
 
       console.log('[ProductListTable], rendering', state)
@@ -41,7 +37,13 @@ const ProductListTable = () => {
                         name: product.name,
                         type: product.type,
                         brand: product.brand,
-                        category: product.category
+                        category: product.category,
+                        options: {
+                              isOwner: product.isOwner,
+                              inStock: product.inStock,
+                              inOffer: product.inOffer
+                        }
+
                   }
             });
       }
@@ -54,7 +56,7 @@ const ProductListTable = () => {
                         tableData={getProductsTableData()}
                         // state={state}
                         columnsHeading={productsTableColumnsHeadings}
-                        optionsColumn={sizeSystemTableOptions}
+                        options={sizeSystemTableOptions}
                         breakOn="medium"
                         emptyTableDataMessage={emptySizeSystemTableMessage} />
             </AsyncOpBgComponent>

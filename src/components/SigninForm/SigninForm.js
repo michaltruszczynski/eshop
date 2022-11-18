@@ -33,7 +33,7 @@ const SigninForm = () => {
       const history = useHistory();
       const [emailData, emailIsValid, emailDataChangeHandler] = useForm(emailInputConfig);
       const [passwordData, passwordIsValid, passwordChangeHandler] = useForm(passwordInputConfig);
-      
+
       const authState = useSelector(state => state.auth);
       const { userId, redirectPath } = authState;
 

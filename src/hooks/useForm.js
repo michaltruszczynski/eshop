@@ -41,7 +41,7 @@ const useForm = fromData => {
 
 
       const inputChangeHandler = key => (value, touched = true) => {
-            console.log('value', value, key)
+            // console.log('value', value, key)
 
             setFormInput(formInput => {
                   const { isValid, errorMessages } = validateInput(formInput[key].validators, value);

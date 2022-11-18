@@ -14,13 +14,14 @@ const SizeSystemTable = () => {
 
       // tableData = [ {_id: 12345, colVal_1, colVal_2, colVal_3, ...}, {...}]
 
-      const sizeSystemsTableColumnsHeadings = ['#', 'Name'];
+      const sizeSystemsTableColumnsHeadings = ['#', 'Name', 'Options'];
 
-      const sizeSystemTableOptions = [{
-            type: 'link',
-            linkName: 'View',
-            url: '/admin/editsizesystem/'
-      }]
+      const sizeSystemTableOptions = {
+            linkUrl: '/admin/editsizesystem/',
+            icons: {
+                  isEditable: true
+            }
+      }
 
       const getSizeSystemTableData = () => {
             if (!state.data?.sizeSystems) return [];
@@ -28,7 +29,11 @@ const SizeSystemTable = () => {
             return state.data.sizeSystems.map(sizeSystem => {
                   return {
                         _id: sizeSystem._id,
-                        sizeSystemName: sizeSystem.sizeSystemName
+                        sizeSystemName: sizeSystem.sizeSystemName,
+                        options: {
+                              isOwner: true
+                        }
+
                   }
             })
       }
@@ -41,7 +46,7 @@ const SizeSystemTable = () => {
                         tableData={getSizeSystemTableData()}
                         state={state}
                         columnsHeading={sizeSystemsTableColumnsHeadings}
-                        optionsColumn={sizeSystemTableOptions}
+                        options={sizeSystemTableOptions}
                         breakOn="medium"
                         emptyTableDataMessage={emptySizeSystemTableMessage} />
             </AsyncOpBgComponent>

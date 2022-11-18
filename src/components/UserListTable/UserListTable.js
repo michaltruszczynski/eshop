@@ -18,25 +18,29 @@ const UserListTable = () => {
 
       // tableData = [ {_id: 12345, colVal_1, colVal_2, colVal_3, ...}, {...}]
 
-      const userTableColumnsHeadings = ['#', 'Name', 'Email', 'Role'];
+      const userTableColumnsHeadings = ['#', 'Name', 'Email', 'Role', 'Options'];
 
-      const userTableOptions = [{
-            type: 'link',
-            linkName: 'View',
-            url: '/admin/edituser/'
-      }]
+      const userTableOptions = {
+            linkUrl: '/admin/edituser/',
+            icons: {
+                  isEditable: true
+            }
+      }
 
       console.log('[UserListTable], rendering', state)
 
       const getUserTableData = () => {
-            if (!state.data?.users) return [];
+            if (!state?.data?.users) return [];
 
             return state.data.users.map(user => {
                   return {
                         _id: user._id,
                         userName: user.name,
                         userEmail: user.email,
-                        userRole: capitalize(user.userRole.name)
+                        userRole: capitalize(user.userRole.name),
+                        options: {
+                              isOwner: true
+                        }
                   }
             });
       }
@@ -49,7 +53,7 @@ const UserListTable = () => {
                         tableData={getUserTableData()}
                         state={state}
                         columnsHeading={userTableColumnsHeadings}
-                        optionsColumn={userTableOptions}
+                        options={userTableOptions}
                         breakOn="medium"
                         emptyTableDataMessage={emptySizeSystemTableMessage} />
             </AsyncOpBgComponent>

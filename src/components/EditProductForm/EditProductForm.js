@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import ProductBrandInput from './ProductBrandInput/ProductBrandInput';
 import ProductDescriptionInputs from './ProductDescriptionInputs/ProductDescriptionInputs';
@@ -7,6 +8,7 @@ import SizeChart from './SizeChartInputs/SizeChart';
 import FilePicker from '../Form/FileP/FilePicker';
 import AsyncOpBgComponent from '../AsyncOpBgComponent/AsyncOpBgComponent';
 import ControlButtons from './ControlButtons/ControlButtons';
+import InOffer from './ManageProduct/InOffer';
 
 import useForm from '../../hooks/useForm';
 
@@ -16,10 +18,15 @@ import { sizeChartSystemInputConfig } from './SizeChartInputs/sizeChartSystemInp
 import { sizeChartInputConfig } from './SizeChartInputs/CustomSizeChart/sizeChartInputConfig';
 import { productImageInputConfig } from './ImageFilePicker/productImageInputConfig';
 import { definedSizeChartInputConfigId } from './SizeChartInputs/DefinedSizeChart/definedSizeChartInputConfig';
+import { inOfferInputConfig } from './ManageProduct/InOfferInputConfig';
 
 import { adminService } from '../../services/adminService';
 
-import { ErrorMessage } from '../../utility/helpers';
+import { setMessage } from '../../store/actions';
+
+import { Message, ErrorMessage } from '../../utility/helpers';
+
+import useConfirmationDialog  from '../../hooks/useConfirmationDialog';
 
 import styles from './EditProductForm.module.scss';
 
@@ -45,6 +52,7 @@ const EditProductForm = () => {
       const [inputSizeChartData, inputSizeChartDataIsValid, inputSizeChartDataChangeHandler] = useForm(sizeChartInputConfig)
       const [inputImageData, inputImageDataIsValid, inputImageDataChangeHandler] = useForm(productImageInputConfig);
       const [sizeSystemIdData, , sizeSystemIdDataChangeHandler] = useForm(definedSizeChartInputConfigId);
+      const [inOfferData, , inOfferDataChangeHandler] = useForm(inOfferInputConfig);
 
       const [asyncCallStatus, setAsyncCallStatus] = useState(asyncOperation.IDLE);
       const [product, setProduct] = useState(null);
@@ -53,8 +61,12 @@ const EditProductForm = () => {
       const [editing, setEditing] = useState(false);
       const { id } = useParams();
       const history = useHistory();
+      const dispatch = useDispatch();
 
-      console.log('[EditProductForm]', inputImageData)
+      const { isConfirmed } = useConfirmationDialog()
+
+      // console.log('[EditProductForm, product: ]', product)
+      // console.log('[EditProductForm, product: ]', isAvailableDataChangeHandler)
 
       useEffect(() => {
             if (!id) {
@@ -67,7 +79,7 @@ const EditProductForm = () => {
                   try {
                         const response = await adminService.getProduct(id);
                         setProduct(response.data);
-                        const { _id, name, type, category, brand, description, sizeChart, sizeSystemId, price, images, primaryImage } = response.data;
+                        const { _id, name, type, category, brand, description, sizeChart, sizeSystemId, price, images, primaryImage, inOffer } = response.data;
                         console.log(response.data)
                         inputsDescriptionDataChangeHandler('name')(name);
                         inputsDescriptionDataChangeHandler('type')(type);
@@ -76,6 +88,7 @@ const EditProductForm = () => {
                         inputsDescriptionDataChangeHandler('description')(description);
                         inputsDescriptionDataChangeHandler('price')(price);
                         inputSizeChartDataChangeHandler('sizeChart')(sizeChart);
+                        inOfferDataChangeHandler('inOffer')(inOffer);
 
                         if (sizeSystemId) {
                               sizeSystemIdDataChangeHandler('sizeSystemId')(sizeSystemId);
@@ -143,12 +156,18 @@ const EditProductForm = () => {
             appendInputsData(sizeSystemIdData);
             appendInputsDataJSON(inputSizeChartData);
             appendInputsDataImages(inputImageData);
+            appendInputsData(inOfferData);
 
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
                   const response = await adminService.postProduct(newData);
 
                   setAsyncCallStatus(asyncOperation.SUCCESS);
+
+                  const newProductMessage = new Message('Set product as available in store.');
+
+                  const { message, messageDetailsArray } = newProductMessage.getMessageData();
+                  dispatch(setMessage(message, messageDetailsArray));
                   backToProductList();
             } catch (error) {
                   console.log('[EditProductForm - error]', error.response, error.request)
@@ -202,6 +221,7 @@ const EditProductForm = () => {
             appendInputsDataJSON(inputSizeChartData);
             appendInputsData(sizeSystemIdData);
             appendInputsDataImages(inputImageData);
+            appendInputsData(inOfferData);
 
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
@@ -228,6 +248,11 @@ const EditProductForm = () => {
       }
 
       const removeProductHandler = async () => {
+
+         
+           const operationIsConfirmed = await isConfirmed('Product will be removed. Please confirm.');
+           console.log(operationIsConfirmed)
+           if (!operationIsConfirmed) return ;
             setAsyncCallStatus(asyncOperation.LOADING);
             try {
                   const response = await adminService.removeProduct(id);
@@ -244,6 +269,11 @@ const EditProductForm = () => {
       return (
             <AsyncOpBgComponent status={asyncCallStatus} error={error} showErrorMessage={true}>
                   <form className={styles['form']}>
+                        <InOffer
+                              inOfferData={inOfferData}
+                              inOfferDataChangeHandler={inOfferDataChangeHandler}
+                              disabled={!editing && productId}
+                        />
                         <ProductBrandInput
                               inputBrandData={inputBrandData}
                               inputBrandChangeHandler={inputBrandChangeHandler}
@@ -274,6 +304,7 @@ const EditProductForm = () => {
                         />
                         <ControlButtons
                               editing={editing}
+                              isOwner={product?.isOwner}
                               isFormValid={isFormDataValid}
                               elementId={productId}
                               submitHandler={submitHandler}

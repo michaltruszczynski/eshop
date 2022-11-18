@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import Button from '../../Button/Button';
 
@@ -6,6 +6,7 @@ import styles from './ControlButtons.module.scss';
 
 const ControlButtons = ({
       editing,
+      isOwner,
       elementId,
       submitHandler,
       removeHandler,
@@ -14,6 +15,7 @@ const ControlButtons = ({
       isFormValid,
       changeEditModeHandler
 }) => {
+
 
       return (
             <div className={styles['form__buttons']} >
@@ -36,7 +38,7 @@ const ControlButtons = ({
                         </>
                   )
                   }
-                  {(editing && elementId) && (
+                  {(editing && elementId && isOwner) && (
                         <>
                               <Button
                                     onClick={updateHandler}
@@ -61,7 +63,25 @@ const ControlButtons = ({
                               </Button>
                         </>
                   )}
-                  {(!editing && elementId) && (
+                  {(editing && elementId && !isOwner) && (
+                        <>
+                              <Button
+                                    onClick={submitHandler}
+                                    buttonType="success"
+                                    buttonStyle="standard"
+                                    disabled={isFormValid} type="submit">
+                                    Save as new
+                              </Button>
+                              <Button
+                                    onClick={changeEditModeHandler}
+                                    buttonType="success"
+                                    buttonStyle="standard"
+                                    type="submit">
+                                    Cancel
+                              </Button>
+                        </>
+                  )}
+                  {(!editing && elementId && isOwner) && (
                         <>
                               <Button
                                     onClick={changeEditModeHandler}
@@ -74,8 +94,27 @@ const ControlButtons = ({
                                     onClick={removeHandler}
                                     buttonType="success"
                                     buttonStyle="standard"
-                                    type="button">
+                                    type="button"
+                              >
                                     Remove
+                              </Button>
+                              <Button
+                                    onClick={backToPreviousPageHandler}
+                                    buttonType="success"
+                                    buttonStyle="standard"
+                                    type="submit">
+                                    Back to list
+                              </Button>
+                        </>
+                  )}
+                  {(!editing && elementId && !isOwner) && (
+                        <>
+                              <Button
+                                    onClick={changeEditModeHandler}
+                                    buttonType="success"
+                                    buttonStyle="standard"
+                                    type="submit">
+                                    Edit
                               </Button>
                               <Button
                                     onClick={backToPreviousPageHandler}

@@ -11,7 +11,6 @@ import useForm from '../../hooks/useForm';
 import { brandNameInputConfig } from './BrandNameInput/brandNameInputConfig';
 import { brandLogoInputConfig } from './BrandLogoInputConfig/brandLogoInputConfig';
 
-import { postNewBrand, getBrand, putBrand } from '../../services/productService';
 import { adminService } from '../../services/adminService';
 
 import styles from './EditBrandForm.module.scss';
@@ -193,13 +192,6 @@ const EditBrandForm = () => {
                                                 buttonStyle="standard"
                                                 disabled={isFormDataValid} type="button">
                                                 Update
-                                          </Button>
-                                          <Button
-                                                onClick={submitHandler}
-                                                buttonType="success"
-                                                buttonStyle="standard"
-                                                disabled={isFormDataValid} type="button">
-                                                Save as new
                                           </Button>
                                           <Button
                                                 onClick={changeEditModeHandler}

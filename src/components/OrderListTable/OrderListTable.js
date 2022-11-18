@@ -7,13 +7,11 @@ const OrderListTable = () => {
       const orders = useSelector(state => state.auth.orders)
       console.log(orders)
 
-      const orderTableColumnsHeadings = ['#', 'Date', 'Products quantity', 'Product category', 'Total Price'];
+      const orderTableColumnsHeadings = ['#', 'Date', 'Products quantity', 'Product category', 'Total Price', 'Options'];
 
-      const sizeSystemTableOptions = [{
-            type: 'link',
-            linkName: 'View',
-            url: '/order/'
-      }]
+      const sizeSystemTableOptions = {
+            linkUrl: '/order/'
+      }
 
       const getOrderTableData = () => {
             if (!orders) return [];
@@ -33,7 +31,8 @@ const OrderListTable = () => {
                         orderDate: new Intl.DateTimeFormat('pl-PL').format(date),
                         productQuantity: productQuantity,
                         orderProductTypes: productCategories.trim(),
-                        orderTotalPrice: orderItem.orderTotal
+                        orderTotalPrice: orderItem.orderTotal,
+                        options: {}
 
                   }
             });
@@ -48,7 +47,7 @@ const OrderListTable = () => {
                         tableData={getOrderTableData()}
                         // tableData={[]}
                         columnsHeading={orderTableColumnsHeadings}
-                        optionsColumn={sizeSystemTableOptions}
+                        options={sizeSystemTableOptions}
                         breakOn="medium"
                         emptyTableDataMessage={emptyOrderTableMessage} />
             </>

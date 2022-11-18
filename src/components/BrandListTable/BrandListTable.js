@@ -13,16 +13,25 @@ const BrandListTable = () => {
 
       // tableData = [ {_id: 12345, colVal_1, colVal_2, colVal_3, ...}, {...}]
 
-      const brandListTableColumnsHeadings = ['#', 'Name'];
+      const brandListTableColumnsHeadings = ['#', 'Name', 'Options'];
 
-      const brandTableOptions = [{
-            type: 'link',
-            linkName: 'View',
-            url: '/admin/editbrand/'
-      }];
+      const brandTableOptions = {
+            linkUrl: '/admin/editbrand/',
+            icons: {
+                  isEditable: true
+            }
+      };
 
       const getBrandTableData = () => {
-            return state.data?.brands ? state.data?.brands : []
+            if (!state.data?.brands) return [];
+
+
+            return state.data?.brands.map(brand => ({
+                  ...brand,
+                  options: {
+                        isOwner: true
+                  }
+            }))
       }
 
       const emptyBrandTableMessage = 'No brands have been defined yet.';
@@ -33,10 +42,10 @@ const BrandListTable = () => {
                         tableData={getBrandTableData()}
                         state={state}
                         columnsHeading={brandListTableColumnsHeadings}
-                        optionsColumn={brandTableOptions}
+                        options={brandTableOptions}
                         breakOn="medium"
                         emptyTableDataMessage={emptyBrandTableMessage}
-                        />
+                  />
             </AsyncOpBgComponent>
       );
 }
